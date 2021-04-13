@@ -1,0 +1,143 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <app-one-page-header></app-one-page-header>
+        </div>
+        <form #addModelForm="ngForm">
+          <div class="card-body">
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label>Company Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="companyName"
+                  [(ngModel)]="model.companyName"
+                />
+              </div>
+              <div class="form-group col-md-3">
+                <label>Plate Number</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="plateNumber"
+                  [(ngModel)]="model.plateNumber"
+                />
+              </div>
+              <div class="form-group col-md-3">
+                <label>Driver Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="driverName"
+                  [(ngModel)]="model.driverName"
+                />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-md-3">
+                <label>License Number</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="licenseNumber"
+                  [(ngModel)]="model.licenseNumber"
+                />
+              </div>
+              <div class="form-group col-md-3">
+                <label>Temp Number</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="tempNumber"
+                  [(ngModel)]="model.tempNumber"
+                />
+              </div>
+              <div class="form-group col-md-6">
+                <label>SignIn Reason</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="signInReason"
+                  [(ngModel)]="model.signInReason"
+                />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-md-3">
+                <label>Goods Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="goodsName"
+                  [(ngModel)]="model.goodsName"
+                />
+              </div>
+              <div class="form-group col-md-3">
+                <label>Goods Count</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="goodsCount"
+                  [(ngModel)]="model.goodsCount"
+                />
+              </div>
+              <div class="form-group col-md-3">
+                <label>Department Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="departmentName"
+                  [(ngModel)]="model.departmentName"
+                />
+              </div>
+              <div class="form-group col-md-3">
+                <label>Contact Person</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="contactPerson"
+                  [(ngModel)]="model.contactPerson"
+                />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-md-3">
+                <label>Seal Number</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="sealNumber"
+                  [(ngModel)]="model.sealNumber"
+                />
+              </div>
+              <div class="form-group col-md-3">
+                <label>Guard Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="guardName"
+                  [(ngModel)]="model.guardName"
+                />
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<ngx-spinner
+  bdColor="rgba(0, 0, 0, 0.8)"
+  size="large"
+  color="#fff"
+  type="square-jelly-box"
+  [fullScreen]="true"
+  ><p style="color: white">Loading F340 Shchdule...</p></ngx-spinner
+>
