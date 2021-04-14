@@ -18,7 +18,7 @@ export class AddRecordPageComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  signature(model: CarManageRecord) {
+  signature() {
     var navigateTo = "/ESignature";
     var navigationExtras = {
       queryParams: {
