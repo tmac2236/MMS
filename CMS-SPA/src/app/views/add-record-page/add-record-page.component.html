@@ -5,8 +5,8 @@
         <div class="card-header">
           <app-one-page-header></app-one-page-header>
         </div>
-        <form #addModelForm="ngForm">
-          <div class="card-body">
+        <div class="card-body">
+          <form #addModelForm="ngForm">
             <div class="form-row">
               <div class="form-group col-md-6">
                 <label>Company Name</label>
@@ -125,10 +125,20 @@
                   [(ngModel)]="model.guardName"
                 />
               </div>
+              <div class="form-group col-md-2">
+                <button type="button" class="btn btn-primary mt-4" (click)="save()">Save</button>
+                <button class="btn btn-primary mt-4" (click)="signature()">Signature</button>
+              </div>
+              <div class="form-group col-md-4">
+                <img
+                  src="../assets/systemImg/united-states.png"
+                  width="300"
+                  height="100"
+                />
+              </div>
             </div>
-            <button type="submit" class="btn btn-primary">Save</button>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
     </div>
   </div>

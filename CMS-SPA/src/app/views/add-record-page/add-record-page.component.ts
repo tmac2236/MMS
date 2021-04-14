@@ -1,4 +1,7 @@
 import { Component, OnInit } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
+import { TranslateService } from "@ngx-translate/core";
+import { Utility } from "../../core/utility/utility";
 import { CarManageRecord } from "../../core/_models/car-manage-record";
 
 @Component({
@@ -7,8 +10,29 @@ import { CarManageRecord } from "../../core/_models/car-manage-record";
   styleUrls: ["./add-record-page.component.scss"],
 })
 export class AddRecordPageComponent implements OnInit {
-  constructor() {}
-  model:CarManageRecord = new CarManageRecord();
+  
+  constructor(public utility: Utility,private activeRouter: ActivatedRoute,
+    private route: Router,private translate: TranslateService) { }
 
-  ngOnInit() {}
+  model: CarManageRecord = new CarManageRecord();
+
+  ngOnInit(): void {}
+
+  signature(model: CarManageRecord) {
+    var navigateTo = "/ESignature";
+    var navigationExtras = {
+      queryParams: {
+        id: this.model.id,
+        driverName: this.model.driverName,
+        licenseNumber: this.model.licenseNumber,
+        actionCode:"Edit"
+      },
+      skipLocationChange: true,
+    };
+    this.route.navigate([navigateTo], navigationExtras);
+  }
+
+  save() {
+    alert("save success!");
+  }
 }

@@ -9,6 +9,9 @@ import { AddRecordPageComponent } from "./views/add-record-page/add-record-page.
 import { P404Component } from "./views/error/404.component";
 import { P500Component } from "./views/error/500.component";
 import { HomePageComponent } from "./views/home-page/home-page.component";
+import { MaintainComponent } from "./views/maintain/maintain.component";
+import { ReportComponent } from "./views/report/report.component";
+import { SignaturePadComponent } from "./views/shared/signature-pad/signature-pad.component";
 
 export const routes: Routes = [
   {
@@ -34,6 +37,18 @@ export const routes: Routes = [
   {
     path: "AddRecordPage",
     component: AddRecordPageComponent,
+  },
+  {
+    path: "ESignature",
+    component: SignaturePadComponent,
+  },
+  {
+    path: "Report",
+    component: ReportComponent,
+  },
+  {
+    path: "Maintain",
+    component: MaintainComponent,
   },
   {
     path: "",

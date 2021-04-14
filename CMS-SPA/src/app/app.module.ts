@@ -46,7 +46,7 @@ import { AppRoutingModule } from "./app.routing";
 // Import 3rd party components
 import { BsDropdownModule } from "ngx-bootstrap/dropdown";
 import { TabsModule } from "ngx-bootstrap/tabs";
-import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { TooltipModule } from "ngx-bootstrap/tooltip";
 
 import { ChartsModule } from "ng2-charts";
 import { HttpClient, HttpClientModule } from "@angular/common/http";
@@ -56,11 +56,12 @@ import { NgImageSliderModule } from "ng-image-slider";
 import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 import { DataTablesModule } from "angular-datatables";
-import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { PaginationModule } from "ngx-bootstrap/pagination";
 import { OnePageHeaderComponent } from "./views/shared/one-page-header/one-page-header.component";
 import { AddRecordPageComponent } from "./views/add-record-page/add-record-page.component";
-
-
+import { SignaturePadComponent } from "./views/shared/signature-pad/signature-pad.component";
+import { ReportComponent } from "./views/report/report.component";
+import { MaintainComponent } from "./views/maintain/maintain.component";
 
 //載入 "/assets/i18n/[lang].json" 語系檔
 export function createTranslateLoader(http: HttpClient) {
@@ -71,7 +72,8 @@ export function createTranslateLoader(http: HttpClient) {
     NgxSpinnerModule,
     BrowserModule,
     HttpClientModule,
-    TranslateModule.forRoot({  // I18N
+    TranslateModule.forRoot({
+      // I18N
       loader: {
         provide: TranslateLoader,
         useFactory: createTranslateLoader,
@@ -89,12 +91,12 @@ export function createTranslateLoader(http: HttpClient) {
     AppHeaderModule,
     AppSidebarModule,
     PerfectScrollbarModule,
-    BsDropdownModule.forRoot(),//ngx-bootsrap
-    TabsModule.forRoot(),      //ngx-bootsrap
-    TooltipModule.forRoot(),   //ngx-bootsrap
+    BsDropdownModule.forRoot(), //ngx-bootsrap
+    TabsModule.forRoot(), //ngx-bootsrap
+    TooltipModule.forRoot(), //ngx-bootsrap
     ChartsModule,
     NgImageSliderModule,
-    TooltipModule.forRoot(),    //table tr td 用
+    TooltipModule.forRoot(), //table tr td 用
     PaginationModule.forRoot(), //分頁用
   ],
   declarations: [
@@ -107,6 +109,9 @@ export function createTranslateLoader(http: HttpClient) {
     HomePageComponent,
     OnePageHeaderComponent,
     AddRecordPageComponent,
+    SignaturePadComponent, //E-Sign
+    ReportComponent,
+    MaintainComponent,
   ],
   providers: [
     AuthService,

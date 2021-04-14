@@ -1,0 +1,48 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <app-one-page-header></app-one-page-header>
+        </div>
+        <div class="card-body">
+          <h1 class="text-center">{{ this.driverName }} Signature</h1>
+          <div class="signature-pad">
+            <div class="signature-pad--body">
+              <canvas
+                #sPad
+                width="1050"
+                height="520"
+                style="touch-action: none"
+              ></canvas>
+            </div>
+          </div>
+          <br />
+          <br />
+          <section class="container">
+            <div class="row">
+              <div class="col-6">
+                <button class="btn btn-block btn-danger" (click)="clear()">
+                  Clear
+                </button>
+              </div>
+              <div class="col-6">
+                <button class="btn btn-block btn-success" (click)="save()">
+                  Save
+                </button>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ngx-spinner
+  bdColor="rgba(0, 0, 0, 0.8)"
+  size="large"
+  color="#fff"
+  type="square-jelly-box"
+  [fullScreen]="true"
+  ><p style="color: white">Loading F340 Shchdule...</p></ngx-spinner
+>
