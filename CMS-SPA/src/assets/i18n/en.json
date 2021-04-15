@@ -4,98 +4,36 @@
         "btnList": {
             "search": "Search",
             "export": "Export",
-            "save": "Save"
+            "save": "Save",
+            "signature":"Signature",
+            "clear":"Clear"
         }
     },
-    "F340": {
-        "title": "F340 Schedule",
+    "Report": {
+        "title": "Report",
         "titleList":{
-                "factory":"Factory",
-                "buyPlanSeason":"BuyPlanSeason",
-                "versionNo":"Version No",
+                "id":"Id",
+                "companyName":"CompanyName",
+                "plateNumber":"PlateNumber",
                 "devSeason":"Dev Season",
-                "article":"Article",
-                "cwaDeadline":"CWA Deadline",
-                "modelNo":"Model No",
-                "modelName":"Model Name",
-                "orderStag":"Order Stage",
-                "sampleNo":"Sample No",
-                "devStatus":"Dev Status",
+                "driverName":"DriverName",
+                "licenseNumber":"LicenseNumber",
+
+                "signInDate":"SignInDate",
+                "tempNumber":"TempNumber",
+                "signInReason":"SignInReason",
+                "goodsName":"GoodsName",
+                "goodsCount":"GoodsCount",
     
-                "dropDate":"Drop Date",
-                "hpFlag":"HP Flag",
-                "hpSampleNo":"HP Sample No",
-                "f340SampleNo":"F340 Sample No",
-                "releaseType":"Release Type",
+                "departmentName":"DepartmentName",
+                "contactPerson":"ContactPerson",
+                "sealNumber":"SealNumber",
+                "driverSign":"DriverSign",
+                "signOutDate":"SignOutDate",
     
-                "createDate":"Create Date",
-                "pdmDate":"PDM Date",
-                "devUpDate":"DEV Upper Date",
-                "devBtmDate":"DEV Bottom Date",
-                "ttUpDate":"TT Uper Date",
-    
-                "ttBtmDate":"TT Bottom Date",
-                "ttRejectReason":"TT Reject Reason",
-                "ttRejectDate":"TT Reject Date",
-                "devTeam":"DEV Team",
-                "releaseDate":"Release Date",
-                "ttRejectCount":"TT Reject Count"
-        }
-    },"F428": {
-        "title": "F428 ",
-        "titleList":{
-            "partNo":"PartNo",
-            "partName":"PartName",
-            "materialName":"MaterialName",
-            "MaterialNo":"MaterialNo",
-            "sSBMatPID":"SSBMatPID",
-
-            "supName":"SupName",
-            "colorName":"ColorName",
-            "colorCode":"ColorCode",
-            "uOM":"UOM",
-            "cons":"Cons",
-
-            "total":"Total",
-            "status":"Status",
-            "checkStockNo":"CheckStockNo",
-            "checkUser":"CheckUser",
-            "checkTime":"CheckTime"
-        },
-        "optionList":{
-            "0":"Not Yet Check",
-            "1":"None",
-            "2":"OK",
-            "3":"Lack",
-            "4":"Check",
-            "5":"Bad Material"
-        }        
-    },"F340-PPD":{
-        "title":"F340-PPD",
-        "titleList": {
-            "factory": "Factory",
-            "buyPlanSeason": "BuyPlanSeason",
-            "versionNo": "VersionNo",
-            "devSeason": "DevSeason",
-            "devTeam": "DevTeam",
-
-            "article": "Article",
-            "cwaDeadline": "CwaDeadline",
-            "modelNo": "ModelNo",
-            "modelName": "ModelName",
-            "confirmDate": "ConfirmDate",
-
-            "devStatus": "DevStatus",
-            "dropDate": "DropDate",
-            "releaseType": "ReleaseType",
-            "sampleNo": "SampleNo",
-            "hpPartNo": "HpPartNo",
-
-            "supsName": "SupsName",
-            "treatMent": "TreatMent",
-            "partName": "PartName",
-            "processDate": "ProcessDate",
-            "cardDate": "CardDate"
+                "guardName":"GuardName",
+                "carSize":"CarSize",
+                "companyDistance":"Distance(Km)"
         }
     }
 }

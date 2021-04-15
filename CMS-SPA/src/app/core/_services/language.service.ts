@@ -13,10 +13,10 @@ export class LanguageService {
   constructor(private translateService: TranslateService) {}
 
   setInitState() {
-    this.translateService.addLangs(['en', 'zh']);
+    this.translateService.addLangs(['en', 'vn']);
     // 根據使用者的瀏覽器語言設定，如果是中文就顯示中文，否則都顯示英文
     // 繁體/簡體中文代碼都是zh
-    const browserLang = (this.translate.getBrowserLang().includes('zh')) ? 'zh' : 'en'  ;
+    const browserLang = (this.translate.getBrowserLang().includes('vn')) ? 'vn' : 'en'  ;
     this.setLang(browserLang);
   }
 

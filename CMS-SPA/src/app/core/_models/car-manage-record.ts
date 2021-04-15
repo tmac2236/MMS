@@ -11,7 +11,7 @@ export class CarManageRecord extends Pagination {
   tempNumber: string;
   signInReason: string;
   goodsName: string;
-  goodsCount: number;
+  goodsCount: string;
 
   departmentName: string;
   contactPerson: string;
@@ -20,6 +20,7 @@ export class CarManageRecord extends Pagination {
   signOutDate: Date;
 
   guardName: string;
+  carSize: string;
   companyDistance: number;
 
   constructor() {

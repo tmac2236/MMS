@@ -126,8 +126,8 @@
                 />
               </div>
               <div class="form-group col-md-2">
-                <button type="button" class="btn btn-primary mt-4" (click)="save()">Save</button>
-                <button class="btn btn-primary mt-4" (click)="signature()">Signature</button>
+                <button type="button" class="btn btn-primary mt-4" (click)="save()">{{ 'Common.btnList.save' | translate }}</button>
+                <button class="btn btn-primary mt-4" (click)="signature()">{{ 'Common.btnList.signature' | translate }}</button>
               </div>
               <div class="form-group col-md-4">
                 <img
@@ -149,5 +149,5 @@
   color="#fff"
   type="square-jelly-box"
   [fullScreen]="true"
-  ><p style="color: white">Loading F340 Shchdule...</p></ngx-spinner
+  ><p style="color: white">Loading Please Wait.</p></ngx-spinner
 >

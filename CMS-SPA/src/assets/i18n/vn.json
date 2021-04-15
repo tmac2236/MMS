@@ -1,0 +1,40 @@
+{   "Common":{
+        "currentLang":"Tiếng Việt",
+        "hello":"ơi",
+        "btnList": {
+            "search": "Tìm kiếm",
+            "export": "Xuất Khẩu",
+            "save": "Lưu Dât",
+            "signature":"Chữ ký",
+            "clear":"Xóa"
+        }
+    },
+    "Report": {
+        "title": "Report",
+        "titleList":{
+            "id":"id",
+            "companyName":"Tên công ty",
+            "plateNumber":"Số xe",
+            "devSeason":"Dev Season",
+            "driverName":"Họ tên tài xế",
+            "licenseNumber":"Số giấy phép lái xe",
+
+            "signInDate":"Ngày / Giờ vào xưởng",
+            "tempNumber":"Mã số thẻ khách",
+            "signInReason":"Lý do",
+            "goodsName":"Tên hàng",
+            "goodsCount":"Số lượng",
+
+            "departmentName":"Phòng ban",
+            "contactPerson":"Đơn vị/NV liên hệ",
+            "sealNumber":"Số seal",
+            "driverSign":"Tài xế ký tên",
+            "signOutDate":"Ngày / Giờ rời xưởng",
+
+            "guardName":"Bảo vệ ký tên",
+            "carSize":"Qui cách xe",
+            "companyDistance":"khoảng cách(Km)"
+        }
+    }
+}
+ 

@@ -6,7 +6,121 @@
           <app-one-page-header></app-one-page-header>
         </div>
         <div class="card-body">
-          <p>Report </p>
+          <form class="form-horizontal" #F428DataForm="ngForm">
+            <div class="card-body">
+              <div class="form-group row">
+                <div class="col-md-12">
+                  <div class="col">
+                    <label class="col-form-label mr-1">License Number</label>
+                    <input
+                      class="col-form-label mr-1"
+                      type="text"
+                      name="season"
+                      required
+                    />
+                    <label class="col-form-label mr-1">Sign In Start</label>
+                    <input
+                      class="col-form-label mr-1"
+                      type="text"
+                      name="season"
+                      required
+                    />
+                    <label class="col-form-label mr-1">Sign In End</label>
+                    <input
+                      class="col-form-label mr-1"
+                      type="text"
+                      name="season"
+                      required
+                    />                                       
+                    <button
+                      class="btn btn-primary mr-1"
+                      type="button"
+                      (click)="search()"
+                      [disabled]="!F428DataForm.valid"
+                    >
+                    {{ 'Common.btnList.search' | translate }}
+                    </button>
+                    <button
+                      class="btn btn-primary mr-1"
+                      type="button"
+                      (click)="export()"
+                      [disabled]="!F428DataForm.valid"
+                    >
+                    {{ 'Common.btnList.export' | translate }}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+          <div class="row" *ngIf="result.length > 0">
+            <div class="col-lg-12">
+              <div class="card">
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table text-center table-striped"><!--text-nowrap不換行-->
+                      <thead>
+                        <tr class="table-info">
+                          <th style="width:10%; background-color:#76DAFF;" >Edit</th>
+                          <th style="width:10%; background-color:#76DAFF;" >{{ 'Report.titleList.companyName' | translate }}</th>
+                          <th style="width:5%; background-color:#76DAFF;" >{{ 'Report.titleList.plateNumber' | translate }}</th>
+                          <th style="width:5%; background-color:#76DAFF;" >{{ 'Report.titleList.driverName' | translate }}</th>
+                          <th style="width:5%; background-color:#76DAFF;" >{{ 'Report.titleList.licenseNumber' | translate }}</th>
+                          
+                          <th style="width:5%; background-color:#76DAFF;" >{{ 'Report.titleList.signInDate' | translate }}</th>
+                          <th style="width:5%; background-color:#76DAFF;" >{{ 'Report.titleList.tempNumber' | translate }}</th>
+                          <th style="width:5%; background-color:#76DAFF;" >{{ 'Report.titleList.signInReason' | translate }}</th>
+                          <th style="width:5%; background-color:#76DAFF;" >{{ 'Report.titleList.goodsName' | translate }}</th>
+                          <th style="width:5%; background-color:#76DAFF;" >{{ 'Report.titleList.goodsCount' | translate }}</th>
+
+                          <th style="width:5%; background-color:#76DAFF;" >{{ 'Report.titleList.departmentName' | translate }}</th>
+                          <th style="width:5%; background-color:#76DAFF;" >{{ 'Report.titleList.contactPerson' | translate }}</th>
+                          <th style="width:5%; background-color:#76DAFF;" >{{ 'Report.titleList.sealNumber' | translate }}</th>
+                          <th style="width:5%; background-color:#76DAFF;" >{{ 'Report.titleList.driverSign' | translate }}</th>
+                          <th style="width:5%; background-color:#76DAFF;" >{{ 'Report.titleList.signOutDate' | translate }}</th>
+                          
+                          <th style="width:5%; background-color:#76DAFF;" >{{ 'Report.titleList.guardName' | translate }}</th>
+                          <th style="width:5%; background-color:#76DAFF;" >{{ 'Report.titleList.carSize' | translate }}</th>
+                          <th style="width:5%; background-color:#76DAFF;" >{{ 'Report.titleList.companyDistance' | translate }}</th>                     
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <ng-container *ngFor="let item of result; let i = index">
+                          <tr>
+                            <td> <div [hidden]="!true" ><img src="../assets/systemImg/edit.png" width="30" height="30"  (click)="this.edit(item)"/></div></td>
+                            <td>{{ item.companyName }}</td>
+                            <td>{{ item.plateNumber }}</td>
+                            <td>{{ item.driverName }}</td>
+                            <td>{{ item.licenseNumber }}</td>
+
+                            <td>{{ item.signInDate }}</td>
+                            <td>{{ item.tempNumber }}</td>
+                            <td>{{ item.signInReason }}</td>
+                            <td>{{ item.goodsName }}</td>
+                            <td>{{ item.goodsCount }}</td>
+
+                            <td>{{ item.departmentName }}</td>
+                            <td>{{ item.contactPerson }}</td>
+                            <td>{{ item.sealNumber }}</td>
+                            <td>{{ item.driverSign }}</td>
+                            <td>{{ item.signOutDate }}</td>
+                            
+                            <td>{{ item.guardName }}</td>
+                            <td>{{ item.carSize }}</td>
+                            <td>{{ item.companyDistance }}</td>
+                          </tr>
+                        </ng-container>
+                      </tbody>
+                    </table>
+                    <div class ="d-flex justify-content-start">
+                      <pagination >
+                      </pagination>
+                    </div>                  
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>          
         </div>
       </div>
     </div>
@@ -18,5 +132,5 @@
   color="#fff"
   type="square-jelly-box"
   [fullScreen]="true"
-  ><p style="color: white">Loading F340 Shchdule...</p></ngx-spinner
+  ><p style="color: white">Loading Please Wait.</p></ngx-spinner
 >
