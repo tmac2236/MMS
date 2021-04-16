@@ -16,6 +16,10 @@ using AutoMapper;
 using API.Data.Interface;
 using API.Filters;
 using API.Helpers;
+using API.Data.Interface.CMS;
+using API.Data.Repository.CMS;
+using API.Data.Interface.DKS;
+using API.Models.CMS;
 
 namespace API
 {
@@ -34,6 +38,7 @@ namespace API
             //security
             services.AddCors();
             services.AddDbContext<DKSContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DKSConnection")));
+            services.AddDbContext<CMSContext>(options => options.UseSqlServer(Configuration.GetConnectionString("CMSConnection")));
 
             services.AddControllers();
             /*
@@ -53,7 +58,12 @@ namespace API
             //DAO
             services.AddScoped<IDKSDAO, DKSDAO>();
             services.AddScoped<IWarehouseDAO, WarehouseDAO>();
-            services.AddScoped<ISamPartBDAO,SamPartBDAO>();
+            services.AddScoped<ISamPartBDAO, SamPartBDAO>();
+            services.AddScoped<ICMSCarDAO, CMSCarDAO>();
+            services.AddScoped<ICMSCarManageRecordDAO, CMSCarManageRecordDAO>();
+            services.AddScoped<ICMSCompanyDAO, CMSCompanyDAO>();
+            services.AddScoped<ICMSDepartmentDAO, CMSDepartmentDAO>();
+
             //Service
 
             /*

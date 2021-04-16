@@ -2,7 +2,9 @@ import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import SignaturePad from 'signature_pad';
+import { UrlParamEnum } from '../../../core/enum/urlParamEnum';
 import { Utility } from '../../../core/utility/utility';
+import { CarManageRecord } from '../../../core/_models/car-manage-record';
 
 @Component({
   selector: 'app-signature-pad',
@@ -12,18 +14,17 @@ import { Utility } from '../../../core/utility/utility';
 export class SignaturePadComponent implements OnInit, AfterViewInit {
   @ViewChild('sPad', {static: true}) signaturePadElement;
   signaturePad: any;
-  id: string;
-  driverName:string;
-  licenseNumber:string;
+
+  urlParam: CarManageRecord = new CarManageRecord();
   actionCode:string;
+
   constructor(public utility: Utility,private activeRouter: ActivatedRoute,
     private route: Router,private translate: TranslateService) {
       this.activeRouter.queryParams.subscribe((params) => {
-        this.id = params.id;
-        this.driverName = params.driverName;
-        this.licenseNumber = params.licenseNumber;
+        this.urlParam.id = params.id;
+        this.urlParam.driverName = params.driverName;
+        this.urlParam.licenseNumber = params.licenseNumber;
         this.actionCode = params.actionCode;
-        
       });}
 
   ngOnInit(): void {
@@ -86,11 +87,33 @@ export class SignaturePadComponent implements OnInit, AfterViewInit {
   save() {
     if (this.signaturePad.isEmpty()) {
       alert('Please provide a signature first.');
+      this.redirect();
     } else {
       //const dataURL = this.signaturePad.toDataURL();
       //const dataURL = this.signaturePad.toDataURL('image/svg+xml');
       const dataURL = this.signaturePad.toDataURL('image/jpg');
       this.download(dataURL, 'signature.jpg');
     }
+  }
+  redirect(){
+    var urlParamEnum:UrlParamEnum = UrlParamEnum[this.actionCode];
+    var navigateTo = "";
+    var navigationExtras ={};
+
+    switch(urlParamEnum){
+      case UrlParamEnum.AddRecordSignature :{
+        navigateTo = "/AddRecordPage";
+        navigationExtras = {
+          queryParams: {
+            actionCode: UrlParamEnum.Signature,
+            id:this.urlParam.id,
+          },
+          skipLocationChange: true,
+        };
+        break;
+      }
+
+    }
+    this.route.navigate([navigateTo], navigationExtras);    
   }
 }

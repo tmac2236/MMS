@@ -11,29 +11,29 @@
               <div class="form-group row">
                 <div class="col-md-12">
                   <div class="col">
-                    <label class="col-form-label mr-1">License Number</label>
+                    <label class="col-form-label mr-1">{{ 'Report.titleList.licenseNumber' | translate }}</label>
                     <input
                       class="col-form-label mr-1"
                       type="text"
-                      name="season"
+                      name="licenseNumber"
                       required
                     />
-                    <label class="col-form-label mr-1">Sign In Start</label>
+                    <label class="col-form-label mr-1">{{ 'Report.titleList.signInDate' | translate }}</label>
                     <input
                       class="col-form-label mr-1"
                       type="text"
-                      name="season"
+                      name="signInDate"
                       required
                     />
-                    <label class="col-form-label mr-1">Sign In End</label>
+                    <label class="col-form-label mr-1">{{ 'Report.titleList.signOutDate' | translate }}</label>
                     <input
                       class="col-form-label mr-1"
                       type="text"
-                      name="season"
+                      name="signOutDate"
                       required
                     />                                       
                     <button
-                      class="btn btn-primary mr-1"
+                      class="btn btn-primary mr-1 btn-lg"
                       type="button"
                       (click)="search()"
                       [disabled]="!F428DataForm.valid"
@@ -41,7 +41,7 @@
                     {{ 'Common.btnList.search' | translate }}
                     </button>
                     <button
-                      class="btn btn-primary mr-1"
+                      class="btn btn-primary mr-1 btn-lg"
                       type="button"
                       (click)="export()"
                       [disabled]="!F428DataForm.valid"
@@ -132,5 +132,5 @@
   color="#fff"
   type="square-jelly-box"
   [fullScreen]="true"
-  ><p style="color: white">Loading Please Wait.</p></ngx-spinner
+  ><p style="color: white">{{ 'Common.loadingPleaseWait' | translate }}</p></ngx-spinner
 >

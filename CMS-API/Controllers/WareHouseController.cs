@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using API.Models.DKS;
+using System.Linq;
+using API.Data.Interface.CMS;
+using API.Data.Interface.DKS;
 
 namespace API.Controllers
 {
@@ -15,20 +18,22 @@ namespace API.Controllers
         private readonly IConfiguration _config;
         private readonly IWarehouseDAO _warehouseDao;
         private readonly ISamPartBDAO _samPartBDAO;
-        public WareHouseController(IConfiguration config, IWarehouseDAO warehouseDao, ISamPartBDAO samPartBDAO)
+        private readonly ICMSCarDAO _cMSCarDAO;
+        public WareHouseController(IConfiguration config, IWarehouseDAO warehouseDao, ISamPartBDAO samPartBDAO,ICMSCarDAO cMSCarDAO)
 
         {
             _warehouseDao = warehouseDao;
             _samPartBDAO = samPartBDAO;
             _config = config;
+            _cMSCarDAO = cMSCarDAO; 
         }
         [HttpGet("getMaterialNoBySampleNoForWarehouse")]
-        public IActionResult GetMaterialNoBySampleNoForWarehouse([FromQuery] SF428SampleNoDetail sF428SampleNoDetail)
+        public  IActionResult GetMaterialNoBySampleNoForWarehouse([FromQuery] SF428SampleNoDetail sF428SampleNoDetail)
         {
             try
             {
                 //sF428SampleNoDetail.SampleNo ="FW21-SMS-GZ7884-01";
-
+                var model =  _cMSCarDAO.FindAll().ToList();
                 var result = _warehouseDao.GetMaterialNoBySampleNoForWarehouse(sF428SampleNoDetail);
 
                 Response.AddPagination(result.CurrentPage, result.PageSize,

@@ -1,6 +1,8 @@
 {   "Common":{
         "currentLang":"English",
         "hello":"Dear ",
+        "loadingPleaseWait":"Loading Please Wait.",
+        "optional":"Optional",
         "btnList": {
             "search": "Search",
             "export": "Export",
@@ -13,27 +15,26 @@
         "title": "Report",
         "titleList":{
                 "id":"Id",
-                "companyName":"CompanyName",
-                "plateNumber":"PlateNumber",
-                "devSeason":"Dev Season",
-                "driverName":"DriverName",
-                "licenseNumber":"LicenseNumber",
+                "companyName":"Company Name",
+                "plateNumber":"Plate Number",
+                "driverName":"Driver Name",
+                "licenseNumber":"License Number",
 
-                "signInDate":"SignInDate",
-                "tempNumber":"TempNumber",
-                "signInReason":"SignInReason",
-                "goodsName":"GoodsName",
-                "goodsCount":"GoodsCount",
+                "signInDate":"SignIn Date",
+                "tempNumber":"Temp Number",
+                "signInReason":"SignIn Reason",
+                "goodsName":"Goods Name",
+                "goodsCount":"Goods Count",
     
-                "departmentName":"DepartmentName",
-                "contactPerson":"ContactPerson",
-                "sealNumber":"SealNumber",
-                "driverSign":"DriverSign",
-                "signOutDate":"SignOutDate",
+                "departmentName":"Department Name",
+                "contactPerson":"Contact Person",
+                "sealNumber":"Seal Number",
+                "driverSign":"Driver Sign",
+                "signOutDate":"SignOut Date",
     
-                "guardName":"GuardName",
-                "carSize":"CarSize",
-                "companyDistance":"Distance(Km)"
+                "guardName":"Guard Name",
+                "carSize":"Car Size",
+                "companyDistance":"Distance (Km)"
         }
     }
 }

@@ -6,7 +6,7 @@
           <app-one-page-header></app-one-page-header>
         </div>
         <div class="card-body">
-          <h1 class="text-center">{{ this.driverName }} {{ 'Common.btnList.signature' | translate }}</h1>
+          <h1 class="text-left">{{ this.urlParam.driverName }} {{ 'Common.btnList.signature' | translate }}</h1>
           <div class="signature-pad">
             <div class="signature-pad--body">
               <canvas
@@ -22,12 +22,12 @@
           <section class="container">
             <div class="row">
               <div class="col-6">
-                <button class="btn btn-block btn-danger" (click)="clear()">
+                <button class="btn btn-block btn-danger btn-lg" (click)="clear()">
                   {{ 'Common.btnList.clear' | translate }}
                 </button>
               </div>
               <div class="col-6">
-                <button class="btn btn-block btn-success" (click)="save()">
+                <button class="btn btn-block btn-success btn-lg" (click)="save()">
                   {{ 'Common.btnList.save' | translate }}
                 </button>
               </div>
@@ -44,5 +44,5 @@
   color="#fff"
   type="square-jelly-box"
   [fullScreen]="true"
-  ><p style="color: white">Loading Please Wait.</p></ngx-spinner
+  ><p style="color: white">{{ 'Common.loadingPleaseWait' | translate }}</p></ngx-spinner
 >

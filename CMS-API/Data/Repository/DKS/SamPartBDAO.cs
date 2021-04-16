@@ -1,14 +1,6 @@
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using System.Linq;
+
+using API.Data.Interface.DKS;
 using API.Models.DKS;
-using API.Data.Repository;
-using API.Data.Interface;
-using API.DTOs;
-using Microsoft.Data.SqlClient;
-using System;
-using API.Data;
 
 namespace API.Data.Repository
 {

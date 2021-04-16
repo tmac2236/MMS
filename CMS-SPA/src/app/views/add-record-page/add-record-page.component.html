@@ -9,106 +9,126 @@
           <form #addModelForm="ngForm">
             <div class="form-row">
               <div class="form-group col-md-6">
-                <label>Company Name</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  name="companyName"
-                  [(ngModel)]="model.companyName"
-                />
+                <label>{{ 'Report.titleList.companyName' | translate }}</label>
+                <select
+                class="form-control"
+                name="companyName"
+                [(ngModel)]="model.companyName"
+                required
+                (focus)="getAllCompany()">
+                <option
+                  *ngFor="let company of companyList"
+                  value="{{ company.id }}">
+                  {{ company.companyName }}
+                </option>
+                </select>
               </div>
               <div class="form-group col-md-3">
-                <label>Plate Number</label>
+                <label>{{ 'Report.titleList.plateNumber' | translate }}</label>
                 <input
                   type="text"
                   class="form-control"
                   name="plateNumber"
                   [(ngModel)]="model.plateNumber"
+                  required
                 />
               </div>
               <div class="form-group col-md-3">
-                <label>Driver Name</label>
+                <label>{{ 'Report.titleList.driverName' | translate }}</label>
                 <input
                   type="text"
                   class="form-control"
                   name="driverName"
                   [(ngModel)]="model.driverName"
+                  required
                 />
               </div>
             </div>
 
             <div class="form-row">
               <div class="form-group col-md-3">
-                <label>License Number</label>
+                <label style="color:red;">{{ 'Report.titleList.licenseNumber' | translate }} *</label>
                 <input
                   type="text"
                   class="form-control"
                   name="licenseNumber"
                   [(ngModel)]="model.licenseNumber"
+                  required
                 />
               </div>
               <div class="form-group col-md-3">
-                <label>Temp Number</label>
+                <label>{{ 'Report.titleList.tempNumber' | translate }}</label>
                 <input
                   type="text"
                   class="form-control"
                   name="tempNumber"
                   [(ngModel)]="model.tempNumber"
+                  required
                 />
               </div>
               <div class="form-group col-md-6">
-                <label>SignIn Reason</label>
+                <label>{{ 'Report.titleList.signInReason' | translate }}</label>
                 <input
                   type="text"
                   class="form-control"
                   name="signInReason"
                   [(ngModel)]="model.signInReason"
+                  required
                 />
               </div>
             </div>
 
             <div class="form-row">
               <div class="form-group col-md-3">
-                <label>Goods Name</label>
+                <label>{{ 'Report.titleList.goodsName' | translate }}</label>
                 <input
                   type="text"
                   class="form-control"
                   name="goodsName"
                   [(ngModel)]="model.goodsName"
+                  required
                 />
               </div>
               <div class="form-group col-md-3">
-                <label>Goods Count</label>
+                <label>{{ 'Report.titleList.goodsCount' | translate }}</label>
                 <input
                   type="text"
                   class="form-control"
                   name="goodsCount"
                   [(ngModel)]="model.goodsCount"
+                  required
                 />
               </div>
               <div class="form-group col-md-3">
-                <label>Department Name</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  name="departmentName"
-                  [(ngModel)]="model.departmentName"
-                />
+                <label>{{ 'Report.titleList.departmentName' | translate }}</label>
+                <select
+                class="form-control"
+                name="departmentName"
+                [(ngModel)]="model.departmentName"
+                required
+                (focus)="getAllDepartment()">
+                <option
+                  *ngFor="let dept of departmentList"
+                  value="{{ dept.id }}">
+                  {{ dept.departmentName }}
+                </option>
+                </select>
               </div>
               <div class="form-group col-md-3">
-                <label>Contact Person</label>
+                <label>{{ 'Report.titleList.contactPerson' | translate }}</label>
                 <input
                   type="text"
                   class="form-control"
                   name="contactPerson"
                   [(ngModel)]="model.contactPerson"
+                  required
                 />
               </div>
             </div>
 
             <div class="form-row">
               <div class="form-group col-md-3">
-                <label>Seal Number</label>
+                <label>{{ 'Report.titleList.sealNumber' | translate }} ({{ 'Common.optional' | translate }})</label>
                 <input
                   type="text"
                   class="form-control"
@@ -117,24 +137,32 @@
                 />
               </div>
               <div class="form-group col-md-3">
-                <label>Guard Name</label>
+                <label>{{ 'Report.titleList.guardName' | translate }}</label>
                 <input
                   type="text"
                   class="form-control"
                   name="guardName"
                   [(ngModel)]="model.guardName"
+                  required
                 />
               </div>
+              <div class="form-group col-md-1">
+                <label>{{ 'Report.titleList.carSize' | translate }}</label>
+                <select
+                class="form-control"
+                name="carSize"
+                [(ngModel)]="model.carSize"
+                required
+                (focus)="getAllCarList()">
+                <option
+                  *ngFor="let car of carList"
+                  value="{{ car.id }}">
+                  {{ car.carSize }}
+                </option>
+                </select>
+              </div>              
               <div class="form-group col-md-2">
-                <button type="button" class="btn btn-primary mt-4" (click)="save()">{{ 'Common.btnList.save' | translate }}</button>
-                <button class="btn btn-primary mt-4" (click)="signature()">{{ 'Common.btnList.signature' | translate }}</button>
-              </div>
-              <div class="form-group col-md-4">
-                <img
-                  src="../assets/systemImg/signatureDemo.jpg"
-                  width="300"
-                  height="100"
-                />
+                <button type="button" class="btn btn-primary mt-4 btn-lg" (click)="save()">{{ 'Common.btnList.save' | translate }}</button>
               </div>
             </div>
           </form>
@@ -149,5 +177,5 @@
   color="#fff"
   type="square-jelly-box"
   [fullScreen]="true"
-  ><p style="color: white">Loading Please Wait.</p></ngx-spinner
+  ><p style="color: white">{{ 'Common.loadingPleaseWait' | translate }}</p></ngx-spinner
 >

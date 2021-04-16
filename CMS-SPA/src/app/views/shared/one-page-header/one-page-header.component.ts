@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
+import { Utility } from "../../../core/utility/utility";
 
 @Component({
   selector: "app-one-page-header",
@@ -7,7 +8,7 @@ import { Router } from "@angular/router";
   styleUrls: ["./one-page-header.component.scss"],
 })
 export class OnePageHeaderComponent {
-  constructor( private route: Router) {}
+  constructor( private route: Router,public utility: Utility) {}
 
   toAddReport(){
     var navigateTo = "/AddRecordPage";

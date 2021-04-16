@@ -18,21 +18,15 @@ export const routes: Routes = [
     path: "",
     //redirectTo: 'excel',
     //pathMatch: 'full',
-    component: HomePageComponent,
+    component: AddRecordPageComponent,
   },
   {
     path: "404",
     component: P404Component,
-    data: {
-      title: "Page 404",
-    },
   },
   {
     path: "500",
     component: P500Component,
-    data: {
-      title: "Page 500",
-    },
   },
   {
     path: "AddRecordPage",

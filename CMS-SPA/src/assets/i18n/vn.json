@@ -1,6 +1,7 @@
 {   "Common":{
         "currentLang":"Tiếng Việt",
         "hello":"ơi",
+        "loadingPleaseWait":"Xin chờ một chút nà.",
         "btnList": {
             "search": "Tìm kiếm",
             "export": "Xuất Khẩu",
@@ -15,7 +16,6 @@
             "id":"id",
             "companyName":"Tên công ty",
             "plateNumber":"Số xe",
-            "devSeason":"Dev Season",
             "driverName":"Họ tên tài xế",
             "licenseNumber":"Số giấy phép lái xe",
 
@@ -33,7 +33,7 @@
 
             "guardName":"Bảo vệ ký tên",
             "carSize":"Qui cách xe",
-            "companyDistance":"khoảng cách(Km)"
+            "companyDistance":"khoảng cách (Km)"
         }
     }
 }
