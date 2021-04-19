@@ -12,6 +12,7 @@ import { HomePageComponent } from "./views/home-page/home-page.component";
 import { MaintainComponent } from "./views/maintain/maintain.component";
 import { ReportComponent } from "./views/report/report.component";
 import { SignaturePadComponent } from "./views/shared/signature-pad/signature-pad.component";
+import { TestComponent } from "./views/test/test.component";
 
 export const routes: Routes = [
   {
@@ -43,6 +44,10 @@ export const routes: Routes = [
   {
     path: "Maintain",
     component: MaintainComponent,
+  },
+  {
+    path: "Test",
+    component: TestComponent,
   },
   {
     path: "",

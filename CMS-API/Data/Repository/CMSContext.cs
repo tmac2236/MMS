@@ -20,7 +20,7 @@ namespace API.Data.Repository
         {
             //EF
             modelBuilder.Entity<Car>().HasKey(x => new { x.Id });
-            modelBuilder.Entity<CarManageRecord>().HasKey(x => new { x.Id });
+            modelBuilder.Entity<CarManageRecord>().HasKey(x => new { x.LicenseNumber,x.SignInDate });
             modelBuilder.Entity<Company>().HasKey(x => new { x.Id });
             modelBuilder.Entity<Department>().HasKey(x => new { x.Id });
             

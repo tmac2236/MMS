@@ -13,7 +13,6 @@
     "Report": {
         "title": "Report",
         "titleList":{
-            "id":"id",
             "companyName":"Tên công ty",
             "plateNumber":"Số xe",
             "driverName":"Họ tên tài xế",
@@ -32,7 +31,7 @@
             "signOutDate":"Ngày / Giờ rời xưởng",
 
             "guardName":"Bảo vệ ký tên",
-            "carSize":"Qui cách xe",
+            "cardId":"Qui cách xe",
             "companyDistance":"khoảng cách (Km)"
         }
     }

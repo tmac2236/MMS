@@ -14,7 +14,6 @@
     "Report": {
         "title": "Report",
         "titleList":{
-                "id":"Id",
                 "companyName":"Company Name",
                 "plateNumber":"Plate Number",
                 "driverName":"Driver Name",
@@ -33,7 +32,7 @@
                 "signOutDate":"SignOut Date",
     
                 "guardName":"Guard Name",
-                "carSize":"Car Size",
+                "cardId":"Car Size",
                 "companyDistance":"Distance (Km)"
         }
     }

@@ -4,6 +4,7 @@ import { Observable } from "rxjs";
 import { map } from 'rxjs/operators';
 import { Utility } from "../utility/utility";
 import { Car } from "../_models/car";
+import { CarManageRecord } from "../_models/car-manage-record";
 import { Company } from "../_models/company";
 import { Department } from "../_models/department";
 import { PaginatedResult } from "../_models/pagination";
@@ -22,6 +23,19 @@ export class CmsService {
   }
   getAllCompany(){
     return this.utility.http.get<Company[]>(this.utility.baseUrl +"CMS/getAllCompany");
+  }
+  addRecord(model: CarManageRecord){
+    return this.utility.http.post<CarManageRecord>(
+      this.utility.baseUrl + 'CMS/addRecord',
+      model
+    );
+  }
+  addSignaturePic(formData :FormData){
+    console.log("cms.service addSignature:", formData);
+    return this.utility.http.post(
+      this.utility.baseUrl + "CMS/addSignaturePic",
+      formData
+    );
   }
   
 }

@@ -29,60 +29,57 @@ export class Utility {
     localStorage.removeItem("token");
     this.alertify.message("logged out");
   }
-    //匯出
-    exportFactory(url: string, nameParam: string, params: Pagination) {
-      this.spinner.show();
-      this.http
-        .post( url,params,
-          { responseType: "blob" }
-        )
-        .subscribe((result: Blob) => {
-          if (result.type !== "application/xlsx") {
-            alert(result.type);
-            this.spinner.hide();
-          }
-          const blob = new Blob([result]);
-          const url = window.URL.createObjectURL(blob);
-          const link = document.createElement("a");
-          const currentTime = new Date();
-          const filename =
-          nameParam +
-            currentTime.getFullYear().toString() +
-            (currentTime.getMonth() + 1) +
-            currentTime.getDate() +
-            currentTime
-              .toLocaleTimeString()
-              .replace(/[ ]|[,]|[:]/g, "")
-              .trim() +
-            ".xlsx";
-          link.href = url;
-          link.setAttribute("download", filename);
-          document.body.appendChild(link);
-          link.click();
+  //匯出
+  exportFactory(url: string, nameParam: string, params?: Pagination) {
+    this.spinner.show();
+    this.http
+      .post(url, params, { responseType: "blob" })
+      .subscribe((result: Blob) => {
+        if (result.type !== "application/xlsx") {
+          alert(result.type);
           this.spinner.hide();
-        });
-    }
+        }
+        const blob = new Blob([result]);
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        const currentTime = new Date();
+        const filename =
+          nameParam +
+          currentTime.getFullYear().toString() +
+          (currentTime.getMonth() + 1) +
+          currentTime.getDate() +
+          currentTime
+            .toLocaleTimeString()
+            .replace(/[ ]|[,]|[:]/g, "")
+            .trim() +
+          ".xlsx";
+        link.href = url;
+        link.setAttribute("download", filename);
+        document.body.appendChild(link);
+        link.click();
+        this.spinner.hide();
+      });
+  }
   //取得目前語言
-  getCurrentLang(){
-    return this.languageService.translate.currentLang ;
+  getCurrentLang() {
+    return this.languageService.translate.currentLang;
   }
   //設定語言
   useLanguage(language: string) {
     this.languageService.setLang(language);
   }
-    //設定是否分頁
-    setPagination(bo:boolean, objS : Pagination){
-
-      let powerStr = 'on';
-      if (!bo) powerStr ='off';
-      this.alertify.confirm(
-        "Sweet Alert",
-        "You just turned "+ powerStr + " the pagination mode.",
-        () => {
-          objS.isPaging = bo;
-        });
-      
-    }
+  //設定是否分頁
+  setPagination(bo: boolean, objS: Pagination) {
+    let powerStr = "on";
+    if (!bo) powerStr = "off";
+    this.alertify.confirm(
+      "Sweet Alert",
+      "You just turned " + powerStr + " the pagination mode.",
+      () => {
+        objS.isPaging = bo;
+      }
+    );
+  }
   getToDay() {
     const toDay =
       new Date().getFullYear().toString() +
@@ -106,8 +103,17 @@ export class Utility {
   getAccount() {
     const jwtTtoken = localStorage.getItem("token");
     if (jwtTtoken) {
-      return  this.jwtHelper.decodeToken(jwtTtoken)["unique_name"];
+      return this.jwtHelper.decodeToken(jwtTtoken)["unique_name"];
     }
     return "";
   }
+  public blobToFile = (theBlob: Blob, fileName: string): File => {
+    var b: any = theBlob;
+    //A Blob() is almost a File() - it's just missing the two properties below which we will add
+    b.lastModifiedDate = new Date();
+    b.name = fileName;
+
+    //Cast to a File() type
+    return <File>theBlob;
+  };
 }

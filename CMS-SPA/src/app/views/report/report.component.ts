@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Utility } from "../../core/utility/utility";
-import { CarManageRecord } from "../../core/_models/car-manage-record";
+import { CarManageRecordDto } from "../../core/_models/car-manage-record-dto";
 
 @Component({
   selector: "app-report",
@@ -15,12 +15,11 @@ export class ReportComponent implements OnInit {
     private route: Router
   ) {}
   sResult: any;
-  result: CarManageRecord[] = [];
+  result: CarManageRecordDto[] = [];
   ngOnInit() {}
 
   search() {
-    var donut = new CarManageRecord();
-    donut.id = "0";
+    var donut = new CarManageRecordDto();
     donut.companyName = "Công Ty TNHH TM-DVXL MT Việt Khải";
     donut.plateNumber = "54X-2862";
     donut.driverName = "Nguyên Văn A";
@@ -45,10 +44,14 @@ export class ReportComponent implements OnInit {
     this.result.push(donut);
     alert("Coding.... Search Not yet completed");
   }
-  export() {
-    alert("Coding.... Export Not yet completed");
+
+  edit(model: CarManageRecordDto) {
+
   }
-  edit(model: CarManageRecord) {
-    alert("You just click id:" + model.id);
+
+  export(){
+    const url =this.utility.baseUrl +"CMS/exportReport";
+    this.utility.exportFactory(url,"CMS_Report");
   }
+
 }

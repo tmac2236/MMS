@@ -62,6 +62,7 @@ import { AddRecordPageComponent } from "./views/add-record-page/add-record-page.
 import { SignaturePadComponent } from "./views/shared/signature-pad/signature-pad.component";
 import { ReportComponent } from "./views/report/report.component";
 import { MaintainComponent } from "./views/maintain/maintain.component";
+import { TestComponent } from "./views/test/test.component";
 
 //載入 "/assets/i18n/[lang].json" 語系檔
 export function createTranslateLoader(http: HttpClient) {
@@ -112,6 +113,7 @@ export function createTranslateLoader(http: HttpClient) {
     SignaturePadComponent, //E-Sign
     ReportComponent,
     MaintainComponent,
+    TestComponent,
   ],
   providers: [
     AuthService,

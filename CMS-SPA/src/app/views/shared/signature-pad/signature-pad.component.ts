@@ -5,6 +5,7 @@ import SignaturePad from 'signature_pad';
 import { UrlParamEnum } from '../../../core/enum/urlParamEnum';
 import { Utility } from '../../../core/utility/utility';
 import { CarManageRecord } from '../../../core/_models/car-manage-record';
+import { CmsService } from '../../../core/_services/cms.service';
 
 @Component({
   selector: 'app-signature-pad',
@@ -19,11 +20,10 @@ export class SignaturePadComponent implements OnInit, AfterViewInit {
   actionCode:string;
 
   constructor(public utility: Utility,private activeRouter: ActivatedRoute,
-    private route: Router,private translate: TranslateService) {
+    private route: Router,private translate: TranslateService,private cmsService: CmsService) {
       this.activeRouter.queryParams.subscribe((params) => {
-        this.urlParam.id = params.id;
-        this.urlParam.driverName = params.driverName;
         this.urlParam.licenseNumber = params.licenseNumber;
+        this.urlParam.signInDate = params.signInDate;
         this.actionCode = params.actionCode;
       });}
 
@@ -87,12 +87,29 @@ export class SignaturePadComponent implements OnInit, AfterViewInit {
   save() {
     if (this.signaturePad.isEmpty()) {
       alert('Please provide a signature first.');
-      this.redirect();
     } else {
+      var fileName: string = this.urlParam.licenseNumber + this.urlParam.signInDate.toString() + '.jpg';
       //const dataURL = this.signaturePad.toDataURL();
       //const dataURL = this.signaturePad.toDataURL('image/svg+xml');
       const dataURL = this.signaturePad.toDataURL('image/jpg');
-      this.download(dataURL, 'signature.jpg');
+      //this.download(dataURL, 'signature.jpg');
+      const blob : Blob = this.dataURLToBlob(dataURL);
+      //Blob => File
+      var file: File = this.utility.blobToFile(blob,fileName);
+      var formData = new FormData();
+      formData.append("file", file);
+      formData.append("licenseNumber", this.urlParam.licenseNumber);
+      formData.append("signInDate", this.urlParam.signInDate.toString());
+      this.cmsService.addSignaturePic(formData).subscribe(
+        () => {
+          this.utility.alertify.success("Add succeed!");
+          location.reload();
+        },
+        (error) => {
+          this.utility.alertify.error("Add failed !!!!");
+        }
+      );
+      //this.redirect();
     }
   }
   redirect(){
@@ -106,8 +123,11 @@ export class SignaturePadComponent implements OnInit, AfterViewInit {
         navigationExtras = {
           queryParams: {
             actionCode: UrlParamEnum.Signature,
-            id:this.urlParam.id,
+            licenseNumber:this.urlParam.licenseNumber,
+            signInDate:this.urlParam.signInDate,
           },
+
+          
           skipLocationChange: true,
         };
         break;

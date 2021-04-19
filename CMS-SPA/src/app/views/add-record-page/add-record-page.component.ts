@@ -29,7 +29,8 @@ export class AddRecordPageComponent implements OnInit {
 
       switch(urlParamEnum){
         case UrlParamEnum.Signature :{
-          this.model.id = params.id;
+          this.model.signInDate = params.signInDate;
+          this.model.licenseNumber = params.licenseNumber;
           break;
         }
       }
@@ -43,18 +44,13 @@ export class AddRecordPageComponent implements OnInit {
     var navigateTo = "/ESignature";
     var navigationExtras = {
       queryParams: {
-        id: this.model.id,
-        driverName: this.model.driverName,
+        signInDate: this.model.signInDate,
         licenseNumber: this.model.licenseNumber,
         actionCode: UrlParamEnum.AddRecordSignature,
       },
       skipLocationChange: true,
     };
     this.route.navigate([navigateTo], navigationExtras);
-  }
-
-  save() {
-    this.signature();
   }
 
   getAllCarList(){
@@ -107,6 +103,24 @@ export class AddRecordPageComponent implements OnInit {
         );
       }
     );  
+  }
+  save(){
+    this.utility.spinner.show();
+    this.cmsService.addRecord(this.model).subscribe(
+      (res) => {
+        this.utility.spinner.hide();
+        this.utility.alertify.confirm(
+          "Sweet Alert",
+          "Add Success !",
+          () => { 
+            this.model = res;
+            this.signature(); });  
+      },
+      (error) => {
+        this.utility.spinner.hide();
+        this.utility.alertify.error(error);
+      }
+    );
   }
   
 }
