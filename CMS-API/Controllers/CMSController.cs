@@ -9,6 +9,8 @@ using System.IO;
 using Aspose.Cells;
 using API.DTOs;
 using System.Threading.Tasks;
+using CMS_API.DTOs;
+using API.Helpers;
 
 namespace API.Controllers
 {
@@ -152,6 +154,26 @@ namespace API.Controllers
                 return StatusCode(500, $"Internal server error: {ex}");
             }
         }
+
+        [HttpGet("getCarManageRecordDto")]
+        public IActionResult GetCarManageRecordDto([FromForm] SCarManageRecordDto sCarManageRecordDto)
+        {
+            try
+            {
+                if (sCarManageRecordDto.SignInDateS == "" || sCarManageRecordDto.SignInDateS == null) sCarManageRecordDto.SignInDateS = _config.GetSection("LogicSettings:MinDate").Value;
+                if (sCarManageRecordDto.SignInDateE == "" || sCarManageRecordDto.SignInDateE == null) sCarManageRecordDto.SignInDateE = _config.GetSection("LogicSettings:MaxDate").Value;
+
+                var result = _cMSCarManageRecordDAO.GetCarManageRecordDto(sCarManageRecordDto);
+                Response.AddPagination(result.CurrentPage, result.PageSize,
+                result.TotalCount, result.TotalPages);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex}.");
+            }
+        }
+        
 
     }
 }

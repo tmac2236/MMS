@@ -5,9 +5,11 @@ import { map } from 'rxjs/operators';
 import { Utility } from "../utility/utility";
 import { Car } from "../_models/car";
 import { CarManageRecord } from "../_models/car-manage-record";
+import { CarManageRecordDto } from "../_models/car-manage-record-dto";
 import { Company } from "../_models/company";
 import { Department } from "../_models/department";
 import { PaginatedResult } from "../_models/pagination";
+import { SCarManageRecordDto } from "../_models/s-car-manage-record-dto";
 
 @Injectable({
   providedIn: "root",
@@ -35,6 +37,39 @@ export class CmsService {
     return this.utility.http.post(
       this.utility.baseUrl + "CMS/addSignaturePic",
       formData
+    );
+  }
+  getCarManageRecordDto(sCarManageRecordDto: SCarManageRecordDto): Observable<PaginatedResult<CarManageRecordDto[]>>{
+    
+    const paginatedResult: PaginatedResult<CarManageRecordDto[]> = new PaginatedResult<CarManageRecordDto[]>();
+    let params = new HttpParams();
+
+    params = params.append('IsPaging', sCarManageRecordDto.isPaging.toString());
+    if (sCarManageRecordDto.currentPage != null && sCarManageRecordDto.itemsPerPage != null) {
+      params = params.append('pageNumber', sCarManageRecordDto.currentPage.toString());
+      params = params.append('pageSize', sCarManageRecordDto.itemsPerPage.toString());
+      //params = params.append('orderBy', sAttendance.orderBy);
+    }
+    params = params.append('licenseNumber', sCarManageRecordDto.licenseNumber.toString());
+    params = params.append('signInDateS', sCarManageRecordDto.signInDateS.toString());
+    params = params.append('signInDateE', sCarManageRecordDto.signInDateE.toString());
+
+
+    return this.utility.http
+    .get<CarManageRecordDto[]>(this.utility.baseUrl + 'CMS/getCarManageRecordDto' , {
+      observe: 'response',
+      params,
+    })
+    .pipe(
+      map((response) => {
+        paginatedResult.result = response.body;
+        if (response.headers.get('Pagination') != null) {
+          paginatedResult.pagination = JSON.parse(
+            response.headers.get('Pagination')
+          );
+        }
+        return paginatedResult;
+      })
     );
   }
   

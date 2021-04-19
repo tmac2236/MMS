@@ -1,6 +1,6 @@
-import { Pagination } from "./pagination";
+import { ModelInterface } from "./interface/model-interface";
 
-export class CarManageRecordDto extends Pagination {
+export class CarManageRecordDto implements ModelInterface {
   companyName: string;
   plateNumber: string;
   driverName: string;
@@ -22,7 +22,4 @@ export class CarManageRecordDto extends Pagination {
   carSize: string;
   companyDistance: number;
 
-  constructor() {
-    super();
-  }
 }

@@ -2,6 +2,9 @@ import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Utility } from "../../core/utility/utility";
 import { CarManageRecordDto } from "../../core/_models/car-manage-record-dto";
+import { PaginatedResult } from "../../core/_models/pagination";
+import { SCarManageRecordDto } from "../../core/_models/s-car-manage-record-dto";
+import { CmsService } from "../../core/_services/cms.service";
 
 @Component({
   selector: "app-report",
@@ -12,13 +15,21 @@ export class ReportComponent implements OnInit {
   constructor(
     public utility: Utility,
     private activeRouter: ActivatedRoute,
-    private route: Router
+    private route: Router,
+    private cmsService: CmsService
   ) {}
-  sResult: any;
+
   result: CarManageRecordDto[] = [];
-  ngOnInit() {}
+  scarManageRecordDto: SCarManageRecordDto = new SCarManageRecordDto();
+  ngOnInit() {
+  }
+
+  edit(model: CarManageRecordDto) {
+    alert("Coding.... Search Not yet completed");
+  }
 
   search() {
+    /*
     var donut = new CarManageRecordDto();
     donut.companyName = "Công Ty TNHH TM-DVXL MT Việt Khải";
     donut.plateNumber = "54X-2862";
@@ -42,16 +53,41 @@ export class ReportComponent implements OnInit {
     donut.companyDistance = 10;
 
     this.result.push(donut);
-    alert("Coding.... Search Not yet completed");
+    */
+
+    this.utility.spinner.show();
+    this.cmsService.getCarManageRecordDto(this.scarManageRecordDto).subscribe(
+      (res: PaginatedResult<CarManageRecordDto[]>) => {
+        this.result = res.result;
+        this.scarManageRecordDto.setPagination(res.pagination);
+        this.utility.spinner.hide();
+        if (res.result.length < 1) {
+          this.utility.alertify.confirm(
+            "Sweet Alert",
+            "No Data in these conditions of search, please try again.",
+            () => {}
+          );
+        }
+      },
+      (error) => {
+        this.utility.spinner.hide();
+        this.utility.alertify.confirm(
+          "System Notice",
+          "Syetem is busy, please try later.",
+          () => {}
+        );
+      }
+    );
   }
 
-  edit(model: CarManageRecordDto) {
-
+  //分頁按鈕
+  pageChangeds(event: any): void {
+    this.scarManageRecordDto.currentPage = event.page;
+    this.search();
   }
 
-  export(){
-    const url =this.utility.baseUrl +"CMS/exportReport";
-    this.utility.exportFactory(url,"CMS_Report");
+  export() {
+    const url = this.utility.baseUrl + "CMS/exportReport";
+    this.utility.exportFactory(url, "CMS_Report");
   }
-
 }

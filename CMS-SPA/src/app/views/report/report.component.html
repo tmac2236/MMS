@@ -16,21 +16,21 @@
                       class="col-form-label mr-1"
                       type="text"
                       name="licenseNumber"
-                      required
+                      [(ngModel)]="scarManageRecordDto.licenseNumber"
                     />
                     <label class="col-form-label mr-1">{{ 'Report.titleList.signInDate' | translate }}</label>
                     <input
                       class="col-form-label mr-1"
-                      type="text"
-                      name="signInDate"
-                      required
+                      type="date"
+                      name="signInDateS"
+                      [(ngModel)]="scarManageRecordDto.signInDateS"
                     />
                     <label class="col-form-label mr-1">{{ 'Report.titleList.signOutDate' | translate }}</label>
                     <input
                       class="col-form-label mr-1"
-                      type="text"
-                      name="signOutDate"
-                      required
+                      type="date"
+                      name="signInDateE"
+                      [(ngModel)]="scarManageRecordDto.signInDateE"
                     />                                       
                     <button
                       class="btn btn-primary mr-1 btn-lg"
@@ -53,7 +53,7 @@
               </div>
             </div>
           </form>
-          <div class="row" *ngIf="result.length > 0">
+          <div class="row">
             <div class="col-lg-12">
               <div class="card">
                 <div class="card-body">
@@ -113,8 +113,24 @@
                       </tbody>
                     </table>
                     <div class ="d-flex justify-content-start">
-                      <pagination >
-                      </pagination>
+                        <select
+                        style="height:35px;width:45px;"
+                        name="itemsPerPage"
+                        [(ngModel)]="scarManageRecordDto.itemsPerPage">
+                        <option value = 10 selected>10</option>
+                        <option value = 25 selected>25</option>
+                        <option value = 50 selected>50</option>
+                        <option value = 100 selected>100</option>
+                        </select>                    
+                      <pagination *ngIf="this.scarManageRecordDto.isPaging" 
+                      [boundaryLinks]="true" 
+                      [totalItems]="scarManageRecordDto.totalItems"
+                      [maxSize]="100"
+                      [itemsPerPage]="scarManageRecordDto.itemsPerPage"
+                      [(ngModel)]="scarManageRecordDto.currentPage"
+                      (pageChanged) = "pageChangeds($event)"
+                      previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;">
+                    </pagination>
                     </div>                  
                   </div>
                 </div>

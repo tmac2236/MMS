@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CMS_API.DTOs
 {
@@ -23,7 +24,9 @@ namespace CMS_API.DTOs
         public DateTime? SignOutDate { get; set; }
         public string GuardName { get; set; }
 
-        public string CardSize { get; set; }
-        public int CompanyDistance { get; set; }
+        public string CarSize { get; set; }
+        
+        [Column(TypeName = "decimal(5,2)")]
+        public decimal CompanyDistance { get; set; }
     }
 }
