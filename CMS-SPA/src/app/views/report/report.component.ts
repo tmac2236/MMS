@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
+import { UrlParamEnum } from "../../core/enum/urlParamEnum";
 import { Utility } from "../../core/utility/utility";
 import { CarManageRecordDto } from "../../core/_models/car-manage-record-dto";
 import { PaginatedResult } from "../../core/_models/pagination";
@@ -25,7 +26,17 @@ export class ReportComponent implements OnInit {
   }
 
   edit(model: CarManageRecordDto) {
-    alert("Coding.... Search Not yet completed");
+      var navigateTo = "/AddRecordPage";
+      var navigationExtras = {
+        queryParams: {
+          signInDate: model.signInDate,
+          licenseNumber: model.licenseNumber,
+          actionCode: UrlParamEnum.Report,
+        },
+        skipLocationChange: true,
+      };
+      this.route.navigate([navigateTo], navigationExtras);
+    
   }
 
   search() {

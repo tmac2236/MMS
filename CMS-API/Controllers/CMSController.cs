@@ -75,15 +75,29 @@ namespace API.Controllers
                 return StatusCode(500, $"Internal server error: {ex}.");
             }
         }
+        [HttpPost("getTheRecord")]
+        public IActionResult GetTheRecord(CarManageRecord carManageRecord)
+        {
+            try
+            {
+                var theModel = _cMSCarManageRecordDAO
+                .FindSingle(x => x.LicenseNumber == carManageRecord.LicenseNumber && x.SignInDate == carManageRecord.SignInDate);
+                return Ok(theModel);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex}.");
+            }
+        }
         [HttpPost("addRecord")]
         public async Task<IActionResult> AddRecord(CarManageRecord model)
         {
             try
             {
                 //取到秒的Datetime
-                DateTime nowFormat = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day,
-                                                  DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
-                model.SignInDate = nowFormat;
+                //DateTime nowFormat = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day,
+                //                                  DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
+                //model.SignInDate = nowFormat;
                 _cMSCarManageRecordDAO.Add(model);
                 await _cMSCarManageRecordDAO.SaveAll();
                 return Ok(model);
@@ -93,6 +107,21 @@ namespace API.Controllers
                 return StatusCode(500, $"Internal server error: {ex}.");
             }
         }
+        [HttpPost("editRecord")]
+        public async Task<IActionResult> EditRecord(CarManageRecord model)
+        {
+            try
+            {
+                _cMSCarManageRecordDAO.Update(model);
+                await _cMSCarManageRecordDAO.SaveAll();
+                return Ok(model);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex}.");
+            }
+        }
+
         [HttpPost("exportReport")]
         public IActionResult ExportReport()
         {
@@ -156,7 +185,7 @@ namespace API.Controllers
         }
 
         [HttpGet("getCarManageRecordDto")]
-        public IActionResult GetCarManageRecordDto([FromForm] SCarManageRecordDto sCarManageRecordDto)
+        public IActionResult GetCarManageRecordDto([FromQuery] SCarManageRecordDto sCarManageRecordDto)
         {
             try
             {
@@ -173,7 +202,7 @@ namespace API.Controllers
                 return StatusCode(500, $"Internal server error: {ex}.");
             }
         }
-        
+
 
     }
 }

@@ -7,8 +7,10 @@
             "search": "Search",
             "export": "Export",
             "save": "Save",
+            "edit":"Edit",
             "signature":"Signature",
-            "clear":"Clear"
+            "clear":"Clear",
+            "signOut":"SignOut"
         }
     },
     "Report": {

@@ -26,9 +26,21 @@ export class CmsService {
   getAllCompany(){
     return this.utility.http.get<Company[]>(this.utility.baseUrl +"CMS/getAllCompany");
   }
+  getTheRecord(model: CarManageRecord){
+    return this.utility.http.post<CarManageRecord>(
+      this.utility.baseUrl + 'CMS/getTheRecord',
+      model
+    );    
+  }
   addRecord(model: CarManageRecord){
     return this.utility.http.post<CarManageRecord>(
       this.utility.baseUrl + 'CMS/addRecord',
+      model
+    );
+  }
+  editRecord(model: CarManageRecord){
+    return this.utility.http.post<CarManageRecord>(
+      this.utility.baseUrl + 'CMS/editRecord',
       model
     );
   }
@@ -51,9 +63,8 @@ export class CmsService {
       //params = params.append('orderBy', sAttendance.orderBy);
     }
     params = params.append('licenseNumber', sCarManageRecordDto.licenseNumber.toString());
-    params = params.append('signInDateS', sCarManageRecordDto.signInDateS.toString());
-    params = params.append('signInDateE', sCarManageRecordDto.signInDateE.toString());
-
+    params = params.append('signInDateS', sCarManageRecordDto.signInDateS);
+    params = params.append('signInDateE', sCarManageRecordDto.signInDateE);
 
     return this.utility.http
     .get<CarManageRecordDto[]>(this.utility.baseUrl + 'CMS/getCarManageRecordDto' , {

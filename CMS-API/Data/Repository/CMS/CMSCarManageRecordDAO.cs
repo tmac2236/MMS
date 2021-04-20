@@ -18,15 +18,52 @@ namespace API.Data.Repository.CMS
 
         public PagedList<CarManageRecordDto> GetCarManageRecordDto(SCarManageRecordDto sCarManageRecordDto)
         {
+
             List<SqlParameter> pc = new List<SqlParameter>{
                 new SqlParameter("@LicenseNumber",sCarManageRecordDto.LicenseNumber != null ? sCarManageRecordDto.LicenseNumber.Trim(): (object)DBNull.Value),
                 new SqlParameter("@SignInDateS",sCarManageRecordDto.SignInDateS),
                 new SqlParameter("@SignInDateE",sCarManageRecordDto.SignInDateE)
             };
-
+            /*
             var data = _context.GetCarManageRecordDto
                    .FromSqlRaw("EXECUTE dbo.CMS_GetCarManageRecordDto @LicenseNumber,@SignInDateS,@SignInDateE", pc.ToArray())
                    .ToList();
+            */
+            string strWhere = "";
+            if (sCarManageRecordDto.LicenseNumber == "" || sCarManageRecordDto.LicenseNumber == null)
+                strWhere += " WHERE SignInDate between @SignInDateS and @SignInDateE AND @LicenseNumber is null";
+            else
+                strWhere += " WHERE SignInDate between @SignInDateS and @SignInDateE AND @LicenseNumber = LicenseNumber ";
+
+            string strSQL = string.Format(@"
+                                            SELECT 
+                                            	   CP.CompanyName	  AS	CompanyName
+                                                  ,PlateNumber		  AS	PlateNumber
+                                                  ,DriverName		  AS	DriverName
+                                                  ,LicenseNumber	  AS	LicenseNumber
+                                                  ,SignInDate		  AS	SignInDate
+                                            
+                                                  ,TempNumber		  AS	TempNumber
+                                                  ,SignInReason		  AS	SignInReason
+                                                  ,GoodsName		  AS	GoodsName
+                                                  ,GoodsCount		  AS	GoodsCount
+                                                  ,DPM.DepartmentName AS 	DepartmentName
+                                            
+                                                  ,ContactPerson	  AS	ContactPerson
+                                                  ,SealNumber		  AS	SealNumber
+                                                  ,DriverSign		  AS	DriverSign
+                                                  ,SignOutDate		  AS	SignOutDate
+                                                  ,GuardName	      AS	GuardName
+                                            
+                                                  ,C.CarSize		  AS	CarSize
+                                            	  ,CP.CompanyDistance AS	CompanyDistance
+                                            
+                                              FROM CMSCarManageRecord AS	CMR
+                                              left join CMSCompany AS CP on CP.Id = CMR.CompanyId
+                                              left join CMSDepartment AS DPM on DPM.ID = CMR.DepartmentId
+                                              left join CMSCar AS C on C.Id = CMR.CarId ");
+            strSQL += strWhere;                                  
+            var data = _context.GetCarManageRecordDto.FromSqlRaw(strSQL, pc.ToArray()).ToList();
 
             return PagedList<CarManageRecordDto>
            .Create(data, sCarManageRecordDto.PageNumber, sCarManageRecordDto.PageSize, sCarManageRecordDto.IsPaging);

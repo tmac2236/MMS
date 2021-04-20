@@ -6,8 +6,10 @@
             "search": "Tìm kiếm",
             "export": "Xuất Khẩu",
             "save": "Lưu Dât",
+            "edit":"Sửa Đổi",
             "signature":"Chữ ký",
-            "clear":"Xóa"
+            "clear":"Xóa",
+            "signOut":"Rời Xưởng"
         }
     },
     "Report": {

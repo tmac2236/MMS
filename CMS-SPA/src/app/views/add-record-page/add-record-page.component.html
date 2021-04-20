@@ -15,11 +15,12 @@
                 name="companyName"
                 [(ngModel)]="model.companyId"
                 required
-                (focus)="getAllCompany()">
+                >
                 <option
-                  *ngFor="let company of companyList"
-                  value="{{ company.id }}">
-                  {{ company.companyName }}
+                  *ngFor="let company of companyList; let i of index"
+                  value="{{ company.id }}"
+                  selected="companyList[i].id == model.companyId">
+                  {{ company.id }} {{ company.companyName }}
                 </option>
                 </select>
               </div>
@@ -106,11 +107,12 @@
                 name="departmentName"
                 [(ngModel)]="model.departmentId"
                 required
-                (focus)="getAllDepartment()">
+                >
                 <option
-                  *ngFor="let dept of departmentList"
-                  value="{{ dept.id }}">
-                  {{ dept.departmentName }}
+                  *ngFor="let dept of departmentList; let i of index"
+                  value="{{ dept.id }}"
+                  selected="departmentList[i].id == model.departmentId">
+                  {{ dept.id }} {{ dept.departmentName }}
                 </option>
                 </select>
               </div>
@@ -148,23 +150,56 @@
               </div>
               <div class="form-group col-md-1">
                 <label>{{ 'Report.titleList.cardId' | translate }}</label>
-                <select
+                <select 
                 class="form-control"
                 name="carSize"
                 [(ngModel)]="model.carId"
                 required
-                (focus)="getAllCarList()">
-                <option
-                  *ngFor="let car of carList"
-                  value="{{ car.id }}">
-                  {{ car.carSize }}
+                >
+                <option 
+                  *ngFor="let car of carList;let i of index"
+                  value="{{ car.id }}"
+                  selected="carList[i].id == model.carId">
+                  {{ car.id }} {{ car.carSize }}
                 </option>
                 </select>
-              </div>              
-              <div class="form-group col-md-2">
+              </div>         
+              <div class="form-group col-md-1" *ngIf="this.model.signInDate;else elseEditBtn">
                 <button type="button" class="btn btn-primary mt-4 btn-lg" 
-                (click)="save()" [disabled]="!addModelForm.valid">{{ 'Common.btnList.save' | translate }}</button>
+                (click)="edit()" [disabled]="!addModelForm.valid">{{ 'Common.btnList.edit' | translate }}</button>
+              </div>                                           
+              <ng-template #elseEditBtn>
+                <div class="form-group col-md-1">
+                  <button type="button" class="btn btn-primary mt-4 btn-lg" 
+                  (click)="save()" [disabled]="!addModelForm.valid">{{ 'Common.btnList.save' | translate }}</button>
+                </div>  
+              </ng-template>
+              <div class="form-group col-md-2" *ngIf="this.model.signInDate" >
+                <label>{{ 'Report.titleList.signInDate' | translate }}</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="signInDate"
+                  value="{{ model.signInDate | date: 'yyyy/MM/dd HH:mm:ss'}}"
+                  readonly
+                />
+              </div> 
+              <div class="form-group col-md-2" *ngIf="!this.model.signOutDate; else elseSignoutDate" >
+                <button type="button" class="btn btn-warning mt-4 btn-lg" 
+                (click)="this.signOut()" [disabled]="!addModelForm.valid">{{ 'Common.btnList.signOut' | translate }}</button>
               </div>
+              <ng-template #elseSignoutDate>
+                <div class="form-group col-md-2" >
+                  <label>{{ 'Report.titleList.signOutDate' | translate }}</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="signOutDate"
+                    value="{{ model.signOutDate | date: 'yyyy/MM/dd HH:mm:ss'}}"
+                    readonly
+                  />
+                </div> 
+              </ng-template>
             </div>
           </form>
         </div>

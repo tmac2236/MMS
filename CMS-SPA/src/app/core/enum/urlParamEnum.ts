@@ -1,4 +1,5 @@
 export enum UrlParamEnum {
   AddRecordSignature = "AddRecordSignature",
-  Signature ="Signature"
+  Signature = "Signature",
+  Report = "Report",
 }

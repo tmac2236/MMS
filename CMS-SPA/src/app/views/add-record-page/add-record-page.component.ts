@@ -7,6 +7,7 @@ import { CarManageRecord } from "../../core/_models/car-manage-record";
 import { Company } from "../../core/_models/company";
 import { Department } from "../../core/_models/department";
 import { CmsService } from "../../core/_services/cms.service";
+
 @Component({
   selector: "app-add-record-page",
   templateUrl: "./add-record-page.component.html",
@@ -33,12 +34,22 @@ export class AddRecordPageComponent implements OnInit {
           this.model.licenseNumber = params.licenseNumber;
           break;
         }
+        case UrlParamEnum.Report :{
+          this.model.signInDate = params.signInDate;
+          this.model.licenseNumber = params.licenseNumber;
+          this.getTheRecord();
+          break;
+        }
       }
 
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getAllCarList();
+    this.getAllCompany();
+    this.getAllDepartment();
+  }
 
   signature() {
     var navigateTo = "/ESignature";
@@ -106,6 +117,7 @@ export class AddRecordPageComponent implements OnInit {
   }
   save(){
     this.utility.spinner.show();
+    this.model.signInDate = new Date();
     this.cmsService.addRecord(this.model).subscribe(
       (res) => {
         this.utility.spinner.hide();
@@ -122,5 +134,43 @@ export class AddRecordPageComponent implements OnInit {
       }
     );
   }
-  
+  edit(){
+    this.utility.spinner.show();
+    this.cmsService.editRecord(this.model).subscribe(
+      (res) => {
+        this.utility.spinner.hide();
+        this.utility.alertify.confirm(
+          "Sweet Alert",
+          "Edit Success !",
+          () => { 
+            this.model = res; });  
+      },
+      (error) => {
+        this.utility.spinner.hide();
+        this.utility.alertify.error(error);
+      }
+    );
+
+  }
+  signOut(){
+    this.model.signOutDate = new Date();
+    this.edit();
+  }
+  getTheRecord(){
+    this.utility.spinner.show();
+      this.cmsService.getTheRecord(this.model).subscribe(
+        (res) => {
+          this.utility.spinner.hide();
+          this.model = res;
+        },
+        (error) => {
+          this.utility.spinner.hide();
+          this.utility.alertify.confirm(
+            "System Notice",
+            "Syetem is busy, please try later.",
+            () => {}
+          );
+        }
+      );  
+  }
 }
