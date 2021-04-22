@@ -149,10 +149,23 @@ export class AddRecordPageComponent implements OnInit {
         this.utility.alertify.error(error);
       }
     );
-
   }
   signOut(){
-    this.edit();
+    this.utility.spinner.show();
+    this.cmsService.signOutRecord(this.model).subscribe(
+      (res) => {
+        this.utility.spinner.hide();
+        this.utility.alertify.confirm(
+          "Sweet Alert",
+          "SignOut Success !",
+          () => { 
+            this.model = res; });  
+      },
+      (error) => {
+        this.utility.spinner.hide();
+        this.utility.alertify.error(error);
+      }
+    );
   }
   getTheRecord(){
     this.utility.spinner.show();

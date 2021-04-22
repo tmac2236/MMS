@@ -44,6 +44,12 @@ export class CmsService {
       model
     );
   }
+  signOutRecord(model: CarManageRecord){
+    return this.utility.http.post<CarManageRecord>(
+      this.utility.baseUrl + 'CMS/signOutRecord',
+      model
+    );
+  }
   addSignaturePic(formData :FormData){
     console.log("cms.service addSignature:", formData);
     return this.utility.http.post(

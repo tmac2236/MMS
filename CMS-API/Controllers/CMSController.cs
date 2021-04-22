@@ -97,7 +97,7 @@ namespace API.Controllers
                 //取到秒的Datetime
                 //DateTime nowFormat = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day,
                 //                                  DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
-                
+
                 model.SignInDate = Extensions.GetDateTimeNowInMillionSec();
                 _cMSCarManageRecordDAO.Add(model);
                 await _cMSCarManageRecordDAO.SaveAll();
@@ -112,9 +112,22 @@ namespace API.Controllers
         public async Task<IActionResult> EditRecord(CarManageRecord model)
         {
             try
+            {  
+                _cMSCarManageRecordDAO.Update(model);
+                await _cMSCarManageRecordDAO.SaveAll();
+                return Ok(model);
+            }
+            catch (Exception ex)
             {
-                model.SignInDate = Extensions.GetDateTimeNowInMillionSec();
-
+                return StatusCode(500, $"Internal server error: {ex}.");
+            }
+        }
+        [HttpPost("signOutRecord")]
+        public async Task<IActionResult> SignOutRecord(CarManageRecord model)
+        {
+            try
+            {
+                model.SignOutDate = Extensions.GetDateTimeNowInMillionSec();
                 _cMSCarManageRecordDAO.Update(model);
                 await _cMSCarManageRecordDAO.SaveAll();
                 return Ok(model);
