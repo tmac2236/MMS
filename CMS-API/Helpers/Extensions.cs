@@ -335,6 +335,10 @@ namespace API.Helpers
                 return (T)formatter.Deserialize(ms);
             }
         }
-        
+        //Get DateTime Now in millionSec
+        public static DateTime GetDateTimeNowInMillionSec(){
+                string nowStr = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss tt");
+                return Convert.ToDateTime(nowStr);
+        }
     }
 }

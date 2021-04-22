@@ -18,8 +18,10 @@ export class CarManageRecordDto implements ModelInterface {
   driverSign: string;
   signOutDate: Date;
   guardName: string;
-  
+
   carSize: string;
   companyDistance: number;
 
+  isDisplay: number; //only use in front end
+  constructor(){}
 }

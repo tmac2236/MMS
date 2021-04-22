@@ -87,7 +87,7 @@
                       <tbody>
                         <ng-container *ngFor="let item of result; let i = index">
                           <tr>
-                            <td> <div [hidden]="!true" ><img src="../assets/systemImg/edit.png" width="30" height="30"  (click)="this.edit(item)"/></div></td>
+                            <td> <div [hidden]="item.isDisplay == 0" ><img src="../assets/systemImg/edit.png" width="30" height="30"  (click)="this.edit(item)"/></div></td>
                             <td>{{ item.companyName }}</td>
                             <td>{{ item.plateNumber }}</td>
                             <td>{{ item.driverName }}</td>

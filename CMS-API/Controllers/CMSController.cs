@@ -97,7 +97,8 @@ namespace API.Controllers
                 //取到秒的Datetime
                 //DateTime nowFormat = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day,
                 //                                  DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
-                //model.SignInDate = nowFormat;
+                
+                model.SignInDate = Extensions.GetDateTimeNowInMillionSec();
                 _cMSCarManageRecordDAO.Add(model);
                 await _cMSCarManageRecordDAO.SaveAll();
                 return Ok(model);
@@ -112,6 +113,8 @@ namespace API.Controllers
         {
             try
             {
+                model.SignInDate = Extensions.GetDateTimeNowInMillionSec();
+
                 _cMSCarManageRecordDAO.Update(model);
                 await _cMSCarManageRecordDAO.SaveAll();
                 return Ok(model);

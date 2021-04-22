@@ -117,7 +117,6 @@ export class AddRecordPageComponent implements OnInit {
   }
   save(){
     this.utility.spinner.show();
-    this.model.signInDate = new Date();
     this.cmsService.addRecord(this.model).subscribe(
       (res) => {
         this.utility.spinner.hide();
@@ -153,7 +152,6 @@ export class AddRecordPageComponent implements OnInit {
 
   }
   signOut(){
-    this.model.signOutDate = new Date();
     this.edit();
   }
   getTheRecord(){

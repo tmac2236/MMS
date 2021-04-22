@@ -15,6 +15,10 @@
     },
     "Report": {
         "title": "Report",
+        "inOutList": {
+                "import":"Import",
+                "export":"Export"
+        },
         "titleList":{
                 "companyName":"Company Name",
                 "plateNumber":"Plate Number",

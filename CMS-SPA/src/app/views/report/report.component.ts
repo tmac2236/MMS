@@ -19,9 +19,11 @@ export class ReportComponent implements OnInit {
     private route: Router,
     private cmsService: CmsService
   ) {}
-
+  
   result: CarManageRecordDto[] = [];
   scarManageRecordDto: SCarManageRecordDto = new SCarManageRecordDto();
+  deadlineNow = new Date(new Date().getTime() - 86400000); // now minus one day
+
   ngOnInit() {
   }
 
@@ -70,6 +72,14 @@ export class ReportComponent implements OnInit {
     this.cmsService.getCarManageRecordDto(this.scarManageRecordDto).subscribe(
       (res: PaginatedResult<CarManageRecordDto[]>) => {
         this.result = res.result;
+        this.result.forEach((model)=>{
+          if(new Date(model.signInDate).getTime() < new Date(this.deadlineNow).getTime()){
+            model.isDisplay = UrlParamEnum.NoNumber;
+          }else{
+            model.isDisplay = UrlParamEnum.YesNumber;
+          }
+
+        });
         this.scarManageRecordDto.setPagination(res.pagination);
         this.utility.spinner.hide();
         if (res.result.length < 1) {

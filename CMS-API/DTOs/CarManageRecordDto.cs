@@ -25,8 +25,9 @@ namespace CMS_API.DTOs
         public string GuardName { get; set; }
 
         public string CarSize { get; set; }
-        
+
         [Column(TypeName = "decimal(5,2)")]
         public decimal CompanyDistance { get; set; }
+        public int isDisplay { get; set; }
     }
 }

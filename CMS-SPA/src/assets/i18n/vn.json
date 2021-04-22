@@ -14,6 +14,10 @@
     },
     "Report": {
         "title": "Report",
+        "inOutList": {
+            "import":"Nhập Hàng",
+            "export":"Xuất Hàng"
+        },        
         "titleList":{
             "companyName":"Tên công ty",
             "plateNumber":"Số xe",

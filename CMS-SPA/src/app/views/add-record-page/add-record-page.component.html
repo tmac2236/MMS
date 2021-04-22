@@ -69,35 +69,35 @@
               </div>
               <div class="form-group col-md-6">
                 <label>{{ 'Report.titleList.signInReason' | translate }}</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  name="signInReason"
-                  [(ngModel)]="model.signInReason"
-                  required
-                />
+                <select
+                class="form-control"
+                name="signInReason"
+                [(ngModel)]="model.signInReason"
+                required
+              >
+                <option value = "{{ 'Report.inOutList.import' | translate }}" selected>{{ 'Report.inOutList.import' | translate }}</option>
+                <option value = "{{ 'Report.inOutList.export' | translate }}" selected>{{ 'Report.inOutList.export' | translate }}</option>
+              </select>
               </div>
             </div>
 
             <div class="form-row">
               <div class="form-group col-md-3">
-                <label>{{ 'Report.titleList.goodsName' | translate }}</label>
+                <label>{{ 'Report.titleList.goodsName' | translate }}({{ 'Common.optional' | translate }})</label>
                 <input
                   type="text"
                   class="form-control"
                   name="goodsName"
                   [(ngModel)]="model.goodsName"
-                  required
                 />
               </div>
               <div class="form-group col-md-3">
-                <label>{{ 'Report.titleList.goodsCount' | translate }}</label>
+                <label>{{ 'Report.titleList.goodsCount' | translate }}({{ 'Common.optional' | translate }})</label>
                 <input
                   type="text"
                   class="form-control"
                   name="goodsCount"
                   [(ngModel)]="model.goodsCount"
-                  required
                 />
               </div>
               <div class="form-group col-md-3">
@@ -186,7 +186,7 @@
               </div> 
               <div class="form-group col-md-2" *ngIf="!this.model.signOutDate; else elseSignoutDate" >
                 <button type="button" class="btn btn-warning mt-4 btn-lg" 
-                (click)="this.signOut()" [disabled]="!addModelForm.valid">{{ 'Common.btnList.signOut' | translate }}</button>
+                (click)="this.signOut()" [hidden]="!this.model.signInDate">{{ 'Common.btnList.signOut' | translate }}</button>
               </div>
               <ng-template #elseSignoutDate>
                 <div class="form-group col-md-2" >
