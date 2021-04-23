@@ -89,6 +89,22 @@ namespace API.Controllers
                 return StatusCode(500, $"Internal server error: {ex}.");
             }
         }
+        // Get the record by liciense and the last date of SignInDate
+        [HttpPost("getLastRecord")]
+        public IActionResult getLastRecord(CarManageRecord carManageRecord)
+        {
+            try
+            {
+                var theModel = _cMSCarManageRecordDAO
+                    .FindAll(x => x.LicenseNumber == carManageRecord.LicenseNumber)
+                     .OrderByDescending(x =>x.SignInDate).Take(1).ToList().FirstOrDefault();
+                return Ok(theModel);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex}.");
+            }
+        }        
         [HttpPost("addRecord")]
         public async Task<IActionResult> AddRecord(CarManageRecord model)
         {

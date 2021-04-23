@@ -184,4 +184,37 @@ export class AddRecordPageComponent implements OnInit {
         }
       );  
   }
+  getLastRecord(){
+    this.utility.spinner.show();
+      this.cmsService.getLastRecord(this.model).subscribe(
+        (res) => {
+          this.utility.spinner.hide();
+          if(res == null){
+            console.log("The license :" +this.model.licenseNumber + " Number has no record.");
+            return;
+          } 
+          this.model.companyId = res.companyId;
+          this.model.plateNumber = res.plateNumber;
+          this.model.driverName = res.driverName;
+          this.model.licenseNumber = res.licenseNumber;
+          this.model.tempNumber = res.tempNumber;
+          this.model.signInReason = res.signInReason;
+          this.model.goodsName = res.goodsName;
+          this.model.goodsCount = res.goodsCount;
+          this.model.departmentId = res.departmentId;
+          this.model.contactPerson = res.contactPerson;
+          this.model.sealNumber = res.sealNumber;
+          this.model.guardName = res.guardName;
+          this.model.carId = res.carId;
+        },
+        (error) => {
+          this.utility.spinner.hide();
+          this.utility.alertify.confirm(
+            "System Notice",
+            "Syetem is busy, please try later.",
+            () => {}
+          );
+        }
+      ); 
+  }
 }

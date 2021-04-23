@@ -3,8 +3,6 @@ export enum UrlParamEnum {
   Signature = "Signature",
   Report = "Report",
 
-
-  FormatShowDateTime = "yyyy/MM/dd HH:mm:ss",
   NoNumber = 0,
   YesNumber = 1,
 }

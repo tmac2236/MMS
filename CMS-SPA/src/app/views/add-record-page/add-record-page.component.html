@@ -54,6 +54,7 @@
                   class="form-control"
                   name="licenseNumber"
                   [(ngModel)]="model.licenseNumber"
+                  (focusout)="getLastRecord()"
                   required
                 />
               </div>

@@ -6,7 +6,7 @@
           <app-one-page-header></app-one-page-header>
         </div>
         <div class="card-body">
-          <h1 class="text-left">{{ this.urlParam.licenseNumber }}{{ this.urlParam.signInDate| date: "yyyy/MM/dd hh:mm:ss" }} {{ 'Common.btnList.signature' | translate }}</h1>
+          <h2 class="text-left">{{ 'Report.titleList.licenseNumber' | translate }} : {{ this.urlParam.licenseNumber }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ 'Report.titleList.signInDate' | translate }} : {{ this.urlParam.signInDate| date: "yyyy/MM/dd hh:mm:ss" }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ 'Common.btnList.signature' | translate }}</h2>
           <div class="signature-pad">
             <div class="signature-pad--body">
               <canvas

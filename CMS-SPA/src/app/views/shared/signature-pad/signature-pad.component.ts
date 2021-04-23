@@ -103,7 +103,7 @@ export class SignaturePadComponent implements OnInit, AfterViewInit {
       this.cmsService.addSignaturePic(formData).subscribe(
         () => {
           this.utility.alertify.success("Add succeed!");
-          //location.reload();
+          window.location.href=this.utility.serverWebRoot + "/AddRecordPage";
         },
         (error) => {
           this.utility.alertify.error("Add failed !!!!");

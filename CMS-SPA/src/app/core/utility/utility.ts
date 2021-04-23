@@ -14,6 +14,7 @@ import { LanguageService } from "../_services/language.service";
 })
 export class Utility {
   baseUrl = environment.apiUrl;
+  serverWebRoot =  environment.serverWebRoot;
   //getUserName
   jwtHelper = new JwtHelperService();
 

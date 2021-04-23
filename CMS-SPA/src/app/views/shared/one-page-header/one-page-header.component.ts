@@ -11,15 +11,12 @@ export class OnePageHeaderComponent {
   constructor( private route: Router,public utility: Utility) {}
 
   toAddReport(){
-    var navigateTo = "/AddRecordPage";
-    this.route.navigate([navigateTo]);   
+    window.location.href = this.utility.serverWebRoot+"AddRecordPage";   
   }
   toReport() {
-    var navigateTo = "/Report";
-    this.route.navigate([navigateTo]);
+    window.location.href = this.utility.serverWebRoot+"Report";  
   }
   toMaintain() {
-    var navigateTo = "/Maintain";
-    this.route.navigate([navigateTo]);
+    window.location.href = this.utility.serverWebRoot+"Maintain";  
   }
 }

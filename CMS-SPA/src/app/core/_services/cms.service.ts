@@ -32,6 +32,12 @@ export class CmsService {
       model
     );    
   }
+  getLastRecord(model: CarManageRecord){
+    return this.utility.http.post<CarManageRecord>(
+      this.utility.baseUrl + 'CMS/getLastRecord',
+      model
+    );    
+  }
   addRecord(model: CarManageRecord){
     return this.utility.http.post<CarManageRecord>(
       this.utility.baseUrl + 'CMS/addRecord',
