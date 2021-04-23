@@ -1,6 +1,6 @@
 export class Department {
   
-  id: string;
+  id: number;
   departmentName: string;
 
   constructor() {}

@@ -5,7 +5,7 @@ namespace API.Models.CMS
 {
     public class CarManageRecord
     {
-        public string CompanyId { get; set; }
+        public int CompanyId { get; set; }
         public string PlateNumber { get; set; }
         public string DriverName { get; set; }
         [Key]
@@ -17,7 +17,7 @@ namespace API.Models.CMS
         public string SignInReason { get; set; }
         public string GoodsName { get; set; }
         public string GoodsCount { get; set; }
-        public string DepartmentId { get; set; }
+        public int DepartmentId { get; set; }
 
         public string ContactPerson { get; set; }
         public string SealNumber { get; set; }
@@ -25,6 +25,6 @@ namespace API.Models.CMS
         public DateTime? SignOutDate { get; set; }
         public string GuardName { get; set; }
 
-        public string CarId { get; set; }
+        public int CarId { get; set; }
     }
 }

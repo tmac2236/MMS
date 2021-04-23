@@ -1,7 +1,7 @@
 import { Pagination } from "./pagination";
 
 export class CarManageRecord extends Pagination {
-  companyId: string;
+  companyId: number;
   plateNumber: string;
   driverName: string;
   licenseNumber: string;
@@ -11,7 +11,7 @@ export class CarManageRecord extends Pagination {
   signInReason: string;
   goodsName: string;
   goodsCount: string;
-  departmentId: string;
+  departmentId: number;
 
   contactPerson: string;
   sealNumber: string;
@@ -19,7 +19,7 @@ export class CarManageRecord extends Pagination {
   signOutDate: Date;
   guardName: string;
 
-  carId: string;
+  carId: number;
 
   constructor() {
     super();

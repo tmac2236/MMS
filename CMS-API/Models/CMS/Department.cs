@@ -7,7 +7,7 @@ namespace API.Models.CMS
     public class Department
     {
         [Key]
-        public string Id { get; set; }
+        public int Id { get; set; }
         public string DepartmentName { get; set; }
     }
 }

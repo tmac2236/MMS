@@ -20,7 +20,7 @@ export class CarManageRecordDto implements ModelInterface {
   guardName: string;
 
   carSize: string;
-  companyDistance: number;
+  companyDistance: string;
 
   isDisplay: number; //only use in front end
   constructor(){}

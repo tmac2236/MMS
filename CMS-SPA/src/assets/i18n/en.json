@@ -39,7 +39,7 @@
     
                 "guardName":"Guard Name",
                 "cardId":"Car Size",
-                "companyDistance":"Distance (Km)"
+                "companyDistance":"Distance"
         }
     }
 }

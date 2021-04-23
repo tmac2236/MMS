@@ -1,8 +1,8 @@
 export class Company {
 
-  id: string;
+  id: number;
   companyName: string;
-  companyDistance: number;
+  companyDistance: string;
 
   constructor() {}
 }
