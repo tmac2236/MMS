@@ -10,30 +10,29 @@ using API.Models.DKS;
 using System.Linq;
 using API.Data.Interface.CMS;
 using API.Data.Interface.DKS;
+using Microsoft.AspNetCore.Hosting;
 
 namespace API.Controllers
 {
     public class WareHouseController : ApiController
     {
-        private readonly IConfiguration _config;
         private readonly IWarehouseDAO _warehouseDao;
         private readonly ISamPartBDAO _samPartBDAO;
         private readonly ICMSCarDAO _cMSCarDAO;
-        public WareHouseController(IConfiguration config, IWarehouseDAO warehouseDao, ISamPartBDAO samPartBDAO,ICMSCarDAO cMSCarDAO)
-
+        public WareHouseController(IConfiguration config, IWebHostEnvironment webHostEnvironment, IWarehouseDAO warehouseDao, ISamPartBDAO samPartBDAO, ICMSCarDAO cMSCarDAO)
+                 : base(config, webHostEnvironment)
         {
             _warehouseDao = warehouseDao;
             _samPartBDAO = samPartBDAO;
-            _config = config;
-            _cMSCarDAO = cMSCarDAO; 
+            _cMSCarDAO = cMSCarDAO;
         }
         [HttpGet("getMaterialNoBySampleNoForWarehouse")]
-        public  IActionResult GetMaterialNoBySampleNoForWarehouse([FromQuery] SF428SampleNoDetail sF428SampleNoDetail)
+        public IActionResult GetMaterialNoBySampleNoForWarehouse([FromQuery] SF428SampleNoDetail sF428SampleNoDetail)
         {
             try
             {
                 //sF428SampleNoDetail.SampleNo ="FW21-SMS-GZ7884-01";
-                var model =  _cMSCarDAO.FindAll().ToList();
+                var model = _cMSCarDAO.FindAll().ToList();
                 var result = _warehouseDao.GetMaterialNoBySampleNoForWarehouse(sF428SampleNoDetail);
 
                 Response.AddPagination(result.CurrentPage, result.PageSize,

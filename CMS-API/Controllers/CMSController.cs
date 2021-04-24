@@ -6,7 +6,6 @@ using API.Data.Interface.CMS;
 using API.Models.CMS;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
-using Aspose.Cells;
 using API.DTOs;
 using System.Threading.Tasks;
 using CMS_API.DTOs;
@@ -16,19 +15,14 @@ namespace API.Controllers
 {
     public class CMSController : ApiController
     {
-        private readonly IConfiguration _config;
-        private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly ICMSCarDAO _cMSCarDAO;
         private readonly ICMSCarManageRecordDAO _cMSCarManageRecordDAO;
         private readonly ICMSCompanyDAO _cMSCompanyDAO;
         private readonly ICMSDepartmentDAO _cMSDepartmentDAO;
         public CMSController(IConfiguration config, IWebHostEnvironment webHostEnvironment, ICMSCarDAO cMSCarDAO,
          ICMSCarManageRecordDAO cMSCarManageRecordDAO, ICMSCompanyDAO cMSCompanyDAO, ICMSDepartmentDAO cMSDepartmentDAO)
-
+         : base(config, webHostEnvironment)
         {
-
-            _config = config;
-            _webHostEnvironment = webHostEnvironment;
             _cMSCarDAO = cMSCarDAO;
             _cMSCarManageRecordDAO = cMSCarManageRecordDAO;
             _cMSCompanyDAO = cMSCompanyDAO;
@@ -97,14 +91,14 @@ namespace API.Controllers
             {
                 var theModel = _cMSCarManageRecordDAO
                     .FindAll(x => x.LicenseNumber == carManageRecord.LicenseNumber)
-                     .OrderByDescending(x =>x.SignInDate).Take(1).ToList().FirstOrDefault();
+                     .OrderByDescending(x => x.SignInDate).Take(1).ToList().FirstOrDefault();
                 return Ok(theModel);
             }
             catch (Exception ex)
             {
                 return StatusCode(500, $"Internal server error: {ex}.");
             }
-        }        
+        }
         [HttpPost("addRecord")]
         public async Task<IActionResult> AddRecord(CarManageRecord model)
         {
@@ -128,7 +122,7 @@ namespace API.Controllers
         public async Task<IActionResult> EditRecord(CarManageRecord model)
         {
             try
-            {  
+            {
                 _cMSCarManageRecordDAO.Update(model);
                 await _cMSCarManageRecordDAO.SaveAll();
                 return Ok(model);
@@ -155,19 +149,16 @@ namespace API.Controllers
         }
 
         [HttpPost("exportReport")]
-        public IActionResult ExportReport()
+        public async Task<IActionResult> ExportReport(SCarManageRecordDto sCarManageRecordDto)
         {
-            //var data = await _reporDAO.GetReportDataPass(sReportDataPassDto);
-            string rootStr = _webHostEnvironment.ContentRootPath;
-            var path = Path.Combine(rootStr, "Resources\\Template\\(Marco)Test.xlsm");
-            WorkbookDesigner designer = new WorkbookDesigner();
-            designer.Workbook = new Workbook(path);
-            Worksheet ws = designer.Workbook.Worksheets[0];
-            //designer.SetDataSource("result", data);
-            designer.Process();
-            MemoryStream stream = new MemoryStream();
-            designer.Workbook.Save(stream, SaveFormat.Xlsx);
-            byte[] result = stream.ToArray();
+
+            if (sCarManageRecordDto.SignInDateS == "" || sCarManageRecordDto.SignInDateS == null) sCarManageRecordDto.SignInDateS = _config.GetSection("LogicSettings:MinDate").Value;
+            if (sCarManageRecordDto.SignInDateE == "" || sCarManageRecordDto.SignInDateE == null) sCarManageRecordDto.SignInDateE = _config.GetSection("LogicSettings:MaxDate").Value;
+
+
+            var data = await _cMSCarManageRecordDAO.GetCarManageRecordDto(sCarManageRecordDto);
+
+            byte[] result = CommonExportReport(data,"TempCarRecord.xlsx");
 
             return File(result, "application/xlsx");
         }
@@ -217,16 +208,18 @@ namespace API.Controllers
         }
 
         [HttpGet("getCarManageRecordDto")]
-        public IActionResult GetCarManageRecordDto([FromQuery] SCarManageRecordDto sCarManageRecordDto)
+        public async Task<IActionResult> GetCarManageRecordDto([FromQuery] SCarManageRecordDto sCarManageRecordDto)
         {
             try
             {
                 if (sCarManageRecordDto.SignInDateS == "" || sCarManageRecordDto.SignInDateS == null) sCarManageRecordDto.SignInDateS = _config.GetSection("LogicSettings:MinDate").Value;
                 if (sCarManageRecordDto.SignInDateE == "" || sCarManageRecordDto.SignInDateE == null) sCarManageRecordDto.SignInDateE = _config.GetSection("LogicSettings:MaxDate").Value;
 
-                var result = _cMSCarManageRecordDAO.GetCarManageRecordDto(sCarManageRecordDto);
+                var data = await _cMSCarManageRecordDAO.GetCarManageRecordDto(sCarManageRecordDto);
+                PagedList<CarManageRecordDto> result = PagedList<CarManageRecordDto>.Create(data, sCarManageRecordDto.PageNumber, sCarManageRecordDto.PageSize, sCarManageRecordDto.IsPaging);
                 Response.AddPagination(result.CurrentPage, result.PageSize,
                 result.TotalCount, result.TotalPages);
+
                 return Ok(result);
             }
             catch (Exception ex)

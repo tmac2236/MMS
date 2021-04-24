@@ -9,16 +9,16 @@ using System;
 using System.IdentityModel.Tokens.Jwt;
 using API.Data.Interface;
 using API.DTOs;
+using Microsoft.AspNetCore.Hosting;
 
 namespace API.Controllers
 {
     public class AuthController : ApiController
     {
         private readonly IDKSDAO _dksDAO;
-        private readonly IConfiguration _config;
-        public AuthController(IConfiguration config, IDKSDAO dksDAO)
+        public AuthController(IConfiguration config, IWebHostEnvironment webHostEnvironment, IDKSDAO dksDAO)
+                 : base(config, webHostEnvironment)
         {
-            _config = config;
             _dksDAO = dksDAO;
         }
         [HttpPost("login")]

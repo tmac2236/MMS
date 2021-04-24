@@ -7,6 +7,7 @@ using CMS_API.DTOs;
 using Microsoft.EntityFrameworkCore;
 using System;
 using Microsoft.Data.SqlClient;
+using System.Threading.Tasks;
 
 namespace API.Data.Repository.CMS
 {
@@ -16,7 +17,7 @@ namespace API.Data.Repository.CMS
         {
         }
 
-        public PagedList<CarManageRecordDto> GetCarManageRecordDto(SCarManageRecordDto sCarManageRecordDto)
+        public async Task<List<CarManageRecordDto>> GetCarManageRecordDto(SCarManageRecordDto sCarManageRecordDto)
         {
 
             List<SqlParameter> pc = new List<SqlParameter>{
@@ -31,7 +32,7 @@ namespace API.Data.Repository.CMS
             */
             string strWhere = "";
             if (sCarManageRecordDto.LicenseNumber == "" || sCarManageRecordDto.LicenseNumber == null)
-                strWhere += " WHERE SignInDate between @SignInDateS and @SignInDateE AND @LicenseNumber is null";
+                strWhere += " WHERE SignInDate between @SignInDateS and @SignInDateE";
             else
                 strWhere += " WHERE SignInDate between @SignInDateS and @SignInDateE AND @LicenseNumber = LicenseNumber ";
 
@@ -64,10 +65,9 @@ namespace API.Data.Repository.CMS
                                               left join CMSDepartment AS DPM on DPM.ID = CMR.DepartmentId
                                               left join CMSCar AS C on C.Id = CMR.CarId ");
             strSQL += strWhere;                                  
-            var data = _context.GetCarManageRecordDto.FromSqlRaw(strSQL, pc.ToArray()).ToList();
+            var data = await _context.GetCarManageRecordDto.FromSqlRaw(strSQL, pc.ToArray()).ToListAsync();
 
-            return PagedList<CarManageRecordDto>
-           .Create(data, sCarManageRecordDto.PageNumber, sCarManageRecordDto.PageSize, sCarManageRecordDto.IsPaging);
+            return data;
 
         }
     }

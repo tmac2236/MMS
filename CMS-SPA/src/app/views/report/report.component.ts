@@ -109,6 +109,6 @@ export class ReportComponent implements OnInit {
 
   export() {
     const url = this.utility.baseUrl + "CMS/exportReport";
-    this.utility.exportFactory(url, "CMS_Report");
+    this.utility.exportFactory(url, "CMS_Report",this.scarManageRecordDto);
   }
 }
