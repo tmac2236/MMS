@@ -2,6 +2,10 @@
         "currentLang":"Tiếng Việt",
         "hello":"ơi",
         "loadingPleaseWait":"Xin chờ một chút nà.",
+        "optional":"Nếu Có",
+        "pleaseKeyPassword":"Vui Lòng Nhập Mật Khẩu",
+        "close":"Đóng",
+        "check":"kiểm Tra",
         "btnList": {
             "search": "Tìm kiếm",
             "export": "Xuất Khẩu",

@@ -1,15 +1,42 @@
 <div class="row">
   <div class="col-4">
-    <strong>Car Management System</strong>
+    <strong (click)="refreshPage()">Car Management System</strong>
     <img src="../assets/systemImg/add-user.png" width="25" height="25" (click)="toAddReport()"/>
     <img src="../assets/systemImg/report.png" width="25" height="25" (click)="toReport()"/>
     <!--<img src="../assets/systemImg/setting.png" width="25" height="25" (click)="toMaintain()"/> -->
   </div>
   <div class="col-8">
     <div class="float-right">
-      <!--<img src="../assets/systemImg/united-states.png" width="25" height="25" (click)="this.utility.useLanguage('en')"/>
-      <img src="../assets/systemImg/vietnam.png" width="25" height="25" (click)="this.utility.useLanguage('vn')"/>-->
+      <img src="../assets/systemImg/united-states.png" width="25" height="25" (click)="this.utility.useLanguage('en')"/>
+      <img src="../assets/systemImg/vietnam.png" width="25" height="25" (click)="this.utility.useLanguage('vn')"/>
 
     </div>    
+  </div>
+</div>
+
+<div bsModal #infoModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-info" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">{{ 'Common.pleaseKeyPassword' | translate }}</h4>
+        <button type="button" class="close" (click)="closeModal()" aria-label="Close"><!--右上角的 X 符號-->
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-12">
+            <div class="form-group">
+              <label></label>
+              <input type="password" class="form-control" [(ngModel)]="keyPassword">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary btn-lg" (click)="check()">{{ 'Common.check' | translate }}</button>
+        <button type="button" class="btn btn-secondary btn-lg" (click)="closeModal()">{{ 'Common.close' | translate }}</button>
+      </div>
+    </div>
   </div>
 </div>

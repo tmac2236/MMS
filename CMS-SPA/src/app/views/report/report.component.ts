@@ -28,7 +28,7 @@ export class ReportComponent implements OnInit {
   }
 
   edit(model: CarManageRecordDto) {
-      var navigateTo = "/AddRecordPage";
+      var navigateTo = "/EditRecordPage";
       var navigationExtras = {
         queryParams: {
           signInDate: model.signInDate,
@@ -71,7 +71,17 @@ export class ReportComponent implements OnInit {
     this.utility.spinner.show();
     this.cmsService.getCarManageRecordDto(this.scarManageRecordDto).subscribe(
       (res: PaginatedResult<CarManageRecordDto[]>) => {
-        this.result = res.result;
+        this.result = res.result.map((model) =>{
+          
+          if(new Date(model.signInDate).getTime() < new Date(this.deadlineNow).getTime()){
+            model.isDisplay = UrlParamEnum.NoNumber;
+          }else{
+            model.isDisplay = UrlParamEnum.YesNumber;
+          }
+          return model;
+        });
+
+        /*
         this.result.forEach((model)=>{
           if(new Date(model.signInDate).getTime() < new Date(this.deadlineNow).getTime()){
             model.isDisplay = UrlParamEnum.NoNumber;
@@ -80,6 +90,7 @@ export class ReportComponent implements OnInit {
           }
 
         });
+        */
         this.scarManageRecordDto.setPagination(res.pagination);
         this.utility.spinner.hide();
         if (res.result.length < 1) {

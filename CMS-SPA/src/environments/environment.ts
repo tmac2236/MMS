@@ -7,4 +7,7 @@ export const environment = {
   production: false,
   apiUrl: "http://localhost:5000/api/",
   serverWebRoot: "http://localhost:4200/#/",
+
+  gaurdPassword: "00000",
+  admPassword: "adm00000",
 };

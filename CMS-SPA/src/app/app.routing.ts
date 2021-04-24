@@ -34,6 +34,10 @@ export const routes: Routes = [
     component: AddRecordPageComponent,
   },
   {
+    path: "EditRecordPage",
+    component: AddRecordPageComponent,
+  },
+  {
     path: "ESignature",
     component: SignaturePadComponent,
   },

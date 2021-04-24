@@ -15,6 +15,8 @@ import { LanguageService } from "../_services/language.service";
 export class Utility {
   baseUrl = environment.apiUrl;
   serverWebRoot =  environment.serverWebRoot;
+  gaurdPassword = environment.gaurdPassword;
+  admPassword = environment.admPassword;
   //getUserName
   jwtHelper = new JwtHelperService();
 

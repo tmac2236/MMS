@@ -63,6 +63,7 @@ import { SignaturePadComponent } from "./views/shared/signature-pad/signature-pa
 import { ReportComponent } from "./views/report/report.component";
 import { MaintainComponent } from "./views/maintain/maintain.component";
 import { TestComponent } from "./views/test/test.component";
+import { ModalModule } from "ngx-bootstrap/modal";
 
 //載入 "/assets/i18n/[lang].json" 語系檔
 export function createTranslateLoader(http: HttpClient) {
@@ -99,6 +100,7 @@ export function createTranslateLoader(http: HttpClient) {
     NgImageSliderModule,
     TooltipModule.forRoot(), //table tr td 用
     PaginationModule.forRoot(), //分頁用
+    ModalModule.forRoot(), //Modal用
   ],
   declarations: [
     AppComponent,

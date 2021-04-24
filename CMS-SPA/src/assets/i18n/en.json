@@ -3,6 +3,9 @@
         "hello":"Dear ",
         "loadingPleaseWait":"Loading Please Wait.",
         "optional":"Optional",
+        "pleaseKeyPassword":"Please Key Password",
+        "close":"Close",
+        "check":"Check",
         "btnList": {
             "search": "Search",
             "export": "Export",
