@@ -6,8 +6,9 @@
           <app-one-page-header ></app-one-page-header>
         </div>
         <div class="card-body">
-          <mat-tab-group>
-            <mat-tab label="Maintain Car">
+          <tabset>
+            <tab heading="Basic title" id="tab1">
+              <!--
               <div>
                 <table class="table table-bordered">
                   <thead>
@@ -26,14 +27,49 @@
                   </tbody>
                 </table>
               </div>
-            </mat-tab>
-            <mat-tab label="Second">
-              
-            </mat-tab>
-            <mat-tab label="Third">
+              -->
+            </tab>
+            <tab heading="Basic Title 1">
+              <form [formGroup]="carFormGroup" class="container mt-3" (ngSubmit)="logValue()">
+                <div class="row justify-content-center">
+                  <div class="col-6">
+                    <section class="container border mb-4 p-3" formArrayName="cars" 
+                      *ngFor="let address of carControls; let i = index;">
+                      <div [formGroupName]="i">
+                        <div class="row">
+                          <div class="col-6">
+                              <h4>Index {{i + 1}}</h4>
+                          </div>
+                          <div class="col-6 text-right">
+                              <button type="button" class="btn btn-danger btn-sm" (click)="removeCar(i)">Remove</button>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-6">
+                              <div class="form-group">
+                                  <label>Id</label>
+                                  <input type="text" class="form-control" formControlName="id"/>
+                                </div>
+                          </div>
+                          <div class="col-6">
+                              <div class="form-group">
+                                  <label>Car Size</label>
+                                  <input type="text" class="form-control" formControlName="carSize"/>
+                                </div>
+                          </div>
+                        </div>
+                      </div>
+                    </section> 
+                    <button type="button" class="btn btn-primary mb-2" (click)="addEmptyCar()">Add Car</button>
+                    <input type="submit" class="btn btn-success mb-2" value="Submit"/>              
+                  </div>
+                </div>
+              </form>             
+            </tab>
+            <tab heading="Basic Title 2">
 
-            </mat-tab>
-          </mat-tab-group>
+            </tab>
+          </tabset>
         </div>
       </div>
     </div>
