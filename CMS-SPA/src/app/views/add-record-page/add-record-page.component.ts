@@ -116,6 +116,13 @@ export class AddRecordPageComponent implements OnInit {
     );  
   }
   save(){
+    if(this.checkFormValidate()) {
+      this.utility.alertify.confirm(
+        "Sweet Alert",
+        "Please select Company、Department、Car !",
+        () => { });  
+        return;
+    } 
     this.utility.spinner.show();
     this.cmsService.addRecord(this.model).subscribe(
       (res) => {
@@ -134,6 +141,13 @@ export class AddRecordPageComponent implements OnInit {
     );
   }
   edit(){
+    if(this.checkFormValidate()) {
+      this.utility.alertify.confirm(
+        "Sweet Alert",
+        "Please select Company、Department、Car !",
+        () => {});  
+        return;
+    }
     this.utility.spinner.show();
     this.cmsService.editRecord(this.model).subscribe(
       (res) => {
@@ -185,6 +199,7 @@ export class AddRecordPageComponent implements OnInit {
       );  
   }
   getLastRecord(){
+    console.log(this.model);
     this.utility.spinner.show();
       this.cmsService.getLastRecord(this.model).subscribe(
         (res) => {
@@ -216,5 +231,12 @@ export class AddRecordPageComponent implements OnInit {
           );
         }
       ); 
+  }
+  checkFormValidate(){
+    let flag = false;
+    if(this.model.companyId == null|| this.model.carId == null || this.model.departmentId ==null){
+      flag = true
+    }
+    return flag;
   }
 }

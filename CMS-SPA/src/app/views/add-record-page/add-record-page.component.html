@@ -10,19 +10,12 @@
             <div class="form-row">
               <div class="form-group col-md-6">
                 <label>{{ 'Report.titleList.companyName' | translate }}</label>
-                <select
-                class="form-control"
+                <ng-select [items]="companyList"
                 name="companyName"
-                [(ngModel)]="model.companyId"
-                required
-                >
-                <option
-                  *ngFor="let company of companyList; let i of index"
-                  value="{{ company.id }}"
-                  selected="companyList[i].id == model.companyId">
-                  {{ company.id }} {{ company.companyName }}
-                </option>
-                </select>
+                bindLabel="companyName"
+                bindValue="id"
+                [(ngModel)]="model.companyId">
+                </ng-select>
               </div>
               <div class="form-group col-md-3">
                 <label>{{ 'Report.titleList.plateNumber' | translate }}</label>
@@ -103,19 +96,12 @@
               </div>
               <div class="form-group col-md-3">
                 <label>{{ 'Report.titleList.departmentName' | translate }}</label>
-                <select
-                class="form-control"
+                <ng-select [items]="departmentList"
                 name="departmentName"
-                [(ngModel)]="model.departmentId"
-                required
-                >
-                <option
-                  *ngFor="let dept of departmentList; let i of index"
-                  value="{{ dept.id }}"
-                  selected="departmentList[i].id == model.departmentId">
-                  {{ dept.id }} {{ dept.departmentName }}
-                </option>
-                </select>
+                bindLabel="departmentName"
+                bindValue="id"
+                [(ngModel)]="model.departmentId">
+                </ng-select>
               </div>
               <div class="form-group col-md-3">
                 <label>{{ 'Report.titleList.contactPerson' | translate }}</label>
@@ -139,7 +125,7 @@
                   [(ngModel)]="model.sealNumber"
                 />
               </div>
-              <div class="form-group col-md-3">
+              <div class="form-group col-md-2">
                 <label>{{ 'Report.titleList.guardName' | translate }}</label>
                 <input
                   type="text"
@@ -149,21 +135,14 @@
                   required
                 />
               </div>
-              <div class="form-group col-md-1">
+              <div class="form-group col-md-2">
                 <label>{{ 'Report.titleList.cardId' | translate }}</label>
-                <select 
-                class="form-control"
-                name="carSize"
-                [(ngModel)]="model.carId"
-                required
-                >
-                <option 
-                  *ngFor="let car of carList;let i of index"
-                  value="{{ car.id }}"
-                  selected="carList[i].id == model.carId">
-                  {{ car.id }} {{ car.carSize }}
-                </option>
-                </select>
+                <ng-select [items]="carList"
+                name="departmentName"
+                bindLabel="carSize"
+                bindValue="id"
+                [(ngModel)]="model.carId">
+                </ng-select>
               </div>         
               <div class="form-group col-md-1" *ngIf="this.model.signInDate;else elseEditBtn">
                 <button type="button" class="btn btn-primary mt-4 btn-lg" 

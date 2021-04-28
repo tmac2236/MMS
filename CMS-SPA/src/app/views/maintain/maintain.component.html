@@ -6,7 +6,34 @@
           <app-one-page-header ></app-one-page-header>
         </div>
         <div class="card-body">
-          <p>Maintain </p>
+          <mat-tab-group>
+            <mat-tab label="Maintain Car">
+              <div>
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th scope="col">Id</th>
+                      <th scope="col">Car Size</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <div *ngFor="let car of carList;let i = index">
+                    <tr>
+                      <td><input type="text" name="carId-{{i}}" [(ngModel)]="car.id"></td>
+                      <td><input type="text" name="carSize-{{i}}" [(ngModel)]="car.carSize"></td>
+                    </tr>
+                  </div>
+                  </tbody>
+                </table>
+              </div>
+            </mat-tab>
+            <mat-tab label="Second">
+              
+            </mat-tab>
+            <mat-tab label="Third">
+
+            </mat-tab>
+          </mat-tab-group>
         </div>
       </div>
     </div>
