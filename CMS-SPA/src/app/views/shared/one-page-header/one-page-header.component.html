@@ -9,7 +9,7 @@
     <div class="float-right">
       <img src="../assets/systemImg/united-states.png" width="25" height="25" (click)="this.utility.useLanguage('en')"/>
       <img src="../assets/systemImg/vietnam.png" width="25" height="25" (click)="this.utility.useLanguage('vn')"/>
-
+      <img src="../assets/systemImg/down-arrow.png" width="25" height="25" (click)="this.goToBottom()"/>
     </div>    
   </div>
 </div>
@@ -34,7 +34,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary btn-lg" (click)="check()">{{ 'Common.check' | translate }}</button>
+        <button type="button" class="btn btn-primary btn-lg" (click)="check(this.modalName)">{{ 'Common.check' | translate }}</button>
         <button type="button" class="btn btn-secondary btn-lg" (click)="closeModal()">{{ 'Common.close' | translate }}</button>
       </div>
     </div>

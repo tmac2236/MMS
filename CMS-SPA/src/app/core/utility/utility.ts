@@ -1,6 +1,7 @@
 import { DatePipe } from "@angular/common";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { FormArray } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { NgxSpinnerService } from "ngx-spinner";
@@ -119,4 +120,18 @@ export class Utility {
     //Cast to a File() type
     return <File>theBlob;
   };
+
+  public getChangedProperties(form: FormArray): string[] {
+    let changedProperties = [];
+  
+    Object.keys(form.controls).forEach((name) => {
+      const currentControl = form.controls[name];
+  
+      if (currentControl.dirty) {
+        changedProperties.push(currentControl);
+      }
+    });
+  
+    return changedProperties;
+  }
 }
