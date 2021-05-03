@@ -10,6 +10,7 @@ using API.DTOs;
 using System.Threading.Tasks;
 using CMS_API.DTOs;
 using API.Helpers;
+using System.Collections.Generic;
 
 namespace API.Controllers
 {
@@ -29,7 +30,96 @@ namespace API.Controllers
             _cMSDepartmentDAO = cMSDepartmentDAO;
 
         }
+        [HttpPost("addOrUpdateCompanyList")]
+        public async Task<IActionResult> addOrUpdateCompanyList(List<Company> companyList)
+        {
+            try
+            {
+                var updateList = companyList.Where(x => x.Id != 0).ToList();
+                var addList = companyList.Where(x => x.Id == 0).ToList();
+                updateList.ForEach(m =>
+                {
+                    _cMSCompanyDAO.Update(m);
+                });
+                await _cMSCompanyDAO.SaveAll();
+                //取出最後一個Id
+                int lastId = _cMSCompanyDAO.FindAll().OrderByDescending(m => m.Id).FirstOrDefault().Id;
+                addList.ForEach(m =>
+                {
+                    lastId++;
+                    m.Id = lastId;
+                    _cMSCompanyDAO.Add(m);
+                });
 
+                await _cMSCompanyDAO.SaveAll();
+                
+                return Ok(true);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex}.");
+            }
+        }
+        [HttpPost("addOrUpdateCarList")]
+        public async Task<IActionResult> addOrUpdateCarList(List<Car> carList)
+        {
+            try
+            {
+                var updateList = carList.Where(x => x.Id != 0).ToList();
+                var addList = carList.Where(x => x.Id == 0).ToList();
+                updateList.ForEach(m =>
+                {
+                    _cMSCarDAO.Update(m);
+                });
+                await _cMSCarDAO.SaveAll();
+                //取出最後一個Id
+                int lastId = _cMSCarDAO.FindAll().OrderByDescending(m => m.Id).FirstOrDefault().Id;
+                addList.ForEach(m =>
+                {
+                    lastId++;
+                    m.Id = lastId;
+                    _cMSCarDAO.Add(m);
+                });
+
+                await _cMSCarDAO.SaveAll();
+                
+                return Ok(true);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex}.");
+            }
+        }
+        [HttpPost("addOrUpdateDepartmentList")]
+        public async Task<IActionResult> addOrUpdateDepartmentList(List<Department> departmentList)
+        {
+            try
+            {
+                var updateList = departmentList.Where(x => x.Id != 0).ToList();
+                var addList = departmentList.Where(x => x.Id == 0).ToList();
+                updateList.ForEach(m =>
+                {
+                    _cMSDepartmentDAO.Update(m);
+                });
+                await _cMSDepartmentDAO.SaveAll();
+                //取出最後一個Id
+                int lastId = _cMSDepartmentDAO.FindAll().OrderByDescending(m => m.Id).FirstOrDefault().Id;
+                addList.ForEach(m =>
+                {
+                    lastId++;
+                    m.Id = lastId;
+                    _cMSDepartmentDAO.Add(m);
+                });
+
+                await _cMSDepartmentDAO.SaveAll();
+                
+                return Ok(true);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex}.");
+            }
+        }                
         [HttpGet("getAllCarList")]
         public IActionResult GetAllCarList()
         {
@@ -158,7 +248,7 @@ namespace API.Controllers
 
             var data = await _cMSCarManageRecordDAO.GetCarManageRecordDto(sCarManageRecordDto);
 
-            byte[] result = CommonExportReport(data,"TempCarRecord.xlsx");
+            byte[] result = CommonExportReport(data, "TempCarRecord.xlsx");
 
             return File(result, "application/xlsx");
         }
@@ -227,7 +317,6 @@ namespace API.Controllers
                 return StatusCode(500, $"Internal server error: {ex}.");
             }
         }
-
 
     }
 }

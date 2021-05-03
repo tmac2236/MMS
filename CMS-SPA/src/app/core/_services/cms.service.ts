@@ -95,5 +95,23 @@ export class CmsService {
       })
     );
   }
+  addOrUpdateCompanyList(companyList: Company[]){
+    return this.utility.http.post<boolean>(
+      this.utility.baseUrl + 'CMS/addOrUpdateCompanyList',
+      companyList
+    );
+  }
+  addOrUpdateCarList(carList: Car[]){
+    return this.utility.http.post<boolean>(
+      this.utility.baseUrl + 'CMS/addOrUpdateCarList',
+      carList
+    );
+  }
+  addOrUpdateDepartmentList(departmentList: Department[]){
+    return this.utility.http.post<boolean>(
+      this.utility.baseUrl + 'CMS/addOrUpdateDepartmentList',
+      departmentList
+    );
+  }
   
 }

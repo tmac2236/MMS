@@ -121,7 +121,7 @@ export class Utility {
     return <File>theBlob;
   };
 
-  public getChangedProperties(form: FormArray): string[] {
+  public getChangedProperties(form: FormArray): FormArray[] {
     let changedProperties = [];
   
     Object.keys(form.controls).forEach((name) => {

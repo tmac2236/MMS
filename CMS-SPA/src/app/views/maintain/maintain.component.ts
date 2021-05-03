@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { FormArray, FormBuilder, FormControl, FormGroup } from "@angular/forms";
+import { UrlParamEnum } from "../../core/enum/urlParamEnum";
 import { Utility } from "../../core/utility/utility";
 import { Car } from "../../core/_models/car";
 import { CarManageRecord } from "../../core/_models/car-manage-record";
@@ -17,13 +18,13 @@ export class MaintainComponent implements OnInit {
   //companyList: Company[] = [];
   //departmentList: Department[] = [];
 
-  public readonly companyFormGroup: FormGroup;
+  public companyFormGroup: FormGroup;
   public companys: FormArray; // formArrayName
 
-  public readonly carFormGroup: FormGroup;
+  public carFormGroup: FormGroup;
   public cars: FormArray; // formArrayName
 
-  public readonly departmentFormGroup: FormGroup;
+  public departmentFormGroup: FormGroup;
   public departments: FormArray; // formArrayName
 
   constructor(
@@ -39,19 +40,22 @@ export class MaintainComponent implements OnInit {
     });
     this.departmentFormGroup = this.fb.group({
       departments: this.fb.array([]),
-    });
+    });    
   }
 
   ngOnInit() {
-    this.getAllCarList();
     this.getAllCompany();
+    this.getAllCar();
     this.getAllDepartment();
   }
-  getAllCarList() {
+  getAllCar() {
     this.utility.spinner.show();
     this.cmsService.getAllCarList().subscribe(
       (res) => {
         this.utility.spinner.hide();
+        this.carFormGroup = this.fb.group({
+          cars: this.fb.array([]),
+        });
         res.map((x) => {
           this.cars = this.getCarForm;
           this.cars.push(this.createCar(x.id, x.carSize));
@@ -72,6 +76,9 @@ export class MaintainComponent implements OnInit {
     this.cmsService.getAllDepartment().subscribe(
       (res) => {
         this.utility.spinner.hide();
+        this.departmentFormGroup = this.fb.group({
+          departments: this.fb.array([]),
+        });
         res.map((x) => {
           this.departments = this.getDepartmentForm;
           this.departments.push(this.createDepartment(x.id, x.departmentName));
@@ -92,6 +99,9 @@ export class MaintainComponent implements OnInit {
     this.cmsService.getAllCompany().subscribe(
       (res) => {
         this.utility.spinner.hide();
+        this.companyFormGroup = this.fb.group({
+          companys: this.fb.array([]),
+        });
         res.map((x) => {
           this.companys = this.getCompanyForm;
           this.companys.push(
@@ -109,6 +119,7 @@ export class MaintainComponent implements OnInit {
       }
     );
   }
+  
   ////// Company Form control ///////
   get getCompanyForm(): FormArray {
     return this.companyFormGroup.get("companys") as FormArray;
@@ -124,8 +135,7 @@ export class MaintainComponent implements OnInit {
       companyDistance: companyDistance,
     });
   }
-  addEmptyCompany(): void {
-    //this.companys = this.companyFormGroup.get("companys") as FormArray;
+  addEmptyCompany(): void {    
     this.companys = this.getCompanyForm;
     this.companys.push(this.createCompany());
   }
@@ -135,8 +145,39 @@ export class MaintainComponent implements OnInit {
     this.companys.removeAt(i);
   }
   submitCompanyList() {
-    //console.log(this.companys.value);
-    console.log(this.utility.getChangedProperties(this.companys));
+    let companyList = [];
+    let companysForm = this.utility.getChangedProperties(this.companys);
+    companysForm.map((companyForm) => {
+
+      let company = new Company();
+      if(companyForm.value.id){
+        company.id = companyForm.value.id;
+      }else{
+        company.id = UrlParamEnum.NullCodeNumber;
+      }
+      company.companyName = companyForm.value.companyName;
+      company.companyDistance = companyForm.value.companyDistance;
+      companyList.push(company);
+    });
+    this.cmsService.addOrUpdateCompanyList(companyList).subscribe(
+      (res) => {
+        this.utility.spinner.hide();
+        this.utility.alertify.confirm(
+          "Sweet Alert",
+          "Save Success !",
+          () => {
+            this.getAllCompany();
+          }); 
+      },
+      (error) => {
+        this.utility.spinner.hide();
+        this.utility.alertify.confirm(
+          "System Notice",
+          "Syetem is busy, please try later.",
+          () => {}
+        );
+      }
+    );
   }
   ////// Company Form control ///////
 
@@ -159,9 +200,39 @@ export class MaintainComponent implements OnInit {
     console.log(this.cars.at(i));
     this.cars.removeAt(i);
   }
-  submitCarList() {
-    console.log(this.utility.getChangedProperties(this.cars));
-    //console.log(this.cars.value);
+  submitCarList(){
+    let carList = [];
+    let carsForm = this.utility.getChangedProperties(this.cars);
+    carsForm.map((carForm) => {
+
+      let car = new Car();
+      if(carForm.value.id){
+        car.id = carForm.value.id;
+      }else{
+        car.id = UrlParamEnum.NullCodeNumber;
+      }
+      car.carSize = carForm.value.carSize;
+      carList.push(car);
+    });
+    this.cmsService.addOrUpdateCarList(carList).subscribe(
+      (res) => {
+        this.utility.spinner.hide();
+        this.utility.alertify.confirm(
+          "Sweet Alert",
+          "Save Success !",
+          () => {
+            this.getAllCar();
+          }); 
+      },
+      (error) => {
+        this.utility.spinner.hide();
+        this.utility.alertify.confirm(
+          "System Notice",
+          "Syetem is busy, please try later.",
+          () => {}
+        );
+      }
+    );
   }
   ////// Car Form control ///////
 
@@ -186,8 +257,38 @@ export class MaintainComponent implements OnInit {
     this.departments.removeAt(i);
   }
   submitDepartmentList() {
-    console.log(this.utility.getChangedProperties(this.departments));
-    //console.log(this.cars.value);
+    let departmentList = [];
+    let departmentsForm = this.utility.getChangedProperties(this.departments);
+    departmentsForm.map((departmentForm) => {
+
+      let department = new Department();
+      if(departmentForm.value.id){
+        department.id = departmentForm.value.id;
+      }else{
+        department.id = UrlParamEnum.NullCodeNumber;
+      }
+      department.departmentName = departmentForm.value.departmentName;
+      departmentList.push(department);
+    });
+    this.cmsService.addOrUpdateDepartmentList(departmentList).subscribe(
+      (res) => {
+        this.utility.spinner.hide();
+        this.utility.alertify.confirm(
+          "Sweet Alert",
+          "Save Success !",
+          () => {
+            this.getAllDepartment();
+          }); 
+      },
+      (error) => {
+        this.utility.spinner.hide();
+        this.utility.alertify.confirm(
+          "System Notice",
+          "Syetem is busy, please try later.",
+          () => {}
+        );
+      }
+    );
   }
   ////// Car Form control ///////
 
