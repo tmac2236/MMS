@@ -21,8 +21,6 @@ import { DefaultLayoutComponent } from "./containers";
 
 import { P404Component } from "./views/error/404.component";
 import { P500Component } from "./views/error/500.component";
-import { F428Component } from "./views/dks/F428/F428.component";
-import { F428EditComponent } from "./views/dks/F428/F428-edit/F428-edit.component";
 
 import { AuthService } from "../../src/app/core/_services/auth.service";
 import { AlertifyService } from "../../src/app/core/_services/alertify.service";
@@ -109,8 +107,6 @@ export function createTranslateLoader(http: HttpClient) {
     APP_CONTAINERS,
     P404Component,
     P500Component,
-    F428Component,
-    F428EditComponent,
     HomePageComponent,
     OnePageHeaderComponent,
     AddRecordPageComponent,
