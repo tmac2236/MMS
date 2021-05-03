@@ -9,9 +9,9 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/CMS-API/bin/Debug/netcoreapp3.1/DatingApp.API.dll",
+            "program": "${workspaceFolder}/MMS-API/bin/Debug/netcoreapp3.1/DatingApp.API.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/CMS-API",
+            "cwd": "${workspaceFolder}/MMS-API",
             "stopAtEntry": false,
             "serverReadyAction": {
                 "action": "openExternally",
