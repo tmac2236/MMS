@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using API;
+using API.Helpers;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;

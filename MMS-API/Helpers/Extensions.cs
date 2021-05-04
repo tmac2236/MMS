@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.IO.Compression;
 using System.Runtime.Serialization.Formatters.Binary;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
@@ -340,5 +341,44 @@ namespace API.Helpers
                 string nowStr = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss tt");
                 return Convert.ToDateTime(nowStr);
         }
+
+ 
+
+        public static byte[] Compress(byte[] data)
+        {
+            byte[] bytes = new byte[] { };
+            MemoryStream ms = new MemoryStream();
+            ms.Write(data, 0, data.Length);
+            using (ZipArchive zipArchive = new ZipArchive(ms, ZipArchiveMode.Create))
+            {
+                string fileName = Path.GetFileName("xxx");
+                var zipArchiveEntry = zipArchive.CreateEntry(fileName);
+                using (var zipStream = zipArchiveEntry.Open())
+                {
+                    zipStream.Write(bytes, 0, bytes.Length);
+                }
+            }
+            return bytes;
+        }
+        public static byte[] Decompress(byte[] data)
+        {
+            byte[] bytes = new byte[] { };
+            MemoryStream ms = new MemoryStream();
+            ms.Write(data, 0, data.Length);
+
+            using (ZipArchive zipArchive = new ZipArchive(ms, ZipArchiveMode.Read))
+            {
+                foreach (ZipArchiveEntry zipArchiveEntry in zipArchive.Entries)
+                {
+                    var stream = zipArchiveEntry.Open();
+                    using (var tms = new MemoryStream())
+                    {
+                        stream.CopyTo(tms);
+                        bytes = tms.ToArray();
+                    }
+                }
+            }
+            return bytes;
+        }       
     }
 }
