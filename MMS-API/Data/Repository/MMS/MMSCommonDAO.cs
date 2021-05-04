@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using API.Data.Interface;
 using API.Data.Interface.MMS;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Data.Repository.MMS
 {
-    public class MMSCommonDAO<T> : IMMSCommonDAO<T> where T : class
+    public class MMSCommonDAO<T> : ICommonDAO<T> where T : class
     {
         protected readonly MMSContext _context;
         public MMSCommonDAO(MMSContext context)

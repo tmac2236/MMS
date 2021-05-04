@@ -33,7 +33,7 @@ namespace API
                     .CreateLogger();
                 Log.Information("API Application Starting.......................");
 
-                //Test t = new Test();
+                Test t = new Test();
                 CreateHostBuilder(args).Build().Run();
 
 

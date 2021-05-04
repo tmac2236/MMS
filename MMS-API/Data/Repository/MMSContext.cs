@@ -9,6 +9,8 @@ namespace API.Data.Repository
         public MMSContext(DbContextOptions<MMSContext> options) : base(options) { }
         //EF(SHCDEV3)
         public DbSet<StockBasic> StockBasic { get; set; }
+        public DbSet<MonthReport> MonthReport { get; set; }
+
         //DTO(Stored Procedure
 
 
@@ -16,7 +18,7 @@ namespace API.Data.Repository
         {
             //EF
             modelBuilder.Entity<StockBasic>().HasKey(x => new { x.Id });
-
+            modelBuilder.Entity<MonthReport>().HasKey(x => new { x.StockId, x.YearMonth });
             //DTO(Stored Procedure)
 
         }

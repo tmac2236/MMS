@@ -61,6 +61,8 @@ namespace API
             services.AddScoped<ICMSDepartmentDAO, CMSDepartmentDAO>();
 
             services.AddScoped<IStockBasicDAO, StockBasicDAO>();
+            services.AddScoped<IMonthReportDAO, MonthReportDAO>();
+            
 
             //Service
 
