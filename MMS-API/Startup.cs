@@ -18,6 +18,7 @@ using API.Filters;
 using API.Helpers;
 using API.Data.Interface.MMS;
 using API.Data.Repository.MMS;
+using MMS_API.Service.Implement;
 
 namespace API
 {
@@ -65,7 +66,7 @@ namespace API
             
 
             //Service
-
+            services.AddScoped<IStockService, StockService> ();
             /*
             //新增Quartz服務
             services.AddSingleton<IJobFactory, SingletonJobFactory>();
@@ -74,8 +75,8 @@ namespace API
             services.AddSingleton<ShowDataTimeJob>();
             services.AddSingleton(
                  new JobSchedule(jobType: typeof(ShowDataTimeJob), cronExpression: "0/5 * * * * ?")//每五秒鐘觸發一次
-           );
-           //啟動QuartzHostedServie
+            );
+            //啟動QuartzHostedServie
             services.AddHostedService<QuartzHostedService>();
             */
             //auth

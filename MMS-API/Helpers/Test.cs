@@ -18,10 +18,13 @@ namespace API.Helpers
     {
         public Test()
         {
+            string se ="https://www.twse.com.tw/exchangeReport/BWIBBU_d?response=csv&date=20210503&selectType=ALL";
+            string se2 = "https://www.tpex.org.tw/web/stock/aftertrading/peratio_analysis/pera_result.php?l=zh-tw&_=1620205148919";
+
             //StartCrawlerAsync();
             //DownloadFileFromUrl();
+            //Extensions.GetBetweenYearMonths("202001","");
         }
-
 
         //Download From URL
         public void DownloadFileFromUrl()

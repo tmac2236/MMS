@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -337,12 +338,13 @@ namespace API.Helpers
             }
         }
         //Get DateTime Now in millionSec
-        public static DateTime GetDateTimeNowInMillionSec(){
-                string nowStr = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss tt");
-                return Convert.ToDateTime(nowStr);
+        public static DateTime GetDateTimeNowInMillionSec()
+        {
+            string nowStr = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss tt");
+            return Convert.ToDateTime(nowStr);
         }
 
- 
+
 
         public static byte[] Compress(byte[] data)
         {
@@ -379,6 +381,63 @@ namespace API.Helpers
                 }
             }
             return bytes;
-        }       
+        }
+        //startDate: 202001     2020/01     2020-01
+        //endDate:   202103     2021/03     2020-03
+        public static List<string> GetBetweenYearMonths(string startDate, string endDate)
+        {
+            List<string> result = new List<string>();
+            if(startDate == ""){
+                return result;
+            }
+            else if (startDate == "")
+            {
+                result.Add(endDate);
+                return result;
+            }else if (endDate == "")
+            {
+                result.Add(startDate);
+                return result;
+            }
+
+            string type = "";
+            if (startDate.Contains("/")) type = "/"; startDate = startDate.Replace("/", ""); endDate = endDate.Replace("/", "");
+            if (startDate.Contains("-")) type = "-"; startDate = startDate.Replace("-", ""); endDate = endDate.Replace("-", "");
+
+
+            int sYear = startDate.Replace("/", "").Substring(0, 4).ToInt();
+            int sMonth = startDate.Substring(4, 2).ToInt();
+
+            int eYear = endDate.Substring(0, 4).ToInt();
+            int eMonth = endDate.Substring(4, 2).ToInt();
+
+            while (eYear >= sYear)
+            {
+                if ((eYear == sYear && eMonth >= sMonth) || eYear > sYear)
+                {
+                    string dateStr = sYear.ToString();
+                    if (sMonth < 10)
+                    {
+                        dateStr = dateStr + type + "0" + sMonth.ToString();
+                    }
+                    else
+                    {
+                        dateStr = dateStr + type + sMonth.ToString();
+                    }
+
+                    result.Add(dateStr);
+                    if (eYear == sYear && eMonth == sMonth) break; // if startDate euqal endDate leave loop
+                    sMonth++;
+                    if (sMonth > 12)
+                    {
+                        sYear++;
+                        sMonth = 1;
+                    }
+                }
+            }
+
+            return result;
+        }
+
     }
 }

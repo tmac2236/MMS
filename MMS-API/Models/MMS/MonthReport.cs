@@ -12,5 +12,7 @@ namespace API.Models.MMS
         [Key]
         public string YearMonth { get; set; }
 
+        public int PreRevenue { get; set; }
+
     }
 }
