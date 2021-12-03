@@ -27,7 +27,7 @@ namespace API.Controllers
         {
             _stockService = stockService;
         }
-
+        //月營收
         //上市公司  e.g yearMonth = 202103
         [HttpGet("addSeStockMonthRevenue")]
         public async Task<IActionResult> AddSeStockMonthRevenue(string startDate, string endDate)
@@ -46,7 +46,7 @@ namespace API.Controllers
                 return StatusCode(500, $"Internal server error: {ex}.");
             }
         }
-
+        //月營收
         //上櫃公司  e.g yearMonth = 202103
         [HttpGet("addSe2StockMonthRevenue")]
         public async Task<IActionResult> AddSe2StockMonthRevenue(string startDate, string endDate)
@@ -65,7 +65,36 @@ namespace API.Controllers
                 return StatusCode(500, $"Internal server error: {ex}.");
             }
         }
-
+        //季報
+        //上市公司  e.g yearQ = 2021Q2
+        [HttpGet("addSeStockQEps")]
+        public async Task<IActionResult> AddSeStockQEps(string yearQ)
+        {
+            try
+            {
+                await _stockService.AddSeStockQEps(yearQ);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex}.");
+            }
+        }        
+        //季報
+        //上櫃公司  e.g yearQ = 2021Q2
+        [HttpGet("addSe2StockQEps")]
+        public async Task<IActionResult> AddSe2StockQEps(string yearQ)
+        {
+            try
+            {
+                await _stockService.AddSe2StockQEps(yearQ);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex}.");
+            }
+        } 
 
 
 

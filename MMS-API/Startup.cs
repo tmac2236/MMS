@@ -63,6 +63,8 @@ namespace API
 
             services.AddScoped<IStockBasicDAO, StockBasicDAO>();
             services.AddScoped<IMonthReportDAO, MonthReportDAO>();
+            services.AddScoped<IQuarterReportDAO, QuarterReportDAO>();
+            
             
 
             //Service

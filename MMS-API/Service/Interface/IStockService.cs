@@ -6,6 +6,9 @@ namespace MMS_API.Service.Implement
     {
         Task<string> AddSeStockMonthRevenue(string yearMonth);
         Task<string> AddSe2StockMonthRevenue(string yearMonth);
+        Task<string> AddSeStockQEps(string yearQ);
+        Task<string> AddSe2StockQEps(string yearQ);
+        
         
     }
 }

@@ -10,6 +10,8 @@ namespace API.Data.Repository
         //EF(SHCDEV3)
         public DbSet<StockBasic> StockBasic { get; set; }
         public DbSet<MonthReport> MonthReport { get; set; }
+        public DbSet<QuarterReport> QuarterReport { get; set; }
+        
 
         //DTO(Stored Procedure
 
@@ -19,6 +21,7 @@ namespace API.Data.Repository
             //EF
             modelBuilder.Entity<StockBasic>().HasKey(x => new { x.Id });
             modelBuilder.Entity<MonthReport>().HasKey(x => new { x.StockId, x.YearMonth });
+            modelBuilder.Entity<QuarterReport>().HasKey(x => new { x.StockId, x.YearQ });
             //DTO(Stored Procedure)
 
         }

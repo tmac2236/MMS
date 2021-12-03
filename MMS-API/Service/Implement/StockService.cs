@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -15,14 +16,17 @@ namespace MMS_API.Service.Implement
     {
         private readonly IStockBasicDAO _stockBasicDAO;
         private readonly IMonthReportDAO _monthReportDAO;
+        private readonly IQuarterReportDAO _quarterReportDAO;
+        
         //constructor
-        public StockService(IStockBasicDAO stockBasicDAO, IMonthReportDAO monthReportDAO)
+        public StockService(IStockBasicDAO stockBasicDAO, IMonthReportDAO monthReportDAO, IQuarterReportDAO quarterReportDAO)
         {
             _stockBasicDAO = stockBasicDAO;
             _monthReportDAO = monthReportDAO;
+            _quarterReportDAO = quarterReportDAO;
         }
 
-        // add security monthly by year and month
+        //月營收上市 add security monthly by year and month e.g. 202103
         public async Task<string> AddSeStockMonthRevenue(string yearMonth)
         {
             try
@@ -77,6 +81,7 @@ namespace MMS_API.Service.Implement
                     mReportModel.Revenue = monthValu.ToInt();
                     mReportModel.PreRevenue = preMonthValu.ToInt();
                     mReportModel.YearMonth = yearMonth.Trim();
+                    mReportModel.UpdateTime = DateTime.Now;
                     //if exist in db not add in addList
                     if (!dbMReportList.Any(x => x.StockId == mReportModel.StockId && x.YearMonth == yearMonth.Trim())) mReportList.Add(mReportModel);
 
@@ -106,7 +111,7 @@ namespace MMS_API.Service.Implement
                 return yearMonth;
             }
         }
-
+        //月營收上櫃 add security monthly by year and month e.g. 202103
         public async Task<string> AddSe2StockMonthRevenue(string yearMonth)
         {
             try
@@ -140,8 +145,8 @@ namespace MMS_API.Service.Implement
                         continue;
                     }
 
-                    long monthValu = cells[i, 2].Value.ToLong(); //get 本月 val
-                    long preMonthValu = cells[i, 2].Value.ToLong(); //get 去年本月 val
+                    long monthValu = cells[i, 3].Value.ToLong(); //get 本月 val
+                    long preMonthValu = cells[i, 5].Value.ToLong(); //get 去年本月 val
                     string[] codeNName = columA.Split("  ");
 
                     StockBasic stockModel = new StockBasic();
@@ -157,6 +162,7 @@ namespace MMS_API.Service.Implement
                     mReportModel.Revenue = monthValu.ToInt();
                     mReportModel.PreRevenue = preMonthValu.ToInt();
                     mReportModel.YearMonth = yearMonth.Trim();
+                    mReportModel.UpdateTime = DateTime.Now;
                     //if exist in db not add in addList
                     if (!dbMReportList.Any(x => x.StockId == mReportModel.StockId && x.YearMonth == yearMonth.Trim())) mReportList.Add(mReportModel);
                 }
@@ -173,9 +179,9 @@ namespace MMS_API.Service.Implement
                         continue;
                     }
 
-                    long monthValu = cells2[i, 2].Value.ToLong(); //get 本月 val
-                    long preMonthValu = cells[i, 2].Value.ToLong(); //get 去年本月 val
-                    
+                    long monthValu = cells2[i, 3].Value.ToLong(); //get 本月 val
+                    long preMonthValu = cells2[i, 5].Value.ToLong(); //get 去年本月 val
+
                     string[] codeNName = columA.Split("  ");
 
                     StockBasic stockModel = new StockBasic();
@@ -191,6 +197,7 @@ namespace MMS_API.Service.Implement
                     mReportModel.Revenue = monthValu.ToInt();
                     mReportModel.PreRevenue = preMonthValu.ToInt();
                     mReportModel.YearMonth = yearMonth.Trim();
+                    mReportModel.UpdateTime = DateTime.Now;
                     //if exist in db not add in addList
                     if (!dbMReportList.Any(x => x.StockId == mReportModel.StockId && x.YearMonth == yearMonth.Trim())) mReportList.Add(mReportModel);
                 }
@@ -220,5 +227,183 @@ namespace MMS_API.Service.Implement
             }
 
         }
+        //季報上市 add security quarter year e.g. 2021Q2
+        public async Task<string> AddSeStockQEps(string yearQ)
+        {
+            try
+            {
+                string url = String.Format("https://www.twse.com.tw/statistics/count?url=%2FstaticFiles%2Finspection%2Finspection%2F05%2F001%2F{0}_C05001.zip&l1=%E4%B8%8A%E5%B8%82%E5%85%AC%E5%8F%B8%E5%AD%A3%E5%A0%B1&l2=%E3%80%90%E4%B8%8A%E5%B8%82%E8%82%A1%E7%A5%A8%E5%85%AC%E5%8F%B8%E8%B2%A1%E5%8B%99%E8%B3%87%E6%96%99%E7%B0%A1%E5%A0%B1%E3%80%91%E5%AD%A3%E5%A0%B1", yearQ);
+
+                WebClient webClient = new WebClient();
+                byte[] dataByte = webClient.DownloadData(url);
+                byte[] deCompressByte = Extensions.Decompress(dataByte);
+                MemoryStream stream = new MemoryStream(deCompressByte);
+
+                Workbook wb = new Workbook(stream);
+                Worksheet worksheet = wb.Worksheets[0];
+                Cells cells = worksheet.Cells;
+
+                List<StockBasic> dbStockList = _stockBasicDAO.FindAll().ToList();
+                List<QuarterReport> qReportList = new List<QuarterReport>();
+                List<QuarterReport> dbQuarterReportList = _quarterReportDAO.FindAll().ToList();
+                string typeName = "";
+                int startIndex = 9; //index從9開始
+                int last_row = cells.MaxDataRow;
+
+                //to save each value to List, 10 is 水泥工業類
+                for (int i = startIndex; i <= last_row; i++)
+                {
+                    var oneCol = cells[i, 0].Value;
+                    if(oneCol == null) continue;
+                    string columA = oneCol.ToString().Replace(" ", "");    //因為如果是空白不能Trim
+                    if (columA.ToInt() < 100)    //篩選掉空白或類別(01水泥類)
+                    {
+                        typeName = columA;
+                        continue;
+                    }
+                    QuarterReport qReportModel = new QuarterReport();
+
+                    qReportModel.StockId = oneCol.ToInt();
+
+                    qReportModel.YearQ = yearQ.Trim().Replace("Q", ""); 
+                    qReportModel.Eps = cells[i, 13].Value.ToDecimal();  //本季累計EPS
+                    qReportModel.PreEps = cells[i, 14].Value.ToDecimal();   //去年本季累計EPS
+
+                    //如果本季為Q1不用扣除上季累計EPS
+                    if(qReportModel.YearQ[4] == '1'){
+                        qReportModel.TheEps = qReportModel.Eps;
+                    }else{
+                        var lastQ = qReportModel.YearQ.ToInt() - 1;
+                        var lastModel = dbQuarterReportList.FirstOrDefault(x => x.StockId == qReportModel.StockId && x.YearQ == lastQ.ToString());
+                        if(lastModel != null){
+                            qReportModel.TheEps = ( qReportModel.Eps - lastModel.Eps);
+                        }
+                    }
+                    qReportModel.UpdateTime = DateTime.Now;
+                    //if exist in db not add in addList
+                    if (!dbQuarterReportList.Any(x => x.StockId == qReportModel.StockId && x.YearQ == yearQ.Trim())) qReportList.Add(qReportModel);
+                }
+
+                string result = "";
+
+                if (qReportList.Count > 0)
+                {
+                    foreach (var model in qReportList)
+                    {
+                        _quarterReportDAO.Add(model);
+                    }
+                    if (!await _quarterReportDAO.SaveAll()) result = yearQ;
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                return yearQ;
+            }
+
+        }
+        //季報上櫃 add security quarter year e.g. 2021Q2
+        public async Task<string> AddSe2StockQEps(string yearQ)
+        {
+
+                string url = String.Format("https://www.tpex.org.tw/storage/statistic/financial/O_{0}.xls", yearQ);
+
+                WebClient webClient = new WebClient();
+                byte[] dataByte = webClient.DownloadData(url);
+                //byte[] deCompressByte = Extensions.Decompress(dataByte);
+                MemoryStream stream = new MemoryStream(dataByte);
+
+                Workbook wb = new Workbook(stream);
+                Worksheet worksheet = wb.Worksheets[0];
+                Cells cells = worksheet.Cells;
+
+
+                List<QuarterReport> qReportList = new List<QuarterReport>();
+                List<QuarterReport> dbQuarterReportList = _quarterReportDAO.FindAll().ToList();
+                string typeName = "";
+                int startIndex = 9;
+                int last_row = cells.MaxDataRow - 5;
+
+                //to save each value to List, 10 is 水泥工業類
+                for (int i = startIndex; i <= last_row; i++)
+                {
+                    var oneCol = cells[i, 0].Value;
+                    if(oneCol == null) continue;
+                    string columA = oneCol.ToString().Replace(" ", "");    //因為如果是空白不能Trim
+                    if (columA.ToInt() < 100)    //篩選掉空白或類別(01水泥類)
+                    {
+                        typeName = columA;
+                        continue;
+                    }
+
+                    QuarterReport qReportModel = new QuarterReport();
+                    qReportModel.StockId = oneCol.ToInt();
+                    qReportModel.YearQ = yearQ.Trim().Replace("Q", ""); 
+                    qReportModel.Eps = cells[i, 13].Value.ToDecimal();  //本季累計EPS
+                    qReportModel.PreEps = cells[i, 14].Value.ToDecimal();   //去年本季累計EPS
+                    
+                    //如果本季為Q1不用扣除上季累計EPS
+                    if(qReportModel.YearQ[4] == '1'){
+                        qReportModel.TheEps = qReportModel.Eps;
+                    }else{
+                        var lastQ = qReportModel.YearQ.ToInt() - 1;
+                        var lastModel = dbQuarterReportList.FirstOrDefault(x => x.StockId == qReportModel.StockId && x.YearQ == lastQ.ToString());
+                        if(lastModel != null){
+                            qReportModel.TheEps = ( qReportModel.Eps - lastModel.Eps);
+                        }
+                    }
+                    qReportModel.UpdateTime = DateTime.Now;
+                    //if exist in db not add in addList
+                    if (!dbQuarterReportList.Any(x => x.StockId == qReportModel.StockId && x.YearQ == yearQ.Trim())) qReportList.Add(qReportModel);
+                }
+                //第二頁
+                Worksheet worksheet2 = wb.Worksheets[1];
+                Cells cells2 = worksheet2.Cells;
+                int last_row2 = cells2.MaxDataRow - 5;
+                for (int i = startIndex; i <= last_row2; i++)
+                {
+                    var oneCol = cells2[i, 0].Value;
+                    if(oneCol == null) continue;
+                    string columA = oneCol.ToString().Replace(" ", "");    //因為如果是空白不能Trim
+                    if (columA.ToInt() < 100)    //篩選掉空白或類別(01水泥類)
+                    {
+                        typeName = columA;
+                        continue;
+                    }
+                    
+                    QuarterReport qReportModel = new QuarterReport();
+                    qReportModel.StockId = oneCol.ToInt();
+                    qReportModel.YearQ = yearQ.Trim().Replace("Q", ""); 
+                    qReportModel.Eps = cells2[i, 13].Value.ToDecimal();  //本季累計EPS
+                    qReportModel.PreEps = cells2[i, 14].Value.ToDecimal();   //去年本季累計EPS
+                    
+                    //如果本季為Q1不用扣除上季累計EPS
+                    if(qReportModel.YearQ[4] == '1'){
+                        qReportModel.TheEps = qReportModel.Eps;
+                    }else{
+                        var lastQ = qReportModel.YearQ.ToInt() - 1;
+                        var lastModel = dbQuarterReportList.FirstOrDefault(x => x.StockId == qReportModel.StockId && x.YearQ == lastQ.ToString());
+                        if(lastModel != null){
+                            qReportModel.TheEps = ( qReportModel.Eps - lastModel.Eps);
+                        }
+                    }
+                    qReportModel.UpdateTime = DateTime.Now;
+                    //if exist in db not add in addList
+                    if (!dbQuarterReportList.Any(x => x.StockId == qReportModel.StockId && x.YearQ == yearQ.Trim())) qReportList.Add(qReportModel);
+                }
+
+                string result = "";
+
+                if (qReportList.Count > 0)
+                {
+                    foreach (var model in qReportList)
+                    {
+                        _quarterReportDAO.Add(model);
+                    }
+                    if (!await _quarterReportDAO.SaveAll()) result = yearQ;
+                }
+                return result;
+
+        }        
     }
 }

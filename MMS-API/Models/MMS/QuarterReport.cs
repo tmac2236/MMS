@@ -4,16 +4,17 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace API.Models.MMS
 {
-    public class MonthReport
+    public class QuarterReport
     {
         [Key]
         public int StockId { get; set; }
-        public int Revenue { get; set; }
         [Key]
-        public string YearMonth { get; set; }
+        public string YearQ { get; set; }
 
-        public int PreRevenue { get; set; }
         public DateTime UpdateTime {get;set;}
+        public decimal Eps { get; set; }
+        public decimal PreEps { get; set; }
+        public decimal TheEps { get; set; }
 
     }
 }
