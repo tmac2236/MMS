@@ -439,5 +439,29 @@ namespace API.Helpers
             return result;
         }
 
+        //get the month of YearQ
+        public static string GetYearQ(string yearMonth)
+        {
+                var a = yearMonth.Substring(yearMonth.Length - 2).ToInt(); //取月份
+                string b = yearMonth.Substring(0,4);        //取得年份
+                var quarter = "";
+                switch(a) 
+                {
+                  case int n  when ( a >= 1 && a <= 3):
+                    quarter = String.Format("{0}{1}", b,1);
+                    break;
+                  case int n  when ( a >= 4 && a <= 6):
+                    quarter = String.Format("{0}{1}", b,2);
+                    break;
+                  case int n  when ( a >= 7 && a <= 9 ):
+                    quarter = String.Format("{0}{1}", b,3);
+                    break;
+                  case int n  when ( a >= 10 && a <= 12 ):
+                    quarter = String.Format("{0}{1}", b,4);
+                    break;                    
+                }
+                return quarter;
+        }        
+
     }
 }

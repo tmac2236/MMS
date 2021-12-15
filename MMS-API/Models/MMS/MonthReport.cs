@@ -11,6 +11,7 @@ namespace API.Models.MMS
         public int Revenue { get; set; }
         [Key]
         public string YearMonth { get; set; }
+        public string YearQ { get; set; }
 
         public int PreRevenue { get; set; }
         public DateTime UpdateTime {get;set;}

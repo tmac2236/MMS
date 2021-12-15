@@ -8,10 +8,8 @@ namespace API.Models.MMS
         [Key]
         public int Id { get; set; }
         public string Name { get; set; }
-        public string? Type { get; set; }
-        public string? Family { get; set; }
 
-        [Column(TypeName = "decimal(5,2)")]
+        [Column(TypeName = "decimal(10,2)")]
         public decimal? ClosingPrice { get; set; }
         public int Size { get; set; }
     }

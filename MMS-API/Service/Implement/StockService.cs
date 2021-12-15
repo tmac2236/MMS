@@ -4,11 +4,13 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Threading.Tasks;
 using API.Data.Interface.MMS;
 using API.Helpers;
 using API.Models.MMS;
 using Aspose.Cells;
+using Microsoft.VisualBasic.FileIO;
 
 namespace MMS_API.Service.Implement
 {
@@ -17,13 +19,16 @@ namespace MMS_API.Service.Implement
         private readonly IStockBasicDAO _stockBasicDAO;
         private readonly IMonthReportDAO _monthReportDAO;
         private readonly IQuarterReportDAO _quarterReportDAO;
+        private readonly IServicePoolDAO _servicePoolDAO;
+        
         
         //constructor
-        public StockService(IStockBasicDAO stockBasicDAO, IMonthReportDAO monthReportDAO, IQuarterReportDAO quarterReportDAO)
+        public StockService(IStockBasicDAO stockBasicDAO, IMonthReportDAO monthReportDAO, IQuarterReportDAO quarterReportDAO, IServicePoolDAO servicePoolDAO)
         {
             _stockBasicDAO = stockBasicDAO;
             _monthReportDAO = monthReportDAO;
             _quarterReportDAO = quarterReportDAO;
+            _servicePoolDAO = servicePoolDAO;
         }
 
         //月營收上市 add security monthly by year and month e.g. 202103
@@ -31,6 +36,9 @@ namespace MMS_API.Service.Implement
         {
             try
             {
+                throw new Exception();
+                var quarter = Extensions.GetYearQ(yearMonth);
+                
                 string url = String.Format("https://www.twse.com.tw/statistics/count?url=%2FstaticFiles%2Finspection%2Finspection%2F04%2F003%2F{0}_C04003.zip&l1=%E4%B8%8A%E5%B8%82%E5%85%AC%E5%8F%B8%E6%9C%88%E5%A0%B1&l2=%E3%80%90%E5%9C%8B%E5%85%A7%E4%B8%8A%E5%B8%82%E5%85%AC%E5%8F%B8%E7%87%9F%E6%A5%AD%E6%94%B6%E5%85%A5%E5%BD%99%E7%B8%BD%E8%A1%A8%E3%80%91%E6%9C%88%E5%A0%B1", yearMonth);
 
                 WebClient webClient = new WebClient();
@@ -45,7 +53,7 @@ namespace MMS_API.Service.Implement
                 List<StockBasic> stockList = new List<StockBasic>();
                 List<StockBasic> dbStockList = _stockBasicDAO.FindAll().ToList();
                 List<MonthReport> mReportList = new List<MonthReport>();
-                List<MonthReport> dbMReportList = _monthReportDAO.FindAll().ToList();
+                List<MonthReport> dbMReportList = _monthReportDAO.FindAll().Where( x => x.YearMonth == yearMonth.Trim() ).ToList();
                 string typeName = "";
                 int startIndex = 10;
                 int last_row = worksheet.Cells.GetLastDataRow(1) - 2; //最後列不要(總額/平均)
@@ -71,7 +79,6 @@ namespace MMS_API.Service.Implement
                     StockBasic stockModel = new StockBasic();
                     stockModel.Id = stockCode;
                     stockModel.Name = codeNName[1];
-                    stockModel.Type = typeName;
                     stockModel.Size = 1; //上市
                     //if exist in db not add in addList
                     if (!dbStockList.Any(x => x.Id == stockModel.Id)) stockList.Add(stockModel);
@@ -81,6 +88,7 @@ namespace MMS_API.Service.Implement
                     mReportModel.Revenue = monthValu.ToInt();
                     mReportModel.PreRevenue = preMonthValu.ToInt();
                     mReportModel.YearMonth = yearMonth.Trim();
+                    mReportModel.YearQ = quarter;
                     mReportModel.UpdateTime = DateTime.Now;
                     //if exist in db not add in addList
                     if (!dbMReportList.Any(x => x.StockId == mReportModel.StockId && x.YearMonth == yearMonth.Trim())) mReportList.Add(mReportModel);
@@ -107,7 +115,15 @@ namespace MMS_API.Service.Implement
                 return result;
             }
             catch (Exception ex)
-            {
+            {   
+                ServicePool sp = new ServicePool();
+                sp.SerName = "AddSeStockMonthRevenue";
+                sp.Param = yearMonth;
+                sp.OccTime = DateTime.Now;
+                sp.Type = "M";
+                sp.Emessage = ex.Message ;
+                _servicePoolDAO.Add(sp);
+                await _servicePoolDAO.SaveAll();
                 return yearMonth;
             }
         }
@@ -116,6 +132,9 @@ namespace MMS_API.Service.Implement
         {
             try
             {
+
+                var quarter = Extensions.GetYearQ(yearMonth);
+
                 string url = String.Format("https://www.tpex.org.tw/storage/statistic/sales_revenue/O_{0}.xls", yearMonth);
 
                 WebClient webClient = new WebClient();
@@ -130,7 +149,7 @@ namespace MMS_API.Service.Implement
                 List<StockBasic> stockList = new List<StockBasic>();
                 List<StockBasic> dbStockList = _stockBasicDAO.FindAll().ToList();
                 List<MonthReport> mReportList = new List<MonthReport>();
-                List<MonthReport> dbMReportList = _monthReportDAO.FindAll().ToList();
+                List<MonthReport> dbMReportList = _monthReportDAO.FindAll().Where( x => x.YearMonth == yearMonth.Trim() ).ToList();
                 string typeName = "";
                 int startIndex = 10;
                 int last_row = cells.MaxDataRow - 5;
@@ -152,7 +171,6 @@ namespace MMS_API.Service.Implement
                     StockBasic stockModel = new StockBasic();
                     stockModel.Id = codeNName[0].ToInt();
                     stockModel.Name = codeNName[1];
-                    stockModel.Type = typeName;
                     stockModel.Size = 2; //上櫃
                                          //if exist in db not add in addList
                     if (!dbStockList.Any(x => x.Id == stockModel.Id)) stockList.Add(stockModel);
@@ -162,6 +180,7 @@ namespace MMS_API.Service.Implement
                     mReportModel.Revenue = monthValu.ToInt();
                     mReportModel.PreRevenue = preMonthValu.ToInt();
                     mReportModel.YearMonth = yearMonth.Trim();
+                    mReportModel.YearQ = quarter;
                     mReportModel.UpdateTime = DateTime.Now;
                     //if exist in db not add in addList
                     if (!dbMReportList.Any(x => x.StockId == mReportModel.StockId && x.YearMonth == yearMonth.Trim())) mReportList.Add(mReportModel);
@@ -187,7 +206,6 @@ namespace MMS_API.Service.Implement
                     StockBasic stockModel = new StockBasic();
                     stockModel.Id = codeNName[0].ToInt();
                     stockModel.Name = codeNName[1];
-                    stockModel.Type = typeName;
                     stockModel.Size = 2; //上櫃
                                          //if exist in db not add in addList
                     if (!dbStockList.Any(x => x.Id == stockModel.Id)) stockList.Add(stockModel);
@@ -223,6 +241,14 @@ namespace MMS_API.Service.Implement
             }
             catch (Exception ex)
             {
+                ServicePool sp = new ServicePool();
+                sp.SerName = "AddSe2StockMonthRevenue";
+                sp.Param = yearMonth;
+                sp.OccTime = DateTime.Now;
+                sp.Type = "M";
+                sp.Emessage = ex.Message ;
+                _servicePoolDAO.Add(sp);
+                await _servicePoolDAO.SaveAll();                
                 return yearMonth;
             }
 
@@ -245,7 +271,7 @@ namespace MMS_API.Service.Implement
 
                 List<StockBasic> dbStockList = _stockBasicDAO.FindAll().ToList();
                 List<QuarterReport> qReportList = new List<QuarterReport>();
-                List<QuarterReport> dbQuarterReportList = _quarterReportDAO.FindAll().ToList();
+                List<QuarterReport> dbQuarterReportList = _quarterReportDAO.FindAll().Where( x => x.YearQ == yearQ.Trim() ).ToList();
                 string typeName = "";
                 int startIndex = 9; //index從9開始
                 int last_row = cells.MaxDataRow;
@@ -298,6 +324,14 @@ namespace MMS_API.Service.Implement
             }
             catch (Exception ex)
             {
+                ServicePool sp = new ServicePool();
+                sp.SerName = "AddSeStockQEps";
+                sp.Param = yearQ;
+                sp.OccTime = DateTime.Now;
+                sp.Type = "Q";
+                sp.Emessage = ex.Message ;
+                _servicePoolDAO.Add(sp);
+                await _servicePoolDAO.SaveAll();                               
                 return yearQ;
             }
 
@@ -305,7 +339,8 @@ namespace MMS_API.Service.Implement
         //季報上櫃 add security quarter year e.g. 2021Q2
         public async Task<string> AddSe2StockQEps(string yearQ)
         {
-
+            try
+            {
                 string url = String.Format("https://www.tpex.org.tw/storage/statistic/financial/O_{0}.xls", yearQ);
 
                 WebClient webClient = new WebClient();
@@ -319,7 +354,7 @@ namespace MMS_API.Service.Implement
 
 
                 List<QuarterReport> qReportList = new List<QuarterReport>();
-                List<QuarterReport> dbQuarterReportList = _quarterReportDAO.FindAll().ToList();
+                List<QuarterReport> dbQuarterReportList = _quarterReportDAO.FindAll().Where( x => x.YearQ == yearQ.Trim() ).ToList();
                 string typeName = "";
                 int startIndex = 9;
                 int last_row = cells.MaxDataRow - 5;
@@ -403,7 +438,171 @@ namespace MMS_API.Service.Implement
                     if (!await _quarterReportDAO.SaveAll()) result = yearQ;
                 }
                 return result;
+            }
+            catch (Exception ex)
+            {
+                ServicePool sp = new ServicePool();
+                sp.SerName = "AddSe2StockQEps";
+                sp.Param = yearQ;
+                sp.OccTime = DateTime.Now;
+                sp.Type = "Q";
+                sp.Emessage = ex.Message ;
+                _servicePoolDAO.Add(sp);
+                await _servicePoolDAO.SaveAll();                               
+                return yearQ;
+            }                
 
-        }        
+        }
+
+        //上市公司每日收盤行情 
+        //https://www.twse.com.tw/exchangeReport/BWIBBU_d?response=csv&date=20211207&selectType=ALL(殖利率)
+        //https://www.twse.com.tw/exchangeReport/MI_INDEX?response=csv&date=20211213&type=ALL
+        // date = 20211207
+        //"證券代號",   0
+        //"證券名稱",   1
+        //"成交股數",   2   
+        //"成交筆數",   3
+        //"成交金額",   4
+        //"開盤價",     5
+        //"最高價",     6
+        //"最低價",     7
+        //"收盤價",     8
+        //"漲跌(+/-)",  9
+        //"漲跌價差",   10
+        //"最後揭示買價",   11
+        //"最後揭示買量",   12
+        //"最後揭示賣價",   13
+        //"最後揭示賣量",   14
+        //"本益比",         15
+        public async Task<string> GetSeDaily(string date)
+        {
+            try{
+                string url = String.Format("https://www.twse.com.tw/exchangeReport/MI_INDEX?response=csv&date={0}&type=ALL", date);
+
+                WebClient webClient = new WebClient();
+                byte[] dataByte = webClient.DownloadData(url);
+                MemoryStream stream = new MemoryStream(dataByte);
+
+                List<StockBasic> dbStockBasicList = _stockBasicDAO.FindAll().Where( x =>x.Size == 1 ).ToList();
+
+                Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+                using(StreamReader reader = new StreamReader(stream,Encoding.GetEncoding("Big5"))){
+
+                    while (!reader.EndOfStream)
+                    {
+                    var line = reader.ReadLine();
+                    var values = line.Split("\","); 
+                        values = values.Select( x=> x.Replace("\"", "")).ToArray();
+                    var code = values[0].Replace("\"", "").ToInt();    
+                    if(code < 1000) continue;
+                        StockBasic model = dbStockBasicList.FirstOrDefault(x =>x.Id == code);
+                        if( model != null ) model.ClosingPrice = String.Format("{0:0.##}", values[8]).ToDecimal();  //取代小數點後兩位
+            
+                    }
+                }
+
+                string result = "";
+
+                if (dbStockBasicList.Count > 0)
+                {
+                    foreach (var model in dbStockBasicList)
+                    {
+                        _stockBasicDAO.Update(model);
+                    }
+                    if (!await _stockBasicDAO.SaveAll()) result = date;
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                ServicePool sp = new ServicePool();
+                sp.SerName = "GetSeDaily";
+                sp.Param = date;
+                sp.OccTime = DateTime.Now;
+                sp.Type = "D";
+                sp.Emessage = ex.Message ;
+                _servicePoolDAO.Add(sp);
+                await _servicePoolDAO.SaveAll();                               
+                return date;
+            }      
+
+        }
+
+        //https://www.tpex.org.tw/web/stock/aftertrading/daily_close_quotes/stk_quote_result.php?l=zh-tw&o=csv&d=110/12/14
+        //代號  0
+        //名稱  1
+        //收盤  2
+        //漲跌  3
+        //開盤  4
+        //最高  5
+        //最低  6
+        //均價  7
+        //成交股數      8
+        //成交金額(元)  9
+        //成交筆數      10
+        //最後買價      11
+        //最後買量(千股) 12
+        //最後賣價      13
+        //最後賣量(千股) 14
+        //發行股數      15
+        //次日參考價    16
+        //次日漲停價    17
+        //次日跌停價    18
+        //20211207-->  110/12/14
+        public async Task<string> GetSe2Daily(string date)
+        {
+            try{
+
+                //var dateNow = DateTime.Now.AddYears(-1911).ToString("yyy/MM/dd");
+                string url = String.Format("https://www.tpex.org.tw/web/stock/aftertrading/daily_close_quotes/stk_quote_result.php?l=zh-tw&o=csv&d={0}", date);
+
+                WebClient webClient = new WebClient();
+                byte[] dataByte = webClient.DownloadData(url);
+                MemoryStream stream = new MemoryStream(dataByte);
+
+                List<StockBasic> dbStockBasicList = _stockBasicDAO.FindAll().Where( x =>x.Size == 2 ).ToList();
+
+                Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+                using(StreamReader reader = new StreamReader(stream,Encoding.GetEncoding("Big5"))){
+
+                    while (!reader.EndOfStream)
+                    {
+                    var line = reader.ReadLine();
+                    var values = line.Split("\","); 
+                        values = values.Select( x=> x.Replace("\"", "")).ToArray();
+                    var code = values[0].Replace("\"", "").ToInt();    
+                    if(code < 1000) continue;
+                        StockBasic model = dbStockBasicList.FirstOrDefault(x =>x.Id == code);
+                        if( model != null ) model.ClosingPrice = String.Format("{0:0.##}", values[2]).ToDecimal();  //取代小數點後兩位
+            
+                    }
+                }
+
+                string result = "";
+
+                if (dbStockBasicList.Count > 0)
+                {
+                    foreach (var model in dbStockBasicList)
+                    {
+                        _stockBasicDAO.Update(model);
+                    }
+                    if (!await _stockBasicDAO.SaveAll()) result = date;
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                ServicePool sp = new ServicePool();
+                sp.SerName = "GetSe2Daily";
+                sp.Param = date;
+                sp.OccTime = DateTime.Now;
+                sp.Type = "D";
+                sp.Emessage = ex.Message ;
+                _servicePoolDAO.Add(sp);
+                await _servicePoolDAO.SaveAll();                               
+                return date;
+            } 
+
+        }
     }
 }

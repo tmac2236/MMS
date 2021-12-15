@@ -64,7 +64,6 @@ namespace API.Helpers
                 StockBasic model = new StockBasic();
                 model.Id = codeNName[0].ToInt();
                 model.Name = codeNName[1];
-                model.Type = typeName;
                 model.Size = 2; //上櫃
                 sList.Add(model);
             }
@@ -89,7 +88,6 @@ namespace API.Helpers
                 StockBasic model = new StockBasic();
                 model.Id = codeNName[0].ToInt();
                 model.Name = codeNName[1];
-                model.Type = typeName;
                 model.Size = 2; //上櫃
                 sList.Add(model);
             }

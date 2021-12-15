@@ -8,7 +8,8 @@ namespace MMS_API.Service.Implement
         Task<string> AddSe2StockMonthRevenue(string yearMonth);
         Task<string> AddSeStockQEps(string yearQ);
         Task<string> AddSe2StockQEps(string yearQ);
-        
+        Task<string> GetSeDaily(string date);
+        Task<string> GetSe2Daily(string date);
         
     }
 }

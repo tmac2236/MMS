@@ -32,71 +32,63 @@ namespace API.Controllers
         [HttpGet("addSeStockMonthRevenue")]
         public async Task<IActionResult> AddSeStockMonthRevenue(string startDate, string endDate)
         {
-            try
-            {
-                List<string> errorYearMonth = new List<string>();
-                var dateList = Extensions.GetBetweenYearMonths(startDate,endDate);
-                foreach(var date in dateList){
-                    errorYearMonth.Add(await _stockService.AddSeStockMonthRevenue(date));
-                }
-                return Ok(errorYearMonth);
+            List<string> errorYearMonth = new List<string>();
+            var dateList = Extensions.GetBetweenYearMonths(startDate,endDate);
+            foreach(var date in dateList){
+                errorYearMonth.Add(await _stockService.AddSeStockMonthRevenue(date));
             }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex}.");
-            }
+            return Ok(errorYearMonth);
         }
         //月營收
         //上櫃公司  e.g yearMonth = 202103
         [HttpGet("addSe2StockMonthRevenue")]
         public async Task<IActionResult> AddSe2StockMonthRevenue(string startDate, string endDate)
         {
-            try
-            {
-                List<string> errorYearMonth = new List<string>();
-                var dateList = Extensions.GetBetweenYearMonths(startDate,endDate);
-                foreach(var date in dateList){
-                    errorYearMonth.Add(await _stockService.AddSe2StockMonthRevenue(date));
-                }
-                return Ok(errorYearMonth);
+            List<string> errorYearMonth = new List<string>();
+            var dateList = Extensions.GetBetweenYearMonths(startDate,endDate);
+            foreach(var date in dateList){
+                errorYearMonth.Add(await _stockService.AddSe2StockMonthRevenue(date));
             }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex}.");
-            }
+            return Ok(errorYearMonth);
         }
         //季報
         //上市公司  e.g yearQ = 2021Q2
         [HttpGet("addSeStockQEps")]
         public async Task<IActionResult> AddSeStockQEps(string yearQ)
         {
-            try
-            {
-                await _stockService.AddSeStockQEps(yearQ);
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex}.");
-            }
+
+            await _stockService.AddSeStockQEps(yearQ);
+            return Ok();
+
         }        
         //季報
         //上櫃公司  e.g yearQ = 2021Q2
         [HttpGet("addSe2StockQEps")]
         public async Task<IActionResult> AddSe2StockQEps(string yearQ)
         {
-            try
-            {
-                await _stockService.AddSe2StockQEps(yearQ);
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex}.");
-            }
+
+            await _stockService.AddSe2StockQEps(yearQ);
+            return Ok();
+
         } 
+        //上市公司每日收盤行情 
+        [HttpGet("getSeDaily")]
+        public async Task<IActionResult> GetSeDaily(string date)
+        {
 
+            await _stockService.GetSeDaily(date);
+            return Ok();
 
+        }  
+        //上櫃公司每日收盤行情 
+        [HttpGet("getSe2Daily")]
+        public async Task<IActionResult> GetSe2Daily(string date)
+        {
+
+            await _stockService.GetSe2Daily(date);
+            return Ok();
+
+        }  
 
     }
 }
