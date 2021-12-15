@@ -55,14 +55,10 @@ import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 import { DataTablesModule } from "angular-datatables";
 import { PaginationModule } from "ngx-bootstrap/pagination";
-import { OnePageHeaderComponent } from "./views/shared/one-page-header/one-page-header.component";
-import { AddRecordPageComponent } from "./views/add-record-page/add-record-page.component";
-import { SignaturePadComponent } from "./views/shared/signature-pad/signature-pad.component";
-import { ReportComponent } from "./views/report/report.component";
-import { MaintainComponent } from "./views/maintain/maintain.component";
-import { TestComponent } from "./views/test/test.component";
 import { ModalModule } from "ngx-bootstrap/modal";
 import { NgSelectModule } from "@ng-select/ng-select";
+import { WebcamModule } from "ngx-webcam";
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker'; //datePicker
 
 //載入 "/assets/i18n/[lang].json" 語系檔
 export function createTranslateLoader(http: HttpClient) {
@@ -73,7 +69,7 @@ export function createTranslateLoader(http: HttpClient) {
     NgxSpinnerModule,
     BrowserModule,
     HttpClientModule,
-    NgSelectModule,
+    NgSelectModule,   // ng-select
     TranslateModule.forRoot({
       // I18N
       loader: {
@@ -95,12 +91,13 @@ export function createTranslateLoader(http: HttpClient) {
     PerfectScrollbarModule,
     BsDropdownModule.forRoot(), //ngx-bootsrap
     TabsModule.forRoot(), //ngx-bootsrap Tab 頁面用
-    TooltipModule.forRoot(), //ngx-bootsrap
     ChartsModule,
     NgImageSliderModule,
     TooltipModule.forRoot(), //table tr td 用
     PaginationModule.forRoot(), //分頁用
     ModalModule.forRoot(), //Modal用
+    WebcamModule,
+    BsDatepickerModule.forRoot(), //datePicker
   ],
   declarations: [
     AppComponent,
@@ -108,12 +105,6 @@ export function createTranslateLoader(http: HttpClient) {
     P404Component,
     P500Component,
     HomePageComponent,
-    OnePageHeaderComponent,
-    AddRecordPageComponent,
-    SignaturePadComponent, //E-Sign
-    ReportComponent,
-    MaintainComponent,
-    TestComponent,
   ],
   providers: [
     AuthService,

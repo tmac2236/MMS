@@ -2,99 +2,180 @@
   <div class="row">
     <div class="col-md-12">
       <div class="card">
-        <div class="card-header">
-          <app-one-page-header></app-one-page-header>
-        </div>
         <div class="card-body">
           <form class="form-horizontal" #F428DataForm="ngForm">
-            <div class="card-body">
-              <div class="form-group row">
-                <div class="col-md-12">
-                  <div class="col">
-                    <label class="col-form-label mr-1">{{ 'Report.titleList.licenseNumber' | translate }}</label>
-                    <input
-                      class="col-form-label mr-1"
-                      type="text"
-                      name="licenseNumber"
-                      [(ngModel)]="scarManageRecordDto.licenseNumber"
-                    />
-                    <label class="col-form-label mr-1">{{ 'Report.titleList.signInDate' | translate }}</label>
-                    <input
-                      class="col-form-label mr-1"
-                      type="date"
-                      name="signInDateS"
-                      [(ngModel)]="scarManageRecordDto.signInDateS"
-                    />
-                    <label class="col-form-label mr-1">{{ 'Report.titleList.signOutDate' | translate }}</label>
-                    <input
-                      class="col-form-label mr-1"
-                      type="date"
-                      name="signInDateE"
-                      [(ngModel)]="scarManageRecordDto.signInDateE"
-                    />                                       
-                    <button
-                      class="btn btn-primary mr-1 btn-lg"
-                      type="button"
-                      (click)="search()"
-                      [disabled]="!F428DataForm.valid"
-                    >
-                    {{ 'Common.btnList.search' | translate }}
-                    </button>
-                    <button
-                      class="btn btn-primary mr-1 btn-lg"
-                      type="button"
-                      (click)="export()"
-                      [disabled]="!F428DataForm.valid"
-                    >
-                    {{ 'Common.btnList.export' | translate }}
-                    </button>
-                  </div>
-                </div>
+            <!--Row1-->
+            <div class="form-row">
+              <div class="form-group col-md-2">
+                <label>{{
+                  "Report.titleList.licenseNumber" | translate
+                }}</label>
+                <input
+                  class="form-control mr-1"
+                  type="text"
+                  name="licenseNumber"
+                  [(ngModel)]="scarManageRecordDto.licenseNumber"
+                />
+              </div>
+              <div class="form-group col-md-2">
+                <label 
+                  >{{ "Report.titleList.signInDate" | translate }} (From)</label
+                >
+                <input
+                  class="form-control mr-1"
+                  type="date"
+                  name="signInDateS"
+                  [(ngModel)]="scarManageRecordDto.signInDateS"
+                />
+              </div>
+              <div class="form-group col-md-2">
+                <label
+                  >{{ "Report.titleList.signInDate" | translate }} (To)</label
+                >
+                <input
+                  class="form-control mr-1"
+                  type="date"
+                  name="signInDateE"
+                  [(ngModel)]="scarManageRecordDto.signInDateE"
+                />
               </div>
             </div>
+            <!--Row3-->
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <button
+                  class="btn btn-primary mr-1 btn-lg"
+                  type="button"
+                  (click)="search()"
+                  [disabled]="!F428DataForm.valid"
+                >
+                  {{ "Common.btnList.search" | translate }}
+                </button>
+                <button
+                  class="btn btn-primary mr-1 btn-lg"
+                  type="button"
+                  (click)="export()"
+                  [disabled]="!F428DataForm.valid"
+                >
+                  {{ "Common.btnList.export" | translate }}
+                </button>
+                <button
+                  class="btn btn-danger mr-1 btn-lg"
+                  type="button"
+                  (click)="clearCondition()"
+                >
+                  {{ "Common.btnList.clear" | translate }}
+                </button>
+              </div>
+              <div class="form-group col-md-6">
+                  <!-- temp blank--> 
+              </div>
+            </div>            
           </form>
           <div class="row">
             <div class="col-lg-12">
               <div class="card">
                 <div class="card-body">
                   <div class="table-responsive">
-                    <table class="table text-center table-striped text-nowrap"><!--text-nowrap不換行-->
+                    <table class="table text-center table-striped text-nowrap">
+                      <!--table class = text-nowrap不換行-->
                       <thead>
-                        <tr class="table-info">
-                          <th style="width:10%; background-color:#76DAFF;" >Edit</th>
-                          <th style="width:10%; background-color:#76DAFF;" >{{ 'Report.titleList.companyName' | translate }}</th>
-                          <th style="width:5%; background-color:#76DAFF;" >{{ 'Report.titleList.plateNumber' | translate }}</th>
-                          <th style="width:5%; background-color:#76DAFF;" >{{ 'Report.titleList.driverName' | translate }}</th>
-                          <th style="width:5%; background-color:#76DAFF;" >{{ 'Report.titleList.licenseNumber' | translate }}</th>
-                          <th style="width:5%; background-color:#76DAFF;" >{{ 'Report.titleList.signInDate' | translate }}</th>
-                          
-                          <th style="width:5%; background-color:#76DAFF;" >{{ 'Report.titleList.tempNumber' | translate }}</th>
-                          <th style="width:5%; background-color:#76DAFF;" >{{ 'Report.titleList.signInReason' | translate }}</th>
-                          <th style="width:5%; background-color:#76DAFF;" >{{ 'Report.titleList.goodsName' | translate }}</th>
-                          <th style="width:5%; background-color:#76DAFF;" >{{ 'Report.titleList.goodsCount' | translate }}</th>
-                          <th style="width:5%; background-color:#76DAFF;" >{{ 'Report.titleList.departmentName' | translate }}</th>
-                          
-                          <th style="width:5%; background-color:#76DAFF;" >{{ 'Report.titleList.contactPerson' | translate }}</th>
-                          <th style="width:5%; background-color:#76DAFF;" >{{ 'Report.titleList.sealNumber' | translate }}</th>
-                          <th style="width:5%; background-color:#76DAFF;" >{{ 'Report.titleList.driverSign' | translate }}</th>
-                          <th style="width:5%; background-color:#76DAFF;" >{{ 'Report.titleList.signOutDate' | translate }}</th>
-                          <th style="width:5%; background-color:#76DAFF;" >{{ 'Report.titleList.guardName' | translate }}</th>
-                          
-                          <th style="width:5%; background-color:#76DAFF;" >{{ 'Report.titleList.carSize' | translate }}</th>
-                          <th style="width:5%; background-color:#76DAFF;" >{{ 'Report.titleList.companyDistance' | translate }}</th>                     
+                        <tr class="table">
+                          <th style="width: 2%; background-color: #76daff">
+                            Edit
+                          </th>
+                          <th style="width: 5%; background-color: #76daff">
+                            {{ "Report.titleList.companyName" | translate }}
+                          </th>
+                          <th style="width: 5%; background-color: #76daff">
+                            {{ "Report.titleList.plateNumber" | translate }}
+                          </th>
+                          <th style="width: 5%; background-color: #76daff">
+                            {{ "Report.titleList.driverName" | translate }}
+                          </th>
+                          <th style="width: 5%; background-color: #76daff">
+                            {{ "Report.titleList.licenseNumber" | translate }}
+                          </th>
+                          <th style="width: 5%; background-color: #76daff">
+                            {{ "Report.titleList.signInDate" | translate }}
+                          </th>
+
+                          <th style="width: 5%; background-color: #76daff">
+                            {{ "Report.titleList.tempNumber" | translate }}
+                          </th>
+                          <th style="width: 5%; background-color: #76daff">
+                            {{ "Report.titleList.carTempNumber" | translate }}
+                          </th>
+                          <th style="width: 5%; background-color: #76daff">
+                            {{ "Report.titleList.signInReason" | translate }}
+                          </th>
+                          <th style="width: 5%; background-color: #76daff">
+                            {{ "Report.titleList.goodsName" | translate }}
+                          </th>
+                          <th style="width: 5%; background-color: #76daff">
+                            {{ "Report.titleList.goodsCount" | translate }}
+                          </th>
+                          <th style="width: 5%; background-color: #76daff">
+                            {{ "Report.titleList.departmentName" | translate }}
+                          </th>
+
+                          <th style="width: 5%; background-color: #76daff">
+                            {{ "Report.titleList.contactPerson" | translate }}
+                          </th>
+                          <th style="width: 5%; background-color: #76daff">
+                            {{ "Report.titleList.sealNumber" | translate }}
+                          </th>
+                          <th style="width: 5%; background-color: #76daff">
+                            {{ "Report.titleList.driverSign" | translate }}
+                          </th>
+                          <th style="width: 5%; background-color: #76daff">
+                            {{ "Report.titleList.signOutDate" | translate }}
+                          </th>
+                          <th style="width: 5%; background-color: #76daff">
+                            {{ "Report.titleList.guardName" | translate }}
+                          </th>
+
+                          <th style="width: 5%; background-color: #76daff">
+                            {{ "Report.titleList.carSize" | translate }}
+                          </th>
+                          <th style="width: 5%; background-color: #76daff">
+                            {{ "Report.titleList.companyDistance" | translate }}
+                          </th>
+                          <th style="width: 3%; background-color: #76daff">
+                            {{ "Report.titleList.isConfirm" | translate }}
+                          </th>
+                          <th style="width: 5%; background-color: #76daff">
+                            {{ "Report.titleList.memo" | translate }}
+                          </th>
                         </tr>
                       </thead>
                       <tbody>
-                        <ng-container *ngFor="let item of result; let i = index">
+                        <ng-container
+                          *ngFor="let item of result; let i = index"
+                        >
                           <tr>
-                            <td> <div [hidden]="item.isDisplay == 0" ><img src="../assets/systemImg/edit.png" width="30" height="30"  (click)="this.edit(item)"/></div></td>
-                            <td>{{ item.companyName }}</td>
+                            <td>
+                              <div [hidden]="item.isDisplay == 0">
+                                <img
+                                  src="../assets/systemImg/edit.png"
+                                  width="30"
+                                  height="30"
+                                  (click)="this.edit(item)"
+                                />
+                              </div>
+                            </td>
+                            <td tooltip='{{ "Report.titleList.companyDistance" | translate }}: {{ item.companyDistance }}' placement="right">{{ item.companyName }} </td>
                             <td>{{ item.plateNumber }}</td>
                             <td>{{ item.driverName }}</td>
                             <td>{{ item.licenseNumber }}</td>
-                            <td>{{ item.signInDate | date: "yyyy/MM/dd HH:mm:ss"}}</td>
+                            <td>
+                              {{
+                                item.signInDate | date: "yyyy/MM/dd HH:mm:ss"
+                              }}
+                            </td>
 
                             <td>{{ item.tempNumber }}</td>
+                            <td>{{ item.carTempNumber }}</td>
                             <td>{{ item.signInReason }}</td>
                             <td>{{ item.goodsName }}</td>
                             <td>{{ item.goodsCount }}</td>
@@ -102,41 +183,72 @@
 
                             <td>{{ item.contactPerson }}</td>
                             <td>{{ item.sealNumber }}</td>
-                            <td><img src="../assets/ReportPics/{{ item.driverSign }}" width="100" height="100"/></td>
-                            <td>{{ item.signOutDate  | date: "yyyy/MM/dd HH:mm:ss" }}</td>
+                            <td>
+                              <img
+                              src="../assets/systemImg/visible.png"
+                              class="mt-2"
+                              width="35"
+                              height="35"
+                              [style.visibility]="
+                              item.driverSign.length < 1 ? 'hidden' : 'visible'"
+                              (click)="viewPic(item.driverSign)"
+                            />
+                            </td>
+                            <td>
+                              {{
+                                item.signOutDate | date: "yyyy/MM/dd HH:mm:ss"
+                              }}
+                            </td>
                             <td>{{ item.guardName }}</td>
 
                             <td>{{ item.carSize }}</td>
                             <td>{{ item.companyDistance }}</td>
+                            <td>
+                              <div class="mt-2" [hidden]="item.isConfirm == 'Y'">
+                              <img
+                                src="../assets/systemImg/check.png"
+                                width="30"
+                                height="30"
+                                (click)="this.confirmBtn(item)"
+                              />
+                              </div>
+                              {{ item.isConfirm }}</td>
+                            <td>{{ item.memo }}</td>
                           </tr>
                         </ng-container>
                       </tbody>
                     </table>
-                    <div class ="d-flex justify-content-start">
-                        <select
-                        style="height:35px;width:45px;"
+                    <div class="d-flex justify-content-start">
+                      <select
+                        style="height: 35px; width: 45px"
                         name="itemsPerPage"
-                        [(ngModel)]="scarManageRecordDto.itemsPerPage">
-                        <option value = 10 selected>10</option>
-                        <option value = 25 selected>25</option>
-                        <option value = 50 selected>50</option>
-                        <option value = 100 selected>100</option>
-                        </select>                    
-                      <pagination *ngIf="this.scarManageRecordDto.isPaging" 
-                      [boundaryLinks]="true" 
-                      [totalItems]="scarManageRecordDto.totalItems"
-                      [maxSize]="100"
-                      [itemsPerPage]="scarManageRecordDto.itemsPerPage"
-                      [(ngModel)]="scarManageRecordDto.currentPage"
-                      (pageChanged) = "pageChangeds($event)"
-                      previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;">
-                    </pagination>
-                    </div>                  
+                        [(ngModel)]="scarManageRecordDto.itemsPerPage"
+                      >
+                        <option value="10" selected>10</option>
+                        <option value="25" selected>25</option>
+                        <option value="50" selected>50</option>
+                        <option value="100" selected>100</option>
+                      </select>
+                      <pagination
+                        *ngIf="this.scarManageRecordDto.isPaging"
+                        [boundaryLinks]="true"
+                        [totalItems]="scarManageRecordDto.totalItems"
+                        [maxSize]="100"
+                        [itemsPerPage]="scarManageRecordDto.itemsPerPage"
+                        [(ngModel)]="scarManageRecordDto.currentPage"
+                        (pageChanged)="pageChangeds($event)"
+                        previousText="&lsaquo;"
+                        nextText="&rsaquo;"
+                        firstText="&laquo;"
+                        lastText="&raquo;"
+                      >
+                      </pagination>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>          
+          </div>
         </div>
       </div>
     </div>
@@ -148,5 +260,7 @@
   color="#fff"
   type="square-jelly-box"
   [fullScreen]="true"
-  ><p style="color: white">{{ 'Common.loadingPleaseWait' | translate }}</p></ngx-spinner
+  ><p style="color: white">
+    {{ "Common.loadingPleaseWait" | translate }}
+  </p></ngx-spinner
 >

@@ -7,7 +7,12 @@
 // If you want to add something do it here
 @import "custom";
 
+//alertify
 @import "../../node_modules/alertifyjs/build/css/alertify.min.css";
 @import "../../node_modules/alertifyjs/build/css/themes/bootstrap.min.css";
 
+//ng-select
 @import "~@ng-select/ng-select/themes/default.theme.css";
+
+//datepicker
+@import "../../node_modules/ngx-bootstrap/datepicker/bs-datepicker.css";

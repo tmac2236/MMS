@@ -4,6 +4,7 @@ import { Injectable } from "@angular/core";
 import { FormArray } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { JwtHelperService } from "@auth0/angular-jwt";
+import { BsLocaleService } from "ngx-bootstrap/datepicker";
 import { NgxSpinnerService } from "ngx-spinner";
 import { environment } from "../../../environments/environment";
 import { Pagination } from "../_models/pagination";
@@ -16,17 +17,19 @@ import { LanguageService } from "../_services/language.service";
 export class Utility {
   baseUrl = environment.apiUrl;
   serverWebRoot =  environment.serverWebRoot;
-  gaurdPassword = environment.gaurdPassword;
+  guardPassword = environment.guardPassword;
   admPassword = environment.admPassword;
   //getUserName
   jwtHelper = new JwtHelperService();
+
 
   constructor(
     public http: HttpClient,
     public alertify: AlertifyService,
     public spinner: NgxSpinnerService,
     public datepiper: DatePipe,
-    public languageService: LanguageService
+    public languageService: LanguageService,
+    private localeService: BsLocaleService
   ) {}
 
   logout() {
@@ -71,13 +74,14 @@ export class Utility {
   //設定語言
   useLanguage(language: string) {
     this.languageService.setLang(language);
+    this.localeService.use(language);
   }
   //設定是否分頁
   setPagination(bo: boolean, objS: Pagination) {
     let powerStr = "on";
     if (!bo) powerStr = "off";
     this.alertify.confirm(
-      "Sweet Alert",
+      "System Alert",
       "You just turned " + powerStr + " the pagination mode.",
       () => {
         objS.isPaging = bo;
@@ -133,5 +137,18 @@ export class Utility {
     });
   
     return changedProperties;
+  }
+  //check max file
+  //e.g  maxValue: 1128659 = 1MB
+  checkFileMaxFormat(file: File, maxVal:number) {
+    var isLegal = true;
+    if (file.type != "image/jpeg") isLegal = false;
+    if (file.size >= maxVal) isLegal = false; //最大上傳1MB
+    return isLegal;
+  }
+  getRole(){
+    const token = localStorage.getItem('token');
+    let role = this.jwtHelper.decodeToken(token)["role"];
+    return role;
   }
 }

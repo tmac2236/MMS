@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { BsDropdownConfig } from "ngx-bootstrap/dropdown";
 import { NgxSpinnerService } from "ngx-spinner";
+import { environment } from "../../../environments/environment";
 import { AlertifyService } from "../../core/_services/alertify.service";
 import { AuthService } from "../../core/_services/auth.service";
 
@@ -17,6 +18,7 @@ import { AuthService } from "../../core/_services/auth.service";
   ],
 })
 export class HomePageComponent implements OnInit {
+  projectName = environment.projectName;
   loginModel: any = {};
   photoUrl: string;
   param1: string;
@@ -28,49 +30,26 @@ export class HomePageComponent implements OnInit {
     private router: Router,
     private activeRouter: ActivatedRoute,
     private spinner: NgxSpinnerService,
-  ) {
-    this.activeRouter.queryParams.subscribe((params) => {
-
-      this.param1 = params.A0Lfn93DlC; //userID or LOGIN
-      this.param2 = params.DWgu5gtmmT; //Path
-    });
-  }
+  ) {}
 
   ngOnInit() {
-    if (typeof this.param1 !== "undefined") {
-      this.loginByDKS(this.param1,this.param2);
-    }
-    //this.router.navigate(["/F340"], {
-    //  queryParams: { param1: this.param1 },
-    //  skipLocationChange: false,
-    //});
+
   }
 
   loginSystem() {
     this.spinner.show();
     this.authService.login(this.loginModel).subscribe(
       (next) => {
+        let role = this.authService.getUserRole();
         this.spinner.hide();
         this.alertify.success("Logined in sucessed");
-        this.router.navigate(["excel/compare"]);
-      },
-      (error) => {
-        this.spinner.hide();
-        this.alertify.error(error);
-        this.router.navigate([""]);
-      }
-    );
-  }
-  loginByDKS(userID: string, path: string) {
-
-    this.spinner.show();
-    this.loginModel.account = userID;
-    this.authService.login(this.loginModel).subscribe(
-      (next) => {
-        this.spinner.hide();
-        let PathCode = '/' + path;
-        //this.alertify.success(PathCode);
-        this.router.navigate([PathCode]);
+        if(role =="ADM"){
+          this.router.navigate(["/Report/Report"]);
+        }else if (role =="GA"){
+          this.router.navigate(["/Report/Report"]);
+        }else if (role =="GUARD"){
+          this.router.navigate(["/Transaction/AddRecordPage"]);
+        }
       },
       (error) => {
         this.spinner.hide();

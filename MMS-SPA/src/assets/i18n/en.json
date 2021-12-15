@@ -5,7 +5,7 @@
         "optional":"Optional",
         "pleaseKeyPassword":"Please Key Password",
         "close":"Close",
-        "check":"Check",
+        "check":"OK",
         "btnList": {
             "search": "Search",
             "export": "Export",
@@ -13,23 +13,29 @@
             "edit":"Edit",
             "signature":"Signature",
             "clear":"Clear",
-            "signOut":"SignOut"
+            "signOut":"SignOut",
+            "goBack":"Previous page"
         }
     },
     "Report": {
         "title": "Report",
         "inOutList": {
-                "import":"Import",
-                "export":"Export"
+                "import":"Nhập Hàng(Import)",
+                "export":"Xuất Hàng(Export)"
         },
+        "noteStr":"*Note: Ghi thêm đơn vị (VD: 1 tấn, 20 kiện, 30 kg...)",
+        "all":"All",
+        "y":"Y",
+        "n":"N",
         "titleList":{
                 "companyName":"Company Name",
                 "plateNumber":"Plate Number",
                 "driverName":"Driver Name",
                 "licenseNumber":"License Number",
 
-                "signInDate":"SignIn Date",
+                "signInDate":"Sign In Date",
                 "tempNumber":"Temp Number",
+                "carTempNumber":"Car Temp Number",
                 "signInReason":"SignIn Reason",
                 "goodsName":"Goods Name",
                 "goodsCount":"Goods Count",
@@ -41,8 +47,19 @@
                 "signOutDate":"SignOut Date",
     
                 "guardName":"Guard Name",
-                "cardId":"Car Size",
-                "companyDistance":"Distance"
+                "carSize":"Car Size",
+                "companyDistance":"Distance",
+                "memo":"Memo",
+                "isConfirm":"Is Confirm",
+                "isSignOut":"Is SignOut"
         }
+    },
+    "Maintain":{
+        "title": "Maintain",
+        "company":"Company",
+        "car":"Car",
+        "department":"Department",
+        "add":"Add",
+        "submit":"Submit"
     }
 }

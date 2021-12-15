@@ -3,30 +3,51 @@
   [fixed]="true"
   [navbarBrandFull]="{
     src: 'assets/img/brand/favicon.ico',
-    width: 89,
-    height: 25,
+    width: 60,
+    height: 40,
     alt: 'SSB Logo'
   }"
   [navbarBrandMinimized]="{
     src: 'assets/img/brand/favicon.ico',
     width: 30,
-    height: 30,
+    height: 20,
     alt: 'SSB Logo'
   }"
   [sidebarToggler]="'lg'"
-  [asideMenuToggler]="'lg'"
+  [asideMenuToggler]="false"
+  style="background-color: #2B3643"
 >
-<div class="row ml-auto">
-  <div class="mr-2">
-    <strong> Welcome {{ user | titlecase }}</strong>
-  </div>
-  <div class="mr-2">
-    <img src="../assets/systemImg/exit.png" tooltip="Logout" placement="bottom" width="25" height="25" (click)="logout()"/>
-  </div>
-</div>
-
+<ul class="nav navbar-nav d-md-down-none">
+  <li class="nav-item px-3 ">
+    <p style="font-size: 24px;color:#ffffff;">{{projectName}}</p>
+  </li>
+</ul>
+<ul class="nav navbar-nav ml-auto">
+  <!--
+  <span class="top-menu group-hp-info mr-2">
+    <button type="button" [ngClass]="{btn:true,'button-radius-top':true,'btn-success':color=='',
+    'btn-success1':color!=''}"
+    >Version <span class="badge">{{version}}</span></button>
+    <button type="button" class="ml-1" [ngClass]="{btn:true,'button-radius-top':true,'btn-success':color=='',
+    'btn-success1':color!=''}">Update Time <span class="badge">{{updateTime}}</span></button>
+  </span>
+  -->
+  <li class="nav-item dropdown mr-30" dropdown placement="bottom right">
+    <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"
+      dropdownToggle (click)="false">
+      <span style="text-decoration: none; cursor: pointer;font-size: 14px;color:#ffffff;">XXX</span>
+    </a>
+    <div class="dropdown-menu dropdown-menu-right" *dropdownMenu aria-labelledby="simple-dropdown">
+      <a class="dropdown-item" href="javascript:;" (click)="this.utility.useLanguage('en')"><img src="../assets/systemImg/united-states.png" class="topImg" width="25" height="25" />  English</a>
+      <a class="dropdown-item" href="javascript:;" (click)="this.utility.useLanguage('vn')"><img src="../assets/systemImg/vietnam.png" class="topImg" width="25" height="25"/>  Tiếng Việt</a>
+      <a class="dropdown-item" href="javascript:;" (click)="logout()"><img src="../assets/systemImg/exit.png" class="topImg" width="25" height="25"/>  Log Out</a>
+    </div>
+  </li>
+</ul>
 </app-header>
 <div class="app-body">
+  <!-- if you want big bird ==> [display]="false"-->
+  <!--if you want swing of bird [display]=''lg, if not [display]=false-->
   <app-sidebar
     #appSidebar
     [fixed]="true"
@@ -44,17 +65,17 @@
   <!-- Main content -->
   <main class="main">
     <!-- Breadcrumb - cannot delete this is page tile -->
-    <cui-breadcrumb>
+     <cui-breadcrumb> 
     <!-- Breadcrumb Menu cannot delete this is page tile -->
-    </cui-breadcrumb>
-    <div class="container-fluid">
+     </cui-breadcrumb>
+    <div class="container-fluid pt-30">
       <router-outlet></router-outlet>
     </div>
   </main>
 </div>
 <app-footer>
-  <span><a href="assets/img/brand/favicon.ico">SSB</a> &copy; 2021 SSB</span>
+  <span><a>Copyright © 2021 SHYANG SHIN BAO INDUSTRIAL CO., LTD All Right reserved</a></span>
   <span class="ml-auto"
-    >Powered by <a href="assets/img/brand/favicon.ico">SSB</a></span
+    > Powered by <a href="javascript:;"> IT-Stan</a></span
   >
 </app-footer>

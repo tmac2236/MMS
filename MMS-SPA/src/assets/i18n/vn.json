@@ -1,27 +1,32 @@
 {   "Common":{
         "currentLang":"Tiếng Việt",
-        "hello":"ơi",
-        "loadingPleaseWait":"Xin chờ một chút nà.",
+        "hello":"Xin chào",
+        "loadingPleaseWait":" Xin vui lòng chờ một chút.",
         "optional":"Nếu Có",
         "pleaseKeyPassword":"Vui Lòng Nhập Mật Khẩu",
         "close":"Đóng",
-        "check":"kiểm Tra",
+        "check":"OK",
         "btnList": {
             "search": "Tìm kiếm",
-            "export": "Xuất Khẩu",
-            "save": "Lưu Dât",
+            "export": "Xuất Excel",
+            "save": "Lưu",
             "edit":"Sửa Đổi",
-            "signature":"Chữ ký",
+            "signature":"Ký Tên",
             "clear":"Xóa",
-            "signOut":"Rời Xưởng"
+            "signOut":"Rời Xưởng",
+            "goBack":"Trang trước"
         }
     },
     "Report": {
         "title": "Report",
         "inOutList": {
-            "import":"Nhập Hàng",
-            "export":"Xuất Hàng"
-        },        
+            "import":"Nhập Hàng(Import)",
+            "export":"Xuất Hàng(Export)"
+        },
+        "noteStr":"*Note: Ghi thêm đơn vị (VD: 1 tấn, 20 kiện, 30 kg...)",
+        "all":"Tất cả",
+        "y":"Rời xưởng",
+        "n":"Chưa rời",                
         "titleList":{
             "companyName":"Tên công ty",
             "plateNumber":"Số xe",
@@ -30,20 +35,32 @@
 
             "signInDate":"Ngày / Giờ vào xưởng",
             "tempNumber":"Mã số thẻ khách",
+            "carTempNumber" :"Mã số thẻ đậu xe",
             "signInReason":"Lý do",
             "goodsName":"Tên hàng",
             "goodsCount":"Số lượng",
 
-            "departmentName":"Phòng ban",
+            "departmentName":"Vị trí giao hàng",
             "contactPerson":"Đơn vị/NV liên hệ",
             "sealNumber":"Số seal",
             "driverSign":"Tài xế ký tên",
             "signOutDate":"Ngày / Giờ rời xưởng",
 
             "guardName":"Bảo vệ ký tên",
-            "cardId":"Qui cách xe",
-            "companyDistance":"khoảng cách"
+            "carSize":"Qui cách xe",
+            "companyDistance":"khoảng cách",
+            "memo":"Ghi chú",
+            "isConfirm":"Xác nhận",
+            "isSignOut":"Rời xưởng"
         }
+    },
+    "Maintain":{
+        "title": "Cài đặt",
+        "company":"Công ty",
+        "car":"Quy cách Xe",
+        "department":"Vị trí giao hàng",
+        "add":"Thêm",
+        "submit":"Lưu"
     }
 }
  

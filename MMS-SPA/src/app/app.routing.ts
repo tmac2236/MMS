@@ -3,23 +3,18 @@ import { Routes, RouterModule } from "@angular/router";
 
 // Import Containers
 import { DefaultLayoutComponent } from "./containers";
-import { AuthGuard } from "./core/_guards/auth.guard";
-import { AddRecordPageComponent } from "./views/add-record-page/add-record-page.component";
+import { AuthGuardRole } from "./core/_guards/auth.guard-role";
 
 import { P404Component } from "./views/error/404.component";
 import { P500Component } from "./views/error/500.component";
 import { HomePageComponent } from "./views/home-page/home-page.component";
-import { MaintainComponent } from "./views/maintain/maintain.component";
-import { ReportComponent } from "./views/report/report.component";
-import { SignaturePadComponent } from "./views/shared/signature-pad/signature-pad.component";
-import { TestComponent } from "./views/test/test.component";
 
 export const routes: Routes = [
   {
     path: "",
     //redirectTo: 'excel',
     //pathMatch: 'full',
-    component: AddRecordPageComponent,
+    component: HomePageComponent,
   },
   {
     path: "404",
@@ -30,30 +25,6 @@ export const routes: Routes = [
     component: P500Component,
   },
   {
-    path: "AddRecordPage",
-    component: AddRecordPageComponent,
-  },
-  {
-    path: "EditRecordPage",
-    component: AddRecordPageComponent,
-  },
-  {
-    path: "ESignature",
-    component: SignaturePadComponent,
-  },
-  {
-    path: "Report",
-    component: ReportComponent,
-  },
-  {
-    path: "Maintain",
-    component: MaintainComponent,
-  },
-  {
-    path: "Test",
-    component: TestComponent,
-  },
-  {
     path: "",
     component: DefaultLayoutComponent,
     data: {
@@ -61,10 +32,10 @@ export const routes: Routes = [
     },
     children: [
       {
-        path: "excel",
+        path: "Report",
         loadChildren: () =>
-          import("./views/excel/excel.module").then((m) => m.ExcelModule),
-      }
+          import("./views/report/report.module").then((m) => m.ReportModule),
+      },
     ],
   },
   { path: "**", component: P404Component },

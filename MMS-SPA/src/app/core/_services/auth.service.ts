@@ -30,7 +30,7 @@ export class AuthService {
           localStorage.setItem('token', user.token);
           //localStorage.setItem('user', JSON.stringify(user.user));
           //this.decodedToken = this.jwtHelper.decodeToken(user.token);
-          
+       
         }
       })
     );
@@ -39,5 +39,32 @@ export class AuthService {
   loggedIn() {
     const token = localStorage.getItem('token');
     return !this.jwtHelper.isTokenExpired(token);
+  }
+
+  checkIsThatGroup(groupNo:string){
+
+    let result = false;
+    const token = localStorage.getItem('token');
+    if (token) {
+      // token is expired?
+      let isExpired = this.jwtHelper.isTokenExpired(token);
+      console.log("Auth Service => Token is Expired? :" + isExpired);
+      if(isExpired) return false;
+      
+      let roleArray = this.jwtHelper.decodeToken(token)["role"];
+      console.log("Auth Service => the account role is :" + roleArray);
+      result = roleArray.includes(groupNo);
+      console.log("Auth Service => the account role is Valid? "+ result );
+    }
+
+    return result;
+  }
+  getUserRole(){
+    let roleArray = "";
+    const token = localStorage.getItem('token');
+    if (token) {
+       roleArray = this.jwtHelper.decodeToken(token)["role"];
+    }
+    return roleArray;
   }
 }

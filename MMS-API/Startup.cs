@@ -37,7 +37,6 @@ namespace API
             //security
             services.AddCors();
 
-            services.AddDbContext<CMSContext>(options => options.UseSqlServer(Configuration.GetConnectionString("CMSConnection")));
             services.AddDbContext<MMSContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MMSConnection")));
 
             services.AddControllers();
@@ -55,12 +54,7 @@ namespace API
               });
 
             services.AddAutoMapper(typeof(Startup));
-            //DAO
-            services.AddScoped<ICMSCarDAO, CMSCarDAO>();
-            services.AddScoped<ICMSCarManageRecordDAO, CMSCarManageRecordDAO>();
-            services.AddScoped<ICMSCompanyDAO, CMSCompanyDAO>();
-            services.AddScoped<ICMSDepartmentDAO, CMSDepartmentDAO>();
-
+            //DAO;
             services.AddScoped<IStockBasicDAO, StockBasicDAO>();
             services.AddScoped<IMonthReportDAO, MonthReportDAO>();
             services.AddScoped<IQuarterReportDAO, QuarterReportDAO>();

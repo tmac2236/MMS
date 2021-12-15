@@ -5,9 +5,10 @@
 
 export const environment = {
   production: false,
+  projectName: "Market Management System",
   apiUrl: "http://localhost:5000/api/",
   serverWebRoot: "http://localhost:4200/#/",
 
-  gaurdPassword: "00000",
+  guardPassword: "00000",
   admPassword: "adm00000",
 };
