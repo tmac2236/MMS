@@ -19,6 +19,11 @@ using API.Helpers;
 using API.Data.Interface.MMS;
 using API.Data.Repository.MMS;
 using MMS_API.Service.Implement;
+using Quartz.Spi;
+using Quartz;
+using Quartz.Impl;
+using API.Quartz;
+using DFPS_API.Quartz.Jobs;
 
 namespace API
 {
@@ -63,18 +68,21 @@ namespace API
         
             //Service
             services.AddScoped<IStockService, StockService> ();
-            /*
-            //新增Quartz服務
+            //Add Quartz Service
             services.AddSingleton<IJobFactory, SingletonJobFactory>();
             services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
-            //新增我們的Job
-            services.AddSingleton<ShowDataTimeJob>();
+            //Add Jobs
+            services.AddSingleton<DailyClosingPriceJob>();
+            services.AddSingleton<ServicePoolJob>();
+            //Add Triggers 
             services.AddSingleton(
-                 new JobSchedule(jobType: typeof(ShowDataTimeJob), cronExpression: "0/5 * * * * ?")//每五秒鐘觸發一次
+                 new JobSchedule(jobType: typeof(DailyClosingPriceJob), cronExpression: " 0 0 15 ? * MON-FRI ")//fire at every 15:00 
             );
-            //啟動QuartzHostedServie
+            services.AddSingleton(
+                 new JobSchedule(jobType: typeof(ServicePoolJob), cronExpression: "0 0 * ? * * *")// fire at every hour
+            );
+            //Launch QuartzHostedServie
             services.AddHostedService<QuartzHostedService>();
-            */
             //auth
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>

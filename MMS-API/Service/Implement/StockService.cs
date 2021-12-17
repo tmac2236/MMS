@@ -10,12 +10,15 @@ using API.Data.Interface.MMS;
 using API.Helpers;
 using API.Models.MMS;
 using Aspose.Cells;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Microsoft.VisualBasic.FileIO;
 
 namespace MMS_API.Service.Implement
 {
     public class StockService : IStockService
     {
+        private ILogger<StockService> _logger;
         private readonly IStockBasicDAO _stockBasicDAO;
         private readonly IMonthReportDAO _monthReportDAO;
         private readonly IQuarterReportDAO _quarterReportDAO;
@@ -23,8 +26,9 @@ namespace MMS_API.Service.Implement
         
         
         //constructor
-        public StockService(IStockBasicDAO stockBasicDAO, IMonthReportDAO monthReportDAO, IQuarterReportDAO quarterReportDAO, IServicePoolDAO servicePoolDAO)
+        public StockService(ILogger<StockService> logger,IStockBasicDAO stockBasicDAO, IMonthReportDAO monthReportDAO, IQuarterReportDAO quarterReportDAO, IServicePoolDAO servicePoolDAO)
         {
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _stockBasicDAO = stockBasicDAO;
             _monthReportDAO = monthReportDAO;
             _quarterReportDAO = quarterReportDAO;
@@ -36,6 +40,7 @@ namespace MMS_API.Service.Implement
         {
             try
             {
+                _logger.LogInformation( String.Format(@"****** AddSeStockMonthRevenue  fired!! Parameter: {0} ******", yearMonth) );
                 var quarter = Extensions.GetYearQ(yearMonth);
                 
                 string url = String.Format("https://www.twse.com.tw/statistics/count?url=%2FstaticFiles%2Finspection%2Finspection%2F04%2F003%2F{0}_C04003.zip&l1=%E4%B8%8A%E5%B8%82%E5%85%AC%E5%8F%B8%E6%9C%88%E5%A0%B1&l2=%E3%80%90%E5%9C%8B%E5%85%A7%E4%B8%8A%E5%B8%82%E5%85%AC%E5%8F%B8%E7%87%9F%E6%A5%AD%E6%94%B6%E5%85%A5%E5%BD%99%E7%B8%BD%E8%A1%A8%E3%80%91%E6%9C%88%E5%A0%B1", yearMonth);
@@ -115,12 +120,14 @@ namespace MMS_API.Service.Implement
             }
             catch (Exception ex)
             {   
+                _logger.LogError( String.Format("!!!!!!AddSeStockMonthRevenue have a exception  EMessage:{0}",ex.Message) );
                 ServicePool sp = new ServicePool();
                 sp.SerName = "AddSeStockMonthRevenue";
                 sp.Param = yearMonth;
                 sp.OccTime = DateTime.Now;
                 sp.Type = "M";
                 sp.Emessage = ex.Message ;
+                sp.Code = 0 ;
                 _servicePoolDAO.Add(sp);
                 await _servicePoolDAO.SaveAll();
                 return yearMonth;
@@ -131,7 +138,7 @@ namespace MMS_API.Service.Implement
         {
             try
             {
-
+                _logger.LogInformation( String.Format(@"****** AddSe2StockMonthRevenue  fired!! Parameter: {0} ******", yearMonth) );
                 var quarter = Extensions.GetYearQ(yearMonth);
 
                 string url = String.Format("https://www.tpex.org.tw/storage/statistic/sales_revenue/O_{0}.xls", yearMonth);
@@ -240,12 +247,14 @@ namespace MMS_API.Service.Implement
             }
             catch (Exception ex)
             {
+                _logger.LogError( String.Format("!!!!!!AddSe2StockMonthRevenue have a exception  EMessage:{0}",ex.Message) );
                 ServicePool sp = new ServicePool();
                 sp.SerName = "AddSe2StockMonthRevenue";
                 sp.Param = yearMonth;
                 sp.OccTime = DateTime.Now;
                 sp.Type = "M";
                 sp.Emessage = ex.Message ;
+                sp.Code = 0 ;
                 _servicePoolDAO.Add(sp);
                 await _servicePoolDAO.SaveAll();                
                 return yearMonth;
@@ -257,6 +266,7 @@ namespace MMS_API.Service.Implement
         {
             try
             {
+                _logger.LogInformation( String.Format(@"****** AddSeStockQEps  fired!! Parameter: {0} ******", yearQ) );
                 string url = String.Format("https://www.twse.com.tw/statistics/count?url=%2FstaticFiles%2Finspection%2Finspection%2F05%2F001%2F{0}_C05001.zip&l1=%E4%B8%8A%E5%B8%82%E5%85%AC%E5%8F%B8%E5%AD%A3%E5%A0%B1&l2=%E3%80%90%E4%B8%8A%E5%B8%82%E8%82%A1%E7%A5%A8%E5%85%AC%E5%8F%B8%E8%B2%A1%E5%8B%99%E8%B3%87%E6%96%99%E7%B0%A1%E5%A0%B1%E3%80%91%E5%AD%A3%E5%A0%B1", yearQ);
 
                 WebClient webClient = new WebClient();
@@ -323,12 +333,14 @@ namespace MMS_API.Service.Implement
             }
             catch (Exception ex)
             {
+                _logger.LogError( String.Format("!!!!!!AddSeStockQEps have a exception  EMessage:{0}",ex.Message) );
                 ServicePool sp = new ServicePool();
                 sp.SerName = "AddSeStockQEps";
                 sp.Param = yearQ;
                 sp.OccTime = DateTime.Now;
                 sp.Type = "Q";
                 sp.Emessage = ex.Message ;
+                sp.Code = 0 ;
                 _servicePoolDAO.Add(sp);
                 await _servicePoolDAO.SaveAll();                               
                 return yearQ;
@@ -340,6 +352,7 @@ namespace MMS_API.Service.Implement
         {
             try
             {
+                _logger.LogInformation( String.Format(@"****** AddSe2StockQEps  fired!! Parameter: {0} ******", yearQ) );
                 string url = String.Format("https://www.tpex.org.tw/storage/statistic/financial/O_{0}.xls", yearQ);
 
                 WebClient webClient = new WebClient();
@@ -440,12 +453,14 @@ namespace MMS_API.Service.Implement
             }
             catch (Exception ex)
             {
+                _logger.LogError( String.Format("!!!!!!AddSe2StockQEps have a exception  EMessage:{0}",ex.Message) );
                 ServicePool sp = new ServicePool();
                 sp.SerName = "AddSe2StockQEps";
                 sp.Param = yearQ;
                 sp.OccTime = DateTime.Now;
                 sp.Type = "Q";
                 sp.Emessage = ex.Message ;
+                sp.Code = 0 ;
                 _servicePoolDAO.Add(sp);
                 await _servicePoolDAO.SaveAll();                               
                 return yearQ;
@@ -476,6 +491,8 @@ namespace MMS_API.Service.Implement
         public async Task<string> GetSeDaily(string date)
         {
             try{
+                _logger.LogInformation( String.Format(@"****** GetSeDaily(上市)  fired!! Parameter: {0} ******", date) );
+
                 string url = String.Format("https://www.twse.com.tw/exchangeReport/MI_INDEX?response=csv&date={0}&type=ALL", date);
 
                 WebClient webClient = new WebClient();
@@ -514,12 +531,14 @@ namespace MMS_API.Service.Implement
             }
             catch (Exception ex)
             {
+                _logger.LogError( String.Format("!!!!!!GetSeDaily(上市) have a exception  EMessage:{0}",ex.Message) );
                 ServicePool sp = new ServicePool();
                 sp.SerName = "GetSeDaily";
                 sp.Param = date;
                 sp.OccTime = DateTime.Now;
                 sp.Type = "D";
                 sp.Emessage = ex.Message ;
+                sp.Code = 0 ;
                 _servicePoolDAO.Add(sp);
                 await _servicePoolDAO.SaveAll();                               
                 return date;
@@ -551,7 +570,7 @@ namespace MMS_API.Service.Implement
         public async Task<string> GetSe2Daily(string date)
         {
             try{
-
+                _logger.LogInformation( String.Format(@"****** GetSe2Daily(上櫃)  fired!! Parameter: {0} ******", date) );
                 //var dateNow = DateTime.Now.AddYears(-1911).ToString("yyy/MM/dd");
                 string url = String.Format("https://www.tpex.org.tw/web/stock/aftertrading/daily_close_quotes/stk_quote_result.php?l=zh-tw&o=csv&d={0}", date);
 
@@ -591,17 +610,69 @@ namespace MMS_API.Service.Implement
             }
             catch (Exception ex)
             {
+                _logger.LogError( String.Format("!!!!!!GetSe2Daily(上櫃) have a exception  EMessage:{0}",ex.Message) );
                 ServicePool sp = new ServicePool();
                 sp.SerName = "GetSe2Daily";
                 sp.Param = date;
                 sp.OccTime = DateTime.Now;
                 sp.Type = "D";
                 sp.Emessage = ex.Message ;
+                sp.Code = 0 ;
                 _servicePoolDAO.Add(sp);
                 await _servicePoolDAO.SaveAll();                               
                 return date;
             } 
 
         }
+       public async void DoUndoTaskByServicePool()
+       {
+           _logger.LogInformation( String.Format(@"****** DoUndoTaskByServicePool  fired!!******") );
+           //find the undo tasks
+           var data = await _servicePoolDAO.FindAll(x =>x.Code == 0 ).ToListAsync();
+            if(data.Count == 0) {
+                _logger.LogInformation( String.Format(@"------ No task to process  ------") );
+                return;
+            }
+            foreach (var item in data) {
+
+                _logger.LogInformation( String.Format(@"------ Processing: {0},{1}  ------",item.SerName,item.Param) );
+
+                switch (item.SerName)
+                {
+                    case "AddSeStockMonthRevenue": 
+                        await this.AddSeStockMonthRevenue(item.Param);
+                        item.Code = 1;
+                        break;
+                    case "AddSe2StockMonthRevenue":
+                        await this.AddSe2StockMonthRevenue(item.Param);
+                        item.Code = 1;              
+                        break;
+                    case "AddSeStockQEps": 
+                        await this.AddSeStockQEps(item.Param);
+                        item.Code = 1;                                           
+                        break;
+                    case "AddSe2StockQEps": 
+                        await this.AddSe2StockQEps(item.Param);
+                        item.Code = 1;                                            
+                        break;
+                    case "GetSeDaily": 
+                        await this.GetSeDaily(item.Param);
+                        item.Code = 1;                                        
+                        break;
+                    case "GetSe2Daily": 
+                        await this.GetSe2Daily(item.Param);
+                        item.Code = 1;                                        
+                        break;                                          
+                }
+                 _logger.LogInformation( String.Format(@"------ Finished: {0},{1}  ------",item.SerName,item.Param) );
+                _servicePoolDAO.Update(item);
+                await _servicePoolDAO.SaveAll();       
+            }  
+
+                
+        }
+
+
+      
     }
 }

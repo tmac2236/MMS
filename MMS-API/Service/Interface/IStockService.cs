@@ -10,6 +10,7 @@ namespace MMS_API.Service.Implement
         Task<string> AddSe2StockQEps(string yearQ);
         Task<string> GetSeDaily(string date);
         Task<string> GetSe2Daily(string date);
+        void DoUndoTaskByServicePool();
         
     }
 }

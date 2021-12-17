@@ -14,6 +14,7 @@ namespace API.Models.MMS
         public DateTime OccTime { get; set; }
         public string Type { get; set; }
         public string Emessage { get; set; }
+        public int Code { get; set; }
 
     }
 }
