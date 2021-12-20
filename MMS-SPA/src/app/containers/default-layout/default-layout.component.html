@@ -35,7 +35,7 @@
   <li class="nav-item dropdown mr-30" dropdown placement="bottom right">
     <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"
       dropdownToggle (click)="false">
-      <span style="text-decoration: none; cursor: pointer;font-size: 14px;color:#ffffff;">XXX</span>
+      <span style="text-decoration: none; cursor: pointer;font-size: 14px;color:#ffffff;">{{ user | titlecase }}</span>
     </a>
     <div class="dropdown-menu dropdown-menu-right" *dropdownMenu aria-labelledby="simple-dropdown">
       <a class="dropdown-item" href="javascript:;" (click)="this.utility.useLanguage('en')"><img src="../assets/systemImg/united-states.png" class="topImg" width="25" height="25" />  English</a>

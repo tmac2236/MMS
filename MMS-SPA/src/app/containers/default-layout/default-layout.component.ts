@@ -33,7 +33,7 @@ export class DefaultLayoutComponent implements OnInit {
   }
   ngOnInit() {
     const theToken = this.jwtHelper.decodeToken(localStorage.getItem('token'));
-    //this.user = theToken['nameid'];
+    this.user = theToken['nameid'];
     //this.version = theToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/version'];
     //this.updateTime = theToken['birthdate'];
     //this.toggleMinimize(true);  //commet ==>縮小鳥兒2/2

@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using Aspose.Cells;
 using System.Net;
 using MMS_API.Service.Implement;
+using Microsoft.Extensions.Logging;
 
 namespace API.Controllers
 {
@@ -15,9 +16,9 @@ namespace API.Controllers
     {
         private readonly IStockService _stockService;
 
-        public MMSController(IConfiguration config, IWebHostEnvironment webHostEnvironment, IStockService stockService
+        public MMSController(IConfiguration config, IWebHostEnvironment webHostEnvironment, ILogger<MMSController> logger, IStockService stockService
          )
-         : base(config, webHostEnvironment)
+         : base(config, webHostEnvironment,logger)
         {
             _stockService = stockService;
         }
