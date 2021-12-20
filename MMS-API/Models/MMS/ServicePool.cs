@@ -9,7 +9,7 @@ namespace API.Models.MMS
         [Key]
         public string SerName { get; set; }
         [Key]
-        public string Param { get; set; }
+        public string SerParam { get; set; }
 
         public DateTime OccTime { get; set; }
         public string Type { get; set; }

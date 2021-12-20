@@ -23,7 +23,7 @@ namespace API.Data.Repository
             modelBuilder.Entity<StockBasic>().HasKey(x => new { x.Id });
             modelBuilder.Entity<MonthReport>().HasKey(x => new { x.StockId, x.YearMonth });
             modelBuilder.Entity<QuarterReport>().HasKey(x => new { x.StockId, x.YearQ });
-            modelBuilder.Entity<ServicePool>().HasKey(x => new { x.SerName, x.Param });
+            modelBuilder.Entity<ServicePool>().HasKey(x => new { x.SerName, x.SerParam });
             
             //DTO(Stored Procedure)
 

@@ -17,7 +17,7 @@ namespace DFPS_API.Quartz.Jobs
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _provider = provider;
         }
-        public Task Execute(IJobExecutionContext context)
+        public async Task Execute(IJobExecutionContext context)
         {
             _logger.LogInformation(String.Format(@"******   ServicePoolJob was fired!!!!! ******"));
             // 建立一個新的作用域
@@ -25,12 +25,10 @@ namespace DFPS_API.Quartz.Jobs
             {
                 // 解析你的作用域服務
                 var stockService = scope.ServiceProvider.GetService<IStockService>();
-                stockService.DoUndoTaskByServicePool();
+                await stockService.DoUndoTaskByServicePool();
                 
             }
             
-
-            return Task.CompletedTask;
         }
     }
 }

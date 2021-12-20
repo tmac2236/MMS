@@ -17,7 +17,7 @@ namespace DFPS_API.Quartz.Jobs
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _provider = provider;
         }
-        public Task Execute(IJobExecutionContext context)
+        public async Task Execute(IJobExecutionContext context)
         {
             _logger.LogInformation(String.Format(@"******   DailyClosingPriceJob was fired!!!!! ******"));
             // 建立一個新的作用域
@@ -27,14 +27,12 @@ namespace DFPS_API.Quartz.Jobs
                 var stockService = scope.ServiceProvider.GetService<IStockService>();
                 //20211207
                 string today = DateTime.Now.ToString("yyyyMMdd");
-                stockService.GetSeDaily(today);
+                await stockService.GetSeDaily(today);
                 string today2 = DateTime.Now.AddYears(-1911).ToString("yyy/MM/dd");
-                stockService.GetSe2Daily(today2);
+                await stockService.GetSe2Daily(today2);
                 
             }
             
-
-            return Task.CompletedTask;
         }
     }
 }
