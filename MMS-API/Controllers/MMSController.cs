@@ -83,7 +83,13 @@ namespace API.Controllers
             await _stockService.GetSe2Daily(date);
             return Ok();
 
-        }  
+        }
+        [HttpGet("getTop4Eps")]
+        public IActionResult GetTop4Eps()
+        {
+            _stockService.CountEstiEps("");
+            return Ok();
+        }          
 
     }
 }

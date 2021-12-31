@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -55,7 +56,8 @@ namespace MMS_API.Service.Implement
                 Cells cells = worksheet.Cells;
 
                 List<StockBasic> stockList = new List<StockBasic>();
-                List<StockBasic> dbStockList = _stockBasicDAO.FindAll().ToList();
+                List<StockBasic> stockListU = new List<StockBasic>();
+                List<StockBasic> dbStockList = _stockBasicDAO.FindAll().AsNoTracking().ToList();
                 List<MonthReport> mReportList = new List<MonthReport>();
                 List<MonthReport> dbMReportList = _monthReportDAO.FindAll().Where( x => x.YearMonth == yearMonth.Trim() ).ToList();
                 string typeName = "";
@@ -79,13 +81,22 @@ namespace MMS_API.Service.Implement
                     string[] codeNName = columA.Split("  ");
                     long monthValu = cells[i, 2].Value.ToLong(); //get 本月 val
                     long preMonthValu = cells[i, 4].Value.ToLong(); //get 去年本月 val
+                    string accDiff = cells[i, 7].Value.ToString(); //取得累計增減
 
                     StockBasic stockModel = new StockBasic();
                     stockModel.Id = stockCode;
                     stockModel.Name = codeNName[1];
                     stockModel.Size = 1; //上市
+                    stockModel.AccDiffM = accDiff;
                     //if exist in db not add in addList
-                    if (!dbStockList.Any(x => x.Id == stockModel.Id)) stockList.Add(stockModel);
+                    var s = dbStockList.Find(x => x.Id == stockModel.Id);
+                    if ( s == null ){
+                        stockList.Add(stockModel);
+                    }else{
+                        s.AccDiffM = accDiff;
+                        stockListU.Add(s);
+                    }
+                     
 
                     MonthReport mReportModel = new MonthReport();
                     mReportModel.StockId = stockCode;
@@ -105,8 +116,16 @@ namespace MMS_API.Service.Implement
                     {
                         _stockBasicDAO.Add(model);
                     }
-                    if (!await _stockBasicDAO.SaveAll()) result = yearMonth;
                 }
+                if (stockListU.Count > 0)
+                {
+                    foreach (var model in stockListU)
+                    {
+                        _stockBasicDAO.Update(model);
+                    }
+                }   
+                await _stockBasicDAO.SaveAll();
+
                 if (mReportList.Count > 0)
                 {
                     foreach (var model in mReportList)
@@ -120,7 +139,7 @@ namespace MMS_API.Service.Implement
             }
             catch (Exception ex)
             {   
-                _logger.LogError( String.Format("!!!!!!AddSeStockMonthRevenue have a exception  EMessage:{0}",ex.Message) );
+                _logger.LogError( String.Format("!!!!!!AddSeStockMonthRevenue have a exception  EMessage:{0}",ex.StackTrace) );
                 ServicePool sp = new ServicePool();
                 sp.SerName = "AddSeStockMonthRevenue";
                 sp.SerParam = yearMonth;
@@ -153,7 +172,8 @@ namespace MMS_API.Service.Implement
                 Cells cells = worksheet.Cells;
 
                 List<StockBasic> stockList = new List<StockBasic>();
-                List<StockBasic> dbStockList = _stockBasicDAO.FindAll().ToList();
+                List<StockBasic> stockListU = new List<StockBasic>();
+                List<StockBasic> dbStockList = _stockBasicDAO.FindAll().AsNoTracking().ToList();
                 List<MonthReport> mReportList = new List<MonthReport>();
                 List<MonthReport> dbMReportList = _monthReportDAO.FindAll().Where( x => x.YearMonth == yearMonth.Trim() ).ToList();
                 string typeName = "";
@@ -172,14 +192,23 @@ namespace MMS_API.Service.Implement
 
                     long monthValu = cells[i, 3].Value.ToLong(); //get 本月 val
                     long preMonthValu = cells[i, 5].Value.ToLong(); //get 去年本月 val
+                    string accDiff = cells[i, 7].Value.ToString(); //取得累計增減
                     string[] codeNName = columA.Split("  ");
 
                     StockBasic stockModel = new StockBasic();
                     stockModel.Id = codeNName[0].ToInt();
                     stockModel.Name = codeNName[1];
                     stockModel.Size = 2; //上櫃
-                                         //if exist in db not add in addList
-                    if (!dbStockList.Any(x => x.Id == stockModel.Id)) stockList.Add(stockModel);
+                    stockModel.AccDiffM = accDiff;
+                    //if exist in db not add in addList
+                    var s = dbStockList.Find(x => x.Id == stockModel.Id);
+                    if ( s == null ){
+                        stockList.Add(stockModel);
+                    }else{
+                        s.AccDiffM = accDiff;
+                        stockListU.Add(s);
+                    }    
+
 
                     MonthReport mReportModel = new MonthReport();
                     mReportModel.StockId = codeNName[0].ToInt();
@@ -206,6 +235,7 @@ namespace MMS_API.Service.Implement
 
                     long monthValu = cells2[i, 3].Value.ToLong(); //get 本月 val
                     long preMonthValu = cells2[i, 5].Value.ToLong(); //get 去年本月 val
+                    string accDiff = cells[i, 7].Value.ToString(); //取得累計增減
 
                     string[] codeNName = columA.Split("  ");
 
@@ -213,8 +243,15 @@ namespace MMS_API.Service.Implement
                     stockModel.Id = codeNName[0].ToInt();
                     stockModel.Name = codeNName[1];
                     stockModel.Size = 2; //上櫃
-                                         //if exist in db not add in addList
-                    if (!dbStockList.Any(x => x.Id == stockModel.Id)) stockList.Add(stockModel);
+                    stockModel.AccDiffM = accDiff;
+                    //if exist in db not add in addList
+                    var s = dbStockList.Find(x => x.Id == stockModel.Id);
+                    if ( s == null ){
+                        stockList.Add(stockModel);
+                    }else{
+                        s.AccDiffM = accDiff;
+                        stockListU.Add(s);
+                    }
 
                     MonthReport mReportModel = new MonthReport();
                     mReportModel.StockId = codeNName[0].ToInt();
@@ -233,8 +270,16 @@ namespace MMS_API.Service.Implement
                     {
                         _stockBasicDAO.Add(model);
                     }
-                    if (!await _stockBasicDAO.SaveAll()) result = yearMonth;
                 }
+                if (stockListU.Count > 0)
+                {
+                    foreach (var model in stockListU)
+                    {
+                        _stockBasicDAO.Update(model);
+                    }
+                }
+                await _stockBasicDAO.SaveAll();
+
                 if (mReportList.Count > 0)
                 {
                     foreach (var model in mReportList)
@@ -247,7 +292,7 @@ namespace MMS_API.Service.Implement
             }
             catch (Exception ex)
             {
-                _logger.LogError( String.Format("!!!!!!AddSe2StockMonthRevenue have a exception  EMessage:{0}",ex.Message) );
+                _logger.LogError( String.Format("!!!!!!AddSe2StockMonthRevenue have a exception  EMessage:{0}",ex.StackTrace) );
                 ServicePool sp = new ServicePool();
                 sp.SerName = "AddSe2StockMonthRevenue";
                 sp.SerParam = yearMonth;
@@ -278,7 +323,7 @@ namespace MMS_API.Service.Implement
                 Worksheet worksheet = wb.Worksheets[0];
                 Cells cells = worksheet.Cells;
 
-                List<StockBasic> dbStockList = _stockBasicDAO.FindAll().ToList();
+                List<StockBasic> dbStockList = _stockBasicDAO.FindAll().AsNoTracking().ToList();
                 List<QuarterReport> qReportList = new List<QuarterReport>();
                 List<QuarterReport> dbQuarterReportList = _quarterReportDAO.FindAll().Where( x => x.YearQ == formatYearQ ).ToList();
                 string typeName = "";
@@ -333,7 +378,7 @@ namespace MMS_API.Service.Implement
             }
             catch (Exception ex)
             {
-                _logger.LogError( String.Format("!!!!!!AddSeStockQEps have a exception  EMessage:{0}",ex.Message) );
+                _logger.LogError( String.Format("!!!!!!AddSeStockQEps have a exception  EMessage:{0}",ex.StackTrace) );
                 ServicePool sp = new ServicePool();
                 sp.SerName = "AddSeStockQEps";
                 sp.SerParam = yearQ;
@@ -454,7 +499,7 @@ namespace MMS_API.Service.Implement
             }
             catch (Exception ex)
             {
-                _logger.LogError( String.Format("!!!!!!AddSe2StockQEps have a exception  EMessage:{0}",ex.Message) );
+                _logger.LogError( String.Format("!!!!!!AddSe2StockQEps have a exception  EMessage:{0}",ex.StackTrace) );
                 ServicePool sp = new ServicePool();
                 sp.SerName = "AddSe2StockQEps";
                 sp.SerParam = yearQ;
@@ -513,7 +558,10 @@ namespace MMS_API.Service.Implement
                     var code = values[0].Replace("\"", "").ToInt();    
                     if(code < 1000) continue;
                         StockBasic model = dbStockBasicList.FirstOrDefault(x =>x.Id == code);
-                        if( model != null ) model.ClosingPrice = String.Format("{0:0.##}", values[8]).ToDecimal();  //取代小數點後兩位
+                        if( model != null ){
+                            model.ClosingPrice = String.Format("{0:0.##}", values[8]).ToDecimal();  //取代小數點後兩位
+                            model.Upday = date;
+                        } 
             
                     }
                 }
@@ -532,7 +580,7 @@ namespace MMS_API.Service.Implement
             }
             catch (Exception ex)
             {
-                _logger.LogError( String.Format("!!!!!!GetSeDaily(上市) have a exception  EMessage:{0}",ex.Message) );
+                _logger.LogError( String.Format("!!!!!!GetSeDaily(上市) have a exception  EMessage:{0}",ex.StackTrace) );
                 ServicePool sp = new ServicePool();
                 sp.SerName = "GetSeDaily";
                 sp.SerParam = date;
@@ -570,10 +618,13 @@ namespace MMS_API.Service.Implement
         //20211207-->  110/12/14
         public async Task<string> GetSe2Daily(string date)
         {
+            DateTime dt = DateTime.ParseExact(date, "yyyyMMdd", 
+                                  CultureInfo.InvariantCulture);
+            string date2 = dt.AddYears(-1911).ToString("yyy/MM/dd");
             try{
                 _logger.LogInformation( String.Format(@"****** GetSe2Daily(上櫃)  fired!! Parameter: {0} ******", date) );
-                //var dateNow = DateTime.Now.AddYears(-1911).ToString("yyy/MM/dd");
-                string url = String.Format("https://www.tpex.org.tw/web/stock/aftertrading/daily_close_quotes/stk_quote_result.php?l=zh-tw&o=csv&d={0}", date);
+
+                string url = String.Format("https://www.tpex.org.tw/web/stock/aftertrading/daily_close_quotes/stk_quote_result.php?l=zh-tw&o=csv&d={0}", date2);
 
                 WebClient webClient = new WebClient();
                 byte[] dataByte = webClient.DownloadData(url);
@@ -592,7 +643,10 @@ namespace MMS_API.Service.Implement
                     var code = values[0].Replace("\"", "").ToInt();    
                     if(code < 1000) continue;
                         StockBasic model = dbStockBasicList.FirstOrDefault(x =>x.Id == code);
-                        if( model != null ) model.ClosingPrice = String.Format("{0:0.##}", values[2]).ToDecimal();  //取代小數點後兩位
+                        if( model != null ){
+                            model.ClosingPrice = String.Format("{0:0.##}", values[2]).ToDecimal();  //取代小數點後兩位
+                            model.Upday = date;
+                        } 
             
                     }
                 }
@@ -605,23 +659,23 @@ namespace MMS_API.Service.Implement
                     {
                         _stockBasicDAO.Update(model);
                     }
-                    if (!await _stockBasicDAO.SaveAll()) result = date;
+                    if (!await _stockBasicDAO.SaveAll()) result = date2;
                 }
                 return result;
             }
             catch (Exception ex)
             {
-                _logger.LogError( String.Format("!!!!!!GetSe2Daily(上櫃) have a exception  EMessage:{0}",ex.Message) );
+                _logger.LogError( String.Format("!!!!!!GetSe2Daily(上櫃) have a exception  EMessage:{0}",ex.StackTrace) );
                 ServicePool sp = new ServicePool();
                 sp.SerName = "GetSe2Daily";
-                sp.SerParam = date;
+                sp.SerParam = date2;
                 sp.OccTime = DateTime.Now;
                 sp.Type = "D";
                 sp.Emessage = ex.Message ;
                 sp.Code = 0 ;
                 _servicePoolDAO.Add(sp);
                 await _servicePoolDAO.SaveAll();                               
-                return date;
+                return date2;
             } 
 
         }
@@ -629,7 +683,7 @@ namespace MMS_API.Service.Implement
        {
            _logger.LogInformation( String.Format(@"****** DoUndoTaskByServicePool  fired!!******") );
            //find the undo tasks
-           var data = await _servicePoolDAO.FindAll(x =>x.Code == 0 ).ToListAsync();
+           var data = await _servicePoolDAO.FindAll(x =>x.Code == 0 ).AsNoTracking().ToListAsync();
             if(data.Count == 0) {
                 _logger.LogInformation( String.Format(@"------ No task to process  ------") );
                 return;
@@ -673,7 +727,21 @@ namespace MMS_API.Service.Implement
                 
         }
 
+        public async Task<string> CountEstiEps(string date)
+        {
+            _logger.LogInformation( String.Format(@"****** CountEstiEps  fired!!******") );
+            var q = _quarterReportDAO.GetTop4Eps();
+            var b = await _stockBasicDAO.FindAll().AsNoTracking().ToListAsync();
+            var m = await _monthReportDAO.FindAll().AsNoTracking().ToListAsync();
+            
+            foreach(var ab in b){
+                //use in dev 
+                //if(ab.Id)
+            }
 
-      
+
+            string result = "";
+            return result;
+        }
     }
 }

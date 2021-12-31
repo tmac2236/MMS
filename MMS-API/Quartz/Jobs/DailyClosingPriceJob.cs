@@ -28,8 +28,8 @@ namespace DFPS_API.Quartz.Jobs
                 //20211207
                 string today = DateTime.Now.ToString("yyyyMMdd");
                 await stockService.GetSeDaily(today);
-                string today2 = DateTime.Now.AddYears(-1911).ToString("yyy/MM/dd");
-                await stockService.GetSe2Daily(today2);
+
+                await stockService.GetSe2Daily(today);
                 
             }
             

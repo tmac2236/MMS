@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using API.Models.MMS;
+using API.DTOs;
 
 namespace API.Data.Repository
 {
@@ -12,6 +13,9 @@ namespace API.Data.Repository
         public DbSet<MonthReport> MonthReport { get; set; }
         public DbSet<QuarterReport> QuarterReport { get; set; }
         public DbSet<ServicePool> ServicePool { get; set; }
+
+        //DTO(Stored Procedure)
+        public DbSet<QuarterReportDto> QuarterReportDto {get;set;}
         
 
         //DTO(Stored Procedure
@@ -26,7 +30,7 @@ namespace API.Data.Repository
             modelBuilder.Entity<ServicePool>().HasKey(x => new { x.SerName, x.SerParam });
             
             //DTO(Stored Procedure)
-
+            modelBuilder.Entity<QuarterReportDto>().HasNoKey();
         }
     }
 }
